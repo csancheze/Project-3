@@ -2,35 +2,45 @@ const mongoose = require('mongoose');
 
 const { Schema } = mongoose;
 
-const productSchema = new Schema({
+const petSchema = new Schema({
+  human: {
+    type: Schema.Types.ObjectId,
+    ref: 'User',
+    required: true
+  },
   name: {
     type: String,
     required: true,
     trim: true
   },
+  typeOfPet: {
+    type: Schema.Types.ObjectId,
+    ref: 'TypeOfPet',
+    required: true
+  },  
   description: {
     type: String
   },
   image: {
     type: String
   },
-  price: {
-    type: Number,
-    required: true,
-    min: 0.99
-  },
-  quantity: {
-    type: Number,
-    min: 0,
-    default: 0
-  },
-  category: {
+  health: {
     type: Schema.Types.ObjectId,
-    ref: 'Category',
+    ref: 'Health',
     required: true
-  }
+  },
+  sociability: {
+    type: Schema.Types.ObjectId,
+    ref: 'Sociability',
+    required: true
+  },
+  ratings: [
+    {
+    type: Number
+    }
+  ]
 });
 
-const Product = mongoose.model('Product', productSchema);
+const Pet = mongoose.model('Pet', petSchema);
 
-module.exports = Product;
+module.exports = Pet;

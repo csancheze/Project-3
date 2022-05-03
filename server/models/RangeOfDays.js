@@ -2,14 +2,15 @@ const mongoose = require('mongoose');
 
 const { Schema } = mongoose;
 
-const categorySchema = new Schema({
-  name: {
-    type: String,
-    required: true,
-    trim: true
+const rangeOfDaysSchema = new Schema({
+  start: {
+    type: Date
+  },
+  end:{
+    type: Date
   }
 });
 
-const Category = mongoose.model('Category', categorySchema);
+const RangeOfDays = mongoose.model('RangeOfDays', rangeOfDaysSchema);
 
-module.exports = Category;
+module.exports = RangeOfDays;
