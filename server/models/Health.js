@@ -13,3 +13,9 @@ const healthSchema = new Schema({
 const Health = mongoose.model('Health', healthSchema);
 
 module.exports = Health;
+
+/*
+healthy
+sick
+special needs
+*/

@@ -26,7 +26,7 @@ const petSitterSchema = new Schema({
       ref: 'TypeOfService'
     }
   ],
-  ratePerDay: {
+  ratePerNight: {
     type: Number,
     required: true,
     min: 0.99
@@ -37,6 +37,11 @@ const petSitterSchema = new Schema({
   image: {
     type: String
   },
+  sizes: [{
+    type: String,
+    ref: 'Size',
+    required: true,
+  }],
   healthReady: [
     {
     type: Schema.Types.ObjectId,
@@ -57,12 +62,13 @@ const petSitterSchema = new Schema({
   ],
   availability: {
     type: Boolean,
-    require: TypeOfService,
+    require: true,
     default: false,
   },
-  workDays:[RangeOfDays.Schema],
+
   daysOff:[RangeOfDays.Schema],
-  servicesOffered: [
+
+  eventsOffered: [
     {
       type: Schema.Types.ObjectId,
       ref: 'Event'

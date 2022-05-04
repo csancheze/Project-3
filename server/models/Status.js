@@ -13,3 +13,10 @@ const statusSchema = new Schema({
 const Status = mongoose.model('Status', statusSchema);
 
 module.exports = Status;
+
+/*
+confirmed
+reserved
+payed
+rejected
+*/

@@ -13,11 +13,11 @@ const petSchema = new Schema({
     required: true,
     trim: true
   },
-  typeOfPet: {
+  Size: {
     type: Schema.Types.ObjectId,
-    ref: 'TypeOfPet',
+    ref: 'Size',
     required: true
-  },  
+  },
   description: {
     type: String
   },

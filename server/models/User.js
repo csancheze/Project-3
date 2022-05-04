@@ -25,7 +25,7 @@ const userSchema = new Schema({
       ref: 'Pet'
     }
   ],
-  servicesRequested: [
+  eventsRequested: [
     {
       type: Schema.Types.ObjectId,
       ref: 'Event'

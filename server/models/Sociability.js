@@ -13,3 +13,8 @@ const sociabilitySchema = new Schema({
 const Sociability = mongoose.model('Sociability', sociabilitySchema);
 
 module.exports = Sociability;
+
+/*
+Asocial
+Social
+*/

@@ -13,3 +13,10 @@ const typeOfServiceSchema = new Schema({
 const TypeOfService = mongoose.model('TypeOfService', typeOfServiceSchema);
 
 module.exports = TypeOfService;
+
+/*
+Baths
+Walks
+Photos and Videos
+Garden
+*/
