@@ -5,8 +5,8 @@ const { signToken } = require('../utils/auth');
 
 const resolvers = {
   Query: {
-    petSitter: async (parent, args, context) => {
-      return await PetSitter.findById(args.petSitter._id)
+    petSitterProfile: async (parent, args, context) => {
+      return await PetSitter.findById(context.petSitter._id)
         .populate('services')
         .populate('sizes')
         .populate('socialReady')
@@ -14,8 +14,14 @@ const resolvers = {
         .populate('daysOff')
         .populate('eventsOffered')
       },
+    petSitter: async (parent, args, context) => {
+      return await PetSitter.findById(args.petSitter._id)
+        .populate('services')
+        .populate('sizes')
+        .populate('socialReady')
+        .populate('healthReady')
+      },
     petSitters: async (parent, args, context) => {
-
       const petSitters = await PetSitter.
         find({
           availability: true, 
@@ -23,8 +29,14 @@ const resolvers = {
           sizes: {$in: args.pet.size},
           healthReady: {$in: args.pet.health},
           socialReady: {$in: args.pet.sociability}
-        }).
-        sort({price: -1})
+        })
+        .populate('services')
+        .populate('sizes')
+        .populate('socialReady')
+        .populate('healthReady')
+        .populate('daysOff')
+        .populate('eventsOffered')
+        .sort({price: -1})
 
       const filteredPetSitters = []
 
@@ -37,14 +49,12 @@ const resolvers = {
             includesDaysOff = true
           }
         }
-        if (includesDaysOff == false){
+        if (includesDaysOff === false){
           filteredPetSitters.push(petSitters[i])
         }
       }
 
-  
       return filteredPetSitters
-
     },
 
     user: async (parent, args, context) => {}
@@ -66,7 +76,7 @@ const resolvers = {
       throw new AuthenticationError('Not logged in');
     },
 
-    },
+  
     login: async (parent, { email, password }) => {
       const user = await User.findOne({ email });
 
@@ -81,7 +91,7 @@ const resolvers = {
       }
 
       const token = signToken(user);
-//check
+
       return { token, user };
     }
   }
