@@ -1,19 +1,17 @@
-const mongoose = require('mongoose');
+const { Schema } = require('mongoose');
 
-const { Schema } = mongoose;
 
 const petSchema = new Schema({
-  human: {
-    type: Schema.Types.ObjectId,
-    ref: 'User',
-    required: true
-  },
-  name: {
+  petId: {
+    type: String,
+    required: true,
+  }, 
+   name: {
     type: String,
     required: true,
     trim: true
   },
-  Size: {
+  size: {
     type: Schema.Types.ObjectId,
     ref: 'Size',
     required: true
@@ -41,6 +39,5 @@ const petSchema = new Schema({
   ]
 });
 
-const Pet = mongoose.model('Pet', petSchema);
 
-module.exports = Pet;
+module.exports = petSchema;
