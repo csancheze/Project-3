@@ -1,12 +1,13 @@
 const { AuthenticationError } = require('apollo-server-express');
-const { User } = require('../models');
 //const { update } = require('../models/User');
 const { signToken } = require('../utils/auth');
+const { User, PetSitter } = require('../models');
+const { signToken } = require('../utils/auth');
+// const stripe = require('stripe')('sk_test_4eC39HqLyjWDarjtT1zdp7dc');
 
 const resolvers = {
-    Query: {
-
-        me: async (parent, args, context) => {
+  Query: {
+            me: async (parent, args, context) => {
             if (context.user) {
                 const userData = await User.findOne({ _id: context.user._id })
                     .select('-__v -password')
@@ -14,9 +15,54 @@ const resolvers = {
             }
             console.log("context user:" + context.user);
             throw new AuthenticationError('Please, log in!');
+        },
+    
+    petSitter: async (parent, args, context) => {
+      return await PetSitter.findById(args.petSitter._id)
+        .populate('services')
+        .populate('sizes')
+        .populate('socialReady')
+        .populate('healthReady')
+        .populate('daysOff')
+        .populate('eventsOffered')
+      },
+    petSitters: async (parent, args, context) => {
+
+      const petSitters = await PetSitter.
+        find({
+          availability: true, 
+          services: {$in: args.services},
+          sizes: {$in: args.pet.size},
+          healthReady: {$in: args.pet.health},
+          socialReady: {$in: args.pet.sociability}
+        }).
+        sort({price: -1})
+
+      const filteredPetSitters = []
+
+      //check for each Petsitter, for each daysOff if it is between the event dates, if none of the daysoff are between, then push the petSitter to the filtered array
+
+      for (let i = 0; i < petSitters.length; i++) {
+        let includesDaysOff = false
+        for (let j = 0; j < petSitters[i].daysOff.length; j++) {
+          if ( args.daysOfEvent.start < petSitters[i].daysOff[j].start > args.daysOfEvent.end || args.daysOfEvent.start < petSitters[i].daysOff[j].end >  args.daysOfEvent.end) {
+            includesDaysOff = true
+          }
         }
+        if (includesDaysOff == false){
+          filteredPetSitters.push(petSitters[i])
+        }
+      }
+
+  
+      return filteredPetSitters
+
     },
 
+    user: async (parent, args, context) => {}
+
+  },
+  
     Mutation: {
 
         addUser: async (parent, args) => {
@@ -41,9 +87,6 @@ const resolvers = {
             return { token, user };
         },
 
-       
-
-       
     }
 };
 
