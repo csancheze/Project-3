@@ -1,19 +1,22 @@
-const mongoose = require('mongoose');
+const { Schema } = require('mongoose');
 
 const RangeOfDays = require('./RangeOfDays')
 
-const { Schema } = mongoose;
-
-
 const eventSchema = new Schema({
+  eventId: {
+    type: String,
+    required: true,
+  }, 
+
  username: {
     type: Schema.Types.ObjectId,
     ref: 'User'
   },
+  
   pets: [
     {
       type: Schema.Types.ObjectId,
-      ref: 'Pet'
+      ref: 'petSchema'
     }
   ],
   petSitter: {
@@ -21,7 +24,7 @@ const eventSchema = new Schema({
     ref: 'PetSitter'
   },
 
-  daysOfEvent: RangeOfDays.schema,
+  daysOfEvent:[RangeOfDays],
 
   price: {
     type: Number,
@@ -35,11 +38,7 @@ const eventSchema = new Schema({
   },
 
   petsRating: [ {
-    petRated: {
-        type: Schema.Types.ObjectId,
-        ref: 'Pet'
-      },
-    type:Number,
+    type:String,
   } ],
 
   petSitterRating: {
@@ -48,6 +47,4 @@ const eventSchema = new Schema({
 });
 
 
-const Event = mongoose.model('Event', eventSchema);
-
-module.exports = Event;
+module.exports = eventSchema;
