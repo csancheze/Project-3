@@ -2,7 +2,6 @@ const { AuthenticationError } = require('apollo-server-express');
 //const { update } = require('../models/User');
 const { signToken } = require('../utils/auth');
 const { User, PetSitter } = require('../models');
-const { signToken } = require('../utils/auth');
 // const stripe = require('stripe')('sk_test_4eC39HqLyjWDarjtT1zdp7dc');
 
 const resolvers = {
@@ -24,7 +23,7 @@ const resolvers = {
         .populate('socialReady')
         .populate('healthReady')
         .populate('daysOff')
-        .populate('eventsOffered')
+        .populate('eventOffered')
       },
     petSitters: async (parent, args, context) => {
 

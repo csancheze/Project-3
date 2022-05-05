@@ -33,7 +33,7 @@ const typeDefs = gql`
         ratings: [Int]
         availability: Boolean
         daysOff: [RangeOfDays]
-        eventsOffered: [Events]
+        eventsOffered: [Event]
     }
 
 
