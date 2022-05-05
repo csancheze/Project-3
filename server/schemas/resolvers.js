@@ -1,49 +1,50 @@
 const { AuthenticationError } = require('apollo-server-express');
 const { User } = require('../models');
+//const { update } = require('../models/User');
 const { signToken } = require('../utils/auth');
-const stripe = require('stripe')('sk_test_4eC39HqLyjWDarjtT1zdp7dc');
 
 const resolvers = {
-  Query: {
+    Query: {
 
-    user: async (parent, args, context) => {
-
-  },
-  Mutation: {
-    addUser: async (parent, args) => {
-      const user = await User.create(args);
-      const token = signToken(user);
-
-      return { token, user };
+        me: async (parent, args, context) => {
+            if (context.user) {
+                const userData = await User.findOne({ _id: context.user._id })
+                    .select('-__v -password')
+                return userData;
+            }
+            console.log("context user:" + context.user);
+            throw new AuthenticationError('Please, log in!');
+        }
     },
 
-    updateUser: async (parent, args, context) => {
-      if (context.user) {
-        return await User.findByIdAndUpdate(context.user._id, args, { new: true });
-      }
+    Mutation: {
 
-      throw new AuthenticationError('Not logged in');
-    },
+        addUser: async (parent, args) => {
+            const user = await User.create(args);
+            const token = signToken(user);
 
-    },
-    login: async (parent, { email, password }) => {
-      const user = await User.findOne({ email });
+            return { token, user };
+        },
 
-      if (!user) {
-        throw new AuthenticationError('Incorrect credentials');
-      }
+        login: async (parent, { email, password }) => {
+            const user = await User.findOne({ email });
 
-      const correctPw = await user.isCorrectPassword(password);
+            if (!user) {
+                throw new AuthenticationError('Credentials are not valid')
+            }
+            const correctPw = await user.isCorrectPassword(password);
 
-      if (!correctPw) {
-        throw new AuthenticationError('Incorrect credentials');
-      }
+            if (!correctPw) {
+                throw new AuthenticationError('Credentials are not valid')
+            }
+            const token = signToken(user);
+            return { token, user };
+        },
 
-      const token = signToken(user);
+       
 
-      return { token, user };
+       
     }
-  }
 };
 
 module.exports = resolvers;
