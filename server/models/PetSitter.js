@@ -37,11 +37,12 @@ const petSitterSchema = new Schema({
   image: {
     type: String
   },
-  sizes: [{
-    type: String,
-    ref: 'Size',
-    required: true,
-  }],
+  sizes: [
+    {
+      type: Schema.Types.ObjectId,
+      ref: 'Size'
+    }
+  ],
   healthReady: [
     {
     type: Schema.Types.ObjectId,
@@ -66,7 +67,7 @@ const petSitterSchema = new Schema({
     default: false,
   },
 
-  daysOff:[RangeOfDays.Schema],
+  daysOff:[RangeOfDays],
 
   eventsOffered: [
     {
