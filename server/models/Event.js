@@ -35,11 +35,7 @@ const eventSchema = new Schema({
   },
 
   petsRating: [ {
-    petRated: {
-        type: Schema.Types.ObjectId,
-        ref: 'Pet'
-      },
-    type:Number,
+    type:String,
   } ],
 
   petSitterRating: {

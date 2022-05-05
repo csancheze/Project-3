@@ -1,12 +1,27 @@
 const { AuthenticationError } = require('apollo-server-express');
-const { User } = require('../models');
+const { User, PetSitter } = require('../models');
 const { signToken } = require('../utils/auth');
 const stripe = require('stripe')('sk_test_4eC39HqLyjWDarjtT1zdp7dc');
 
 const resolvers = {
   Query: {
+    petSitter: async (parent, args, context) => {
+      return await PetSitter.findById(context.user._id)
+        .populate('services')
+        .populate('sizes')
+        .populate('socialReady')
+        .populate('healthReady')
+        .populate('daysOff')
+        .populate('eventsOffered')
+      },
+    petSitters: async (parent, args, context) => {
+      const petSitters = await PetSitter.find([
+        {availability: true}, {}
 
-    user: async (parent, args, context) => {
+      ])
+    }
+
+    user: async (parent, args, context) => {}
 
   },
   Mutation: {
