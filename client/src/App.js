@@ -1,5 +1,5 @@
-import './App.css';
-import Contact from './components/ContactForm';
+import "./App.css";
+import Contact from "./components/ContactForm";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 
 function App() {
