@@ -27,6 +27,26 @@ const resolvers = {
                         }
                     }
                     ])
+                    .populate('eventsOwned')
+                    .populate([{
+                        path: 'eventsOwned',
+                        populate: {
+                            path: 'pets',
+                            model: 'Pet'
+                        },
+                        populate: {
+                            path: 'petSitter',
+                            model: 'PetSitter'
+                        },
+                        populate: {
+                            path: 'daysOfEvent',
+                            model: 'RangeOfDays'
+                        },
+                        populate: {
+                            path: 'status',
+                            model: 'Status'
+                        },
+                    }])
                 return userData;
             }
             console.log("context user:" + context.user);
@@ -36,6 +56,26 @@ const resolvers = {
             if (context.petSitter) {
                 const userData = await PetSitter.findOne({ _id: context.petSitter._id })
                     .select('-__v -password')
+                    .populate('eventsOffered')
+                    .populate([{
+                        path: 'eventsOffered',
+                        populate: {
+                            path: 'pets',
+                            model: 'Pet'
+                        },
+                        populate: {
+                            path: 'username',
+                            model: 'User'
+                        },
+                        populate: {
+                            path: 'daysOfEvent',
+                            model: 'RangeOfDays'
+                        },
+                        populate: {
+                            path: 'status',
+                            model: 'Status'
+                        },
+                    }])
                 return userData;
             }
             console.log("context user:" + context.petSitter);
@@ -47,6 +87,8 @@ const resolvers = {
                 .populate('sizes')
                 .populate('socialReady')
                 .populate('healthReady')
+                .populate('eventsOffered')
+
         },
         petSitters: async (parent, args, context) => {
             const petSitters = await PetSitter.
@@ -180,10 +222,17 @@ const resolvers = {
         },
 
         updateEvent: async(parent, args, context) => {
-            const changeStatus = await Event.findOneAndUpdate({
-                _id: args._id, status: args.status
-            })
+            const changeStatus = await Event.findByIdAndUpdate(
+                args._id, {status: args.status}
+            )
             return changeStatus
+        },
+
+        addRating: async(parent, args, context) => {
+            const petSitter = await PetSitter.findByIdAndUpdate(args.petSitter._id , {
+                $push: {ratings : args.rating}
+            })
+            return petSitter
         },
 
         updateAvailability: async(parent, args, context) => {
@@ -198,6 +247,7 @@ const resolvers = {
             
             return petSitter
         }
+    
     }
 
 };
