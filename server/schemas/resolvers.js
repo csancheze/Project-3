@@ -1,7 +1,7 @@
 const { AuthenticationError } = require('apollo-server-express');
 //const { update } = require('../models/User');
 const { signToken } = require('../utils/auth');
-const { User, PetSitter, Health, Size, TypeOfService, Sociability, Status, RangeOfDays, Pet } = require('../models');
+const { User, PetSitter, Health, Size, TypeOfService, Sociability, Status, RangeOfDays, Pet, Event } = require('../models');
 // const stripe = require('stripe')('sk_test_4eC39HqLyjWDarjtT1zdp7dc');
 
 const resolvers = {
@@ -95,12 +95,10 @@ const resolvers = {
         },
 
         sociabilities: async (parent, args, context) => {
-            const sociabilities = await sociabilities.find({})
+            const sociabilities = await Sociability.find({})
             return sociabilities
-        },
+        }
         
-        
-
 
     },
 
@@ -154,14 +152,17 @@ const resolvers = {
         },
         addDaysOff: async(parent, args, context) => {
             const newDaysOff = await RangeOfDays.create(args)
-            const petSitter = await PetSitter.findById({_id: context.petSitter._id})
-            petSitter.daysOff.push(newDaysOff)
+            const petSitter = await PetSitter.findByIdAndUpdate(context.petSitter._id, {
+                $push: { daysOff: newDaysOff}
+            })
             return petSitter
         },
         addPet: async(parent, args, context) => {
             const newPet = await Pet.create(args)
-            const user = await User.findById({_id: context.user._id})
-            user.pets.push(newPet)
+            const user = await User.findByIdAndUpdate( context.user._id , {
+                $push: {pets : newPet}
+            })
+            return user
         },
 
         addPetSitter: async(parent, args) => {
@@ -169,10 +170,34 @@ const resolvers = {
                 const token = signToken(user);
           
                 return { token, user };
-              },
+        },
+        
+        addEvent: async(parent, args, context) => {
+            if (context.user) {
+            const newEvent = await Event.create(args)
+            return newEvent;
+            }
         },
 
-        
+        updateEvent: async(parent, args, context) => {
+            const changeStatus = await Event.findOneAndUpdate({
+                _id: args._id, status: args.status
+            })
+            return changeStatus
+        },
+
+        updateAvailability: async(parent, args, context) => {
+            let newAvailability = args.availability
+            if (newAvailability === true) {
+                newAvailability = false
+            } else {
+                newAvailability = true
+            }
+            const petSitter = await PetSitter.findByIdAndUpdate(context.petSitter._id , {
+                availability : newAvailability })
+            
+            return petSitter
+        }
     }
 
 };
