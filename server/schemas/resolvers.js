@@ -52,10 +52,14 @@ const resolvers = {
             console.log("context user:" + context.user);
             throw new AuthenticationError('Please, log in!');
         },
-        professional: async (parent, args, context) => {
+        petSitterProfile: async (parent, args, context) => {
             if (context.petSitter) {
                 const userData = await PetSitter.findOne({ _id: context.petSitter._id })
                     .select('-__v -password')
+                    .populate('services')
+                    .populate('sizes')
+                    .populate('socialReady')
+                    .populate('healthReady')
                     .populate('eventsOffered')
                     .populate([{
                         path: 'eventsOffered',
@@ -87,17 +91,15 @@ const resolvers = {
                 .populate('sizes')
                 .populate('socialReady')
                 .populate('healthReady')
-                .populate('eventsOffered')
-
         },
         petSitters: async (parent, args, context) => {
             const petSitters = await PetSitter.
                 find({
                     availability: true,
                     services: { $in: args.services },
-                    sizes: { $in: args.user.pet.size },
-                    healthReady: { $in: args.user.pet.health },
-                    socialReady: { $in: args.user.pet.sociability }
+                    sizes: { $in: context.user.pet.size },
+                    healthReady: { $in: context.user.pet.health },
+                    socialReady: { $in: context.user.pet.sociability }
                 })
                 .populate('services')
                 .sort({ price: -1 })
@@ -138,10 +140,9 @@ const resolvers = {
 
         sociabilities: async (parent, args, context) => {
             const sociabilities = await Sociability.find({})
-            return sociabilities
-        }
-        
+            return sociabilities    
 
+        }
     },
 
     Mutation: {
@@ -149,6 +150,7 @@ const resolvers = {
         addUser: async (parent, args) => {
             const user = await User.create(args);
             const token = signToken(user);
+            return { token, user };
         },
 
 
@@ -166,6 +168,21 @@ const resolvers = {
             const token = signToken(user);
             return { token, user };
         },
+
+        // loginPetSitter: async (parent, { email, password }) => {
+        //     const user = await PetSitter.findOne({ email });
+
+        //     if (!user) {
+        //         throw new AuthenticationError('Credentials are not valid')
+        //     }
+        //     const correctPw = await user.isCorrectPassword(password);
+
+        //     if (!correctPw) {
+        //         throw new AuthenticationError('Credentials are not valid')
+        //     }
+        //     const token = signToken(user);
+        //     return { token, user };
+        // },
 
         addHealth: async(parent, args) => {
             const health = await Health.create(args);
@@ -188,10 +205,6 @@ const resolvers = {
             const status = await Status.create(args);
             return status;
         },
-        addHealth: async(parent, args) => {
-            const health = await Health.create(args);
-            return health;
-        },
         addDaysOff: async(parent, args, context) => {
             const newDaysOff = await RangeOfDays.create(args)
             const petSitter = await PetSitter.findByIdAndUpdate(context.petSitter._id, {
@@ -207,12 +220,12 @@ const resolvers = {
             return user
         },
 
-        addPetSitter: async(parent, args) => {
-                const user = await PetSitter.create(args);
-                const token = signToken(user);
+        // addPetSitter: async(parent, args) => {
+        //         const user = await PetSitter.create(args);
+        //         const token = signToken(user);
           
-                return { token, user };
-        },
+        //         return { token, user };
+        // },
         
         addEvent: async(parent, args, context) => {
             if (context.user) {
@@ -221,18 +234,25 @@ const resolvers = {
             }
         },
 
-        updateEvent: async(parent, args, context) => {
+        updateEventStatus: async(parent, args, context) => {
             const changeStatus = await Event.findByIdAndUpdate(
                 args._id, {status: args.status}
             )
             return changeStatus
         },
 
-        addRating: async(parent, args, context) => {
+        addPetSitterRating: async(parent, args, context) => {
             const petSitter = await PetSitter.findByIdAndUpdate(args.petSitter._id , {
                 $push: {ratings : args.rating}
             })
             return petSitter
+        },
+
+        addPetRating: async(parent, args, context) => {
+            const pet = await Pet.findByIdAndUpdate(args.pet._id , {
+                $push: {ratings : args.rating}
+            })
+            return pet
         },
 
         updateAvailability: async(parent, args, context) => {

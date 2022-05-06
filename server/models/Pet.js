@@ -3,11 +3,7 @@ const mongoose = require('mongoose');
 const { Schema } = mongoose;
 
 const petSchema = new Schema({
-  petId: {
-    type: String,
-    required: true,
-  }, 
-   name: {
+  name: {
     type: String,
     required: true,
     trim: true
@@ -35,7 +31,7 @@ const petSchema = new Schema({
   },
   ratings: [
     {
-    type: Number
+    type: String
     }
   ]
 });
