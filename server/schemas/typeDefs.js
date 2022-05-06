@@ -5,8 +5,19 @@ const typeDefs = gql`
     _id: ID!
     username: String!
     email: String!
+    pets: [Pet]
   }
 
+  type Pet {
+    petId: ID!
+    name: String
+    size: Size
+    description: String
+    image: String
+    health: Health
+    sociability: Sociability
+    ratings: [Int]
+  }
 
   type Auth {
     token: ID!

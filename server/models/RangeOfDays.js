@@ -1,6 +1,5 @@
 const { Schema } = require('mongoose');
 
-
 const rangeOfDaysSchema = new Schema({
   start: {
     type: Date
@@ -10,5 +9,6 @@ const rangeOfDaysSchema = new Schema({
   }
 });
 
+const RangeOfDays = mongoose.model('RangeOfDays', rangeOfDaysSchema); 
 
-module.exports = rangeOfDaysSchema;
+module.exports = RangeOfDays;
