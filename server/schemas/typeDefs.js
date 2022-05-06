@@ -41,7 +41,7 @@ const typeDefs = gql`
         _id: ID
         username: User
         pets: [Pet]
-        petSitter: PetSitter
+        petSitter: PetSitters
         daysOfEvent: RangeOfDays
         price: Int
         status: Status
