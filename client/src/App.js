@@ -1,14 +1,9 @@
-<<<<<<< HEAD
 import "./App.css";
 import Contact from "./components/ContactForm";
-=======
-import './App.css';
-import Nav from './components/Nav';
-import Footer from './components/Footer';
-import Contact from './pages/ContactForm';
-import SignupFormUser from './pages/SignupFormUser';
-import SignupFormSitter from './pages/SignupFormSitter';
->>>>>>> main
+import Nav from "./components/Nav";
+import Footer from "./components/Footer";
+import SignupFormUser from "./pages/SignupFormUser";
+import SignupFormSitter from "./pages/SignupFormSitter";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 
 function App() {
