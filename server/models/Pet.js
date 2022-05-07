@@ -3,6 +3,11 @@ const mongoose = require('mongoose');
 const { Schema } = mongoose;
 
 const petSchema = new Schema({
+  human: {
+    type: Schema.Types.ObjectId,
+    ref: 'User',
+    required: true
+  },
   name: {
     type: String,
     required: true,
@@ -31,7 +36,7 @@ const petSchema = new Schema({
   },
   ratings: [
     {
-    type: String
+    type: Number
     }
   ]
 });

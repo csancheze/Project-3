@@ -25,8 +25,7 @@ const resolvers = {
                             path: 'sociability',
                             model: 'Sociability'
                         }
-                    }
-                    ])
+                    }])
                     .populate('eventsOwned')
                     .populate([{
                         path: 'eventsOwned',
@@ -97,9 +96,9 @@ const resolvers = {
                 find({
                     availability: true,
                     services: { $in: args.services },
-                    sizes: { $in: context.user.pet.size },
-                    healthReady: { $in: context.user.pet.health },
-                    socialReady: { $in: context.user.pet.sociability }
+                    sizes: { $in: args.size },
+                    healthReady: { $in: args.health },
+                    socialReady: { $in: args.sociability }
                 })
                 .populate('services')
                 .sort({ price: -1 })
@@ -142,7 +141,13 @@ const resolvers = {
             const sociabilities = await Sociability.find({})
             return sociabilities    
 
-        }
+        },
+
+        pets: async (parent, args, context) => {
+            const pets = await Pet.find({})
+            return pets 
+
+        },
     },
 
     Mutation: {
@@ -206,7 +211,9 @@ const resolvers = {
             return status;
         },
         addDaysOff: async(parent, args, context) => {
-            const newDaysOff = await RangeOfDays.create(args)
+            const start = new Date(args.start)
+            const end = new Date(args.end)
+            const newDaysOff = await RangeOfDays.create({ start , end })
             const petSitter = await PetSitter.findByIdAndUpdate(context.petSitter._id, {
                 $push: { daysOff: newDaysOff}
             })
@@ -217,7 +224,8 @@ const resolvers = {
             const user = await User.findByIdAndUpdate( context.user._id , {
                 $push: {pets : newPet}
             })
-            return user
+                console.log(user)
+            return newPet
         },
 
         // addPetSitter: async(parent, args) => {
@@ -249,8 +257,10 @@ const resolvers = {
         },
 
         addPetRating: async(parent, args, context) => {
-            const pet = await Pet.findByIdAndUpdate(args.pet._id , {
-                $push: {ratings : args.rating}
+            //send in args.rating "name-4"
+            const ratingArray = args.rating.split("-")
+            const pet = await Pet.findOneAndUpdate({name: ratingArray[0]} , {
+                $push: {ratings : ratingArray[1]}
             })
             return pet
         },

@@ -35,9 +35,8 @@ const eventSchema = new Schema({
   },
 
   petsRating: [ {
-    type:String,
+    type:Number,
   } ],
-
   petSitterRating: {
     type: Number
   }
