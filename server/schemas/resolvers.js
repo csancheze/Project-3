@@ -144,7 +144,7 @@ const resolvers = {
         },
 
         pets: async (parent, args, context) => {
-            const pets = await Pet.find({})
+            const pets = await Pet.find({}).populate('human');
             return pets 
 
         },
@@ -221,11 +221,13 @@ const resolvers = {
         },
         addPet: async(parent, args, context) => {
             const newPet = await Pet.create(args)
-            const user = await User.findByIdAndUpdate( context.user._id , {
+            const user = await User.findOneAndUpdate( {_id: args.human} , {
                 $push: {pets : newPet}
-            })
+            }, { new:true})
                 console.log(user)
-            return newPet
+
+                console.log(newPet);
+            return {...newPet, human: user}
         },
 
         // addPetSitter: async(parent, args) => {

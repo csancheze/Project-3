@@ -136,7 +136,7 @@ const typeDefs = gql`
     addStatus(name: String!): Status
     addService(name: String!): TypeOfService
     addDaysOff(start: String!, end: String!): RangeOfDays
-    addPet(human: ID!, name: String!, size: ID!, description: String, image: String, health: ID!, sociability: ID!): Pet
+    addPet(human:ID!, name: String!, size: ID!, description: String, image: String, health: ID!, sociability: ID!): Pet
     addEvent(username: ID!, pets: [ID!], petSitter: ID!, daysOfEvent: ID!, price: Float, status: ID!): Event
     updateEventStatus(status: ID!): Event
     addPetSitterRating(_id: ID!, rating: Int): PetSitter
