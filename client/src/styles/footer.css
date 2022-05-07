@@ -1,0 +1,22 @@
+.footer {
+    background-color: #fde994;
+    color: #83580b;
+  }
+
+.title {
+  color: black;
+}
+
+ul {
+  text-align: center;
+}
+
+li a, #message {
+  color: #83580b;
+  font-weight: bold;
+  text-decoration: none;
+}
+
+li a:hover, #message:hover {
+  color: #2cccc4;
+}

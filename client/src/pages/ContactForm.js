@@ -1,5 +1,6 @@
 import React, { useRef, useState } from 'react';
 import emailjs from '@emailjs/browser';
+import '../styles/contactForm.css';
 
 const Contact = () => {
     const [btnText, setBtnText] = useState('Submit');
@@ -22,7 +23,7 @@ const Contact = () => {
     };
 
     return (
-    <div className="row justify-content-center main p-5">
+    <div className="row justify-content-center main p-4">
     <img className='col-12 col-sm-6' id="background-contact" src={require('../images/5c3d49967e3aa842c876a81d15f01931f8f3644778d57466c0c35f9a143eb8f1df1cb83656335d64f648db9dda63a60828632569629a01a39e55eb_1280.jpg')} alt="background" />
   <form onSubmit={sendEmail} ref={form} className="col-12 col-sm-6 border rounded-3 p-3 contact-form">
   <div className="form-group">

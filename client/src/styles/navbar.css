@@ -1,0 +1,28 @@
+nav {
+  justify-content: space-between;
+  min-height: 10vh;
+  background-color: #83580b;
+}
+
+#app-name {
+    color: white;
+    padding-left: 20px;
+    padding-top: 5px;
+}
+
+#nav-options {
+  text-align: end;
+  padding: 10px;
+  padding-top: 20px;
+}
+
+ul a {
+  text-align: justify;
+  text-decoration: none;
+  font-weight: bolder;
+  padding: 10px;
+}
+
+ul a:hover {
+  text-decoration: underline;
+}
