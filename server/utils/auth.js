@@ -18,21 +18,16 @@ module.exports = {
     }
 
     try {
+      console.log(token);
       const { data } = jwt.verify(token, secret, { maxAge: expiration });
-      
-      if (user) {
-        req.user = data;
-      }
-      if (petSitter) {
-        req.petSitter = data
-      }
-      
+      req.user = data;
     } catch {
       console.log('Invalid token');
     }
 
     return req;
   },
+  
   signToken: function ({ username, email, _id }) {
     const payload = { username, email, _id };
 

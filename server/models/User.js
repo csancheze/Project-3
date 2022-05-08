@@ -4,6 +4,7 @@ const petSchema = require('./Pet');
 const eventSchema = require('./Event');
 
 
+
 const userSchema = new Schema({
   username: {
     type: String,
@@ -22,14 +23,12 @@ const userSchema = new Schema({
     required: true,
     minlength: 5
   },
-  petsOwned: [petSchema],
-
-  eventsOwned: [
-    {
-      type: Schema.Types.ObjectId,
-      ref: 'eventSchema'
-    }
-  ],
+  role: {
+    type: String,
+    required: true,
+    enum: ["PetOwner", "PetSitter"],
+    default: "PetOwner"
+  },
 },
 
   {

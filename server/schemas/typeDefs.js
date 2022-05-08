@@ -5,24 +5,72 @@ const typeDefs = gql`
     _id: ID!
     username: String!
     email: String!
+    role: String!
   }
 
 
   type Auth {
     token: ID!
     user: User
+    petSitter: PetSitter 
+    petOwner : PetOwner
+  }
+
+  type Profile {
+    user: User!
+    petSitter: PetSitter 
+    petOwner : PetOwner
   }
 
   type Query {
-    me: User
+    me: Profile
   }
   
+  type PetOwner {
+    _id: ID
+    petsOwned: [PetSchema],
+    eventsOwned: [Event]
+  }
+  type PetSchema {
+     name: String!
+     size: String!
+     description: String
+     image: String
+     health: Health
+     sociability: Sociability
+     ratings: [Int]
+  }
+  input InputPet {
+    name: String!
+    size: String!
+    description: String
+    image: String
+    health: InputHealth
+    sociability: InputSociability
+    ratings: [Int]
+ }
 
-    type PetSitters {
-        _id: ID
-        username: String
-        email: String
-        password: String
+  input InputSize {
+    name: String
+ }
+
+  input InputHealth {
+    name: String
+ }
+
+  input InputSociability {
+    name: String
+ }
+
+ input InputSize {
+  name: String
+}
+
+
+
+ 
+    type PetSitter {
+        _id: ID!
         services: [TypeOfService]
         ratePerNight: Float
         description: String
@@ -40,14 +88,15 @@ const typeDefs = gql`
     type Event {
         _id: ID
         username: User
-        pets: [Pet]
-        petSitter: PetSitters
+        petSitter: PetSitter
         daysOfEvent: RangeOfDays
         price: Int
         status: Status
         petsRating: [String]
         petSitterRating: Int
     }
+
+
 
     type Status {
         _id: ID
@@ -81,7 +130,10 @@ const typeDefs = gql`
 
   type Mutation {
     login(email: String!, password: String!): Auth
-    addUser(username: String!, email: String!, password: String!): Auth
+    addUser(username: String!, email: String!, password: String!, role: String!): Auth
+    addPetSitterUser(username: String!, email: String!, password: String!, role: String!, ratePerNight: Float!): Auth
+    addPetOwnerUser(username: String!, email: String!, password: String!, role: String!, petsOwned:[InputPet] ): Auth
+
   }
 `;
 

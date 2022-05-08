@@ -2,19 +2,15 @@ const { Schema } = require('mongoose');
 
 
 const petSchema = new Schema({
-  petId: {
-    type: String,
-    required: true,
-  }, 
    name: {
     type: String,
     required: true,
     trim: true
   },
   size: {
-    type: Schema.Types.ObjectId,
-    ref: 'Size',
-    required: true
+    type: String,
+    required: true,
+    enum: ["Big", "Medium", "Small"],
   },
   description: {
     type: String
@@ -24,13 +20,11 @@ const petSchema = new Schema({
   },
   health: {
     type: Schema.Types.ObjectId,
-    ref: 'Health',
-    required: true
+    ref: 'Health'
   },
   sociability: {
     type: Schema.Types.ObjectId,
-    ref: 'Sociability',
-    required: true
+    ref: 'Sociability'
   },
   ratings: [
     {
