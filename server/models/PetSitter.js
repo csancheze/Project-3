@@ -57,7 +57,7 @@ const petSitterSchema = new Schema({
     default: false,
   },
 
-  daysOff: [RangeOfDays],
+  daysOff:[RangeOfDays.schema],
 
   eventsOffered: [
     {

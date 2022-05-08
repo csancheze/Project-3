@@ -1,5 +1,6 @@
-const { Schema } = require('mongoose');
+const mongoose = require('mongoose');
 
+const { Schema } = mongoose;
 
 const rangeOfDaysSchema = new Schema({
   start: {
@@ -10,5 +11,6 @@ const rangeOfDaysSchema = new Schema({
   }
 });
 
+const RangeOfDays = mongoose.model('RangeOfDays', rangeOfDaysSchema); 
 
-module.exports = rangeOfDaysSchema;
+module.exports = RangeOfDays;
