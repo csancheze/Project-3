@@ -1,12 +1,14 @@
-const { Schema } = require('mongoose');
+const mongoose = require('mongoose');
 
+const { Schema } = mongoose;
 
 const petSchema = new Schema({
-  petId: {
-    type: String,
-    required: true,
-  }, 
-   name: {
+  owner: {
+    type: Schema.Types.ObjectId,
+    ref: 'PetOwner',
+    required: true
+  },
+  name: {
     type: String,
     required: true,
     trim: true
@@ -39,5 +41,6 @@ const petSchema = new Schema({
   ]
 });
 
+const Pet = mongoose.model('Pet', petSchema);
 
-module.exports = petSchema;
+module.exports = Pet;

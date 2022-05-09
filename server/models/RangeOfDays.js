@@ -1,14 +1,18 @@
-const { Schema } = require('mongoose');
+const { Schema, model } = require('mongoose');
+const dateFormat = require('../utils/dateFormat');
 
 
 const rangeOfDaysSchema = new Schema({
   start: {
-    type: Date
+    type: Date,
+    get: (timestamp) => dateFormat(timestamp),
   },
   end:{
-    type: Date
+    type: Date,
+    get: (timestamp) => dateFormat(timestamp),
   }
 });
 
+const RangeOfDays = model('RangeOfDays', rangeOfDaysSchema); 
 
-module.exports = rangeOfDaysSchema;
+module.exports = RangeOfDays;

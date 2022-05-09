@@ -6,7 +6,7 @@ const sizeSchema = new Schema({
   name: {
     type: String,
     required: true,
-    trim: true
+    trim: true,
   }
 });
 
