@@ -5,11 +5,11 @@ const dateFormat = require('../utils/dateFormat');
 const rangeOfDaysSchema = new Schema({
   start: {
     type: Date,
-    get: (timestamp) => dateFormat(timestamp),
+    // get: (timestamp) => dateFormat(timestamp),
   },
   end:{
     type: Date,
-    get: (timestamp) => dateFormat(timestamp),
+    // get: (timestamp) => dateFormat(timestamp),
   }
 });
 
