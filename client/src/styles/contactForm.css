@@ -1,0 +1,33 @@
+.contact-form {
+    background-color: #2cccc4;
+    height: 50vh;
+    border-radius: 50px;
+  }
+  
+  .contactForm-title {
+    color: white;
+    font-size: 8vh;
+  }
+  
+  #background-contact {
+    display: inline-block;
+  
+  }
+  
+  #submit-button {
+    color: #ffffff;
+    border-radius: 10px;
+    background-color: #83580b;
+  }
+  
+  #submit-button:hover {
+    cursor: pointer;
+    background-color: #fde994;
+    border: 0px;
+    color: #83580b
+  }
+
+
+  .main {
+    height: 80vh;
+  }

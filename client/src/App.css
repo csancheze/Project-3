@@ -1,17 +1,10 @@
 .App {
   text-align: center;
+  height: 80vh;
 }
 
 #root {
-  background-color: white;
-}
-
-nav {
-  display: flex;
-  justify-content: space-between;
-  min-height: 10vh;
-  background-color: #333333;
-  color: white;
+  background-color: #FFFFF7;
 }
 
 
@@ -23,37 +16,4 @@ nav {
 .signup-sitter {
   background-color: #2cccc4;
   height: 50vh;
-}
-
-.main {
-  height: 80vh;
-  background-color: white;
-}
-
-.contact-form {
-  background-color: #2cccc4;
-  height: 50vh;
-  border-radius: 50px;
-}
-
-.contactForm-title {
-  color: white;
-  font-size: 8vh;
-}
-
-#background-contact {
-  display: inline-block;
-
-}
-
-#submit-button {
-  color: #ffffff;
-  background-color: #2cccc4;
-  border-radius: 10px;
-}
-
-.footer {
-  height: 10vh;
-  background-color: #333333;
-  color: white;
 }
