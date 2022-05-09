@@ -204,7 +204,7 @@ const resolvers = {
                     image: args.image,
                     sizes: args.sizes,
                     healthReady: args. healthReady,
-                    socialReady: args.healthReady
+                    socialReady: args.socialReady
                 })
                 return { token: sitterToken, user: petSitterUser, petSitter: petSitterData };
             } catch (err) {

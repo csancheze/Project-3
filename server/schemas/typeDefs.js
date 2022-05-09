@@ -131,7 +131,7 @@ const typeDefs = gql`
   type Query {
     me: Profile
     petSitter(_id:ID!): PetSitter
-    petSitters(services: ID!, size: ID!, health: ID!, sociability:ID!): PetSitters
+    petSitters(services: [ID!], size: ID!, health: ID!, sociability:ID!): PetSitters
     sizes: [Size]
     healths: [Health]
     services: [TypeOfService]
