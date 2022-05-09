@@ -42,9 +42,8 @@ const typeDefs = gql`
 
   type PetSitter {
     _id: ID
-    username: String
     services: [TypeOfService]
-    ratePerNight: Float
+    ratePerNight: Float!
     description: String
     image: String
     sizes: [Size]
@@ -52,6 +51,7 @@ const typeDefs = gql`
     socialReady: [Sociability]
     ratings: [Int]
     availability: Boolean
+    daysOff: [RangeOfDays]
   }
 
   type PetSitters {
@@ -85,7 +85,6 @@ const typeDefs = gql`
   }
 
   type RangeOfDays {
-    _id: ID
     start: String
     end: String
   }
@@ -112,13 +111,13 @@ const typeDefs = gql`
 
   type Pet {
     _id: ID
-    human: User
+    owner: User
     name: String
-    size: Size
+    size: String
     description: String
     image: String
-    health: Health
-    sociability: Sociability
+    health: String
+    sociability: String
     ratings: [Int]
   }
 
@@ -140,12 +139,13 @@ const typeDefs = gql`
     eventsOwned: [Event]
   }
   type PetSchema {
+     owner: User!
      name: String!
      size: String!
      description: String
      image: String
-     health: Health
-     sociability: Sociability
+     health: String
+     sociability: String
      ratings: [Int]
   }
   input InputPet {
@@ -153,8 +153,8 @@ const typeDefs = gql`
     size: String!
     description: String
     image: String
-    health: InputHealth
-    sociability: InputSociability
+    health: String
+    sociability: String
     ratings: [Int]
  }
 
@@ -180,11 +180,11 @@ const typeDefs = gql`
     type PetSitter {
         _id: ID!
         services: [TypeOfService]
-        ratePerNight: Float
+        ratePerNight: Float!
         description: String
         image: String
         sizes: [Size]
-        healthReady: Health
+        healthReady: [Health]
         socialReady: [Sociability]
         ratings: [Int]
         availability: Boolean
@@ -198,7 +198,7 @@ const typeDefs = gql`
         username: User
         petSitter: PetSitter
         daysOfEvent: RangeOfDays
-        price: Int
+        price: Float
         status: Status
         petsRating: [String]
         petSitterRating: Int
@@ -240,14 +240,14 @@ const typeDefs = gql`
     login(email: String!, password: String!): Auth
     addUser(username: String!, email: String!, password: String!, role: String!): Auth
     addPetSitterUser(username: String!, email: String!, password: String!, role: String!, ratePerNight: Float!): Auth
-    addPetOwnerUser(username: String!, email: String!, password: String!, role: String!, petsOwned:[InputPet] ): Auth
+    addPetOwnerUser(username: String!, email: String!, password: String!, role: String! ): Auth
     addHealth(name: String!): Health
     addSize(name: String!): Size
     addSociability(name: String!): Sociability
     addStatus(name: String!): Status
     addService(name: String!): TypeOfService
     addDaysOff(start: String!, end: String!): RangeOfDays
-    addPet(human:ID!, name: String!, size: ID!, description: String, image: String, health: ID!, sociability: ID!): Pet
+    addPet(owner:ID!, name: String!, size: String, description: String, image: String, health: String, sociability: String): Pet
     addEvent(username: ID!, pets: [ID!], petSitter: ID!, daysOfEvent: ID!, price: Float, status: ID!): Event
     updateEventStatus(status: ID!): Event
     addPetSitterRating(_id: ID!, rating: Int): PetSitter

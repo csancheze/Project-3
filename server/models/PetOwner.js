@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 const { Schema, model } = require('mongoose');
 const bcrypt = require('bcrypt');
-const petSchema = require('./Pet');
+const Pet = require('./Pet');
 const eventSchema = require('./Event');
 
 
@@ -14,7 +14,12 @@ const petOwnerSchema = new Schema({
     ref: 'User'
   },
 
-  petsOwned: [petSchema],
+  petsOwned:  [
+    {
+      type: Schema.Types.ObjectId,
+      ref: 'Pet'
+    }
+  ],
 
   eventsOwned: [
     {

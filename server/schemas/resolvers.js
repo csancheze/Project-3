@@ -2,6 +2,7 @@ const { AuthenticationError } = require('apollo-server-express');
 //const { update } = require('../models/User');
 const { signToken } = require('../utils/auth');
 const { User, PetSitter, PetOwner, Health, Size, TypeOfService, Sociability, Status, RangeOfDays, Pet, Event } = require('../models');
+//const { populate } = require('../models/Pet');
 // const stripe = require('stripe')('sk_test_4eC39HqLyjWDarjtT1zdp7dc');
 
 const resolvers = {
@@ -15,10 +16,12 @@ const resolvers = {
                 .select('-__v -password');
             switch (userData.role) {
                 case "PetSitter":
-                    const PetSitterData = await PetSitter.findOne({ userId: context.user._id });
+                    const PetSitterData = await PetSitter.findOne({ userId: context.user._id })
+                        .populate('daysOff');
                     return { user: userData, petSitter: PetSitterData };
                 case "PetOwner":
-                    const PetOwnerData = await PetOwner.findOne({ userId: context.user._id });
+                    const PetOwnerData = await PetOwner.findOne({ userId: context.user._id })
+                    .populate('petsOwned');
                     return { user: userData, petOwner: PetOwnerData };
                 default:
                     console.log(`Sorry, we are out of profiles`);
@@ -26,50 +29,50 @@ const resolvers = {
 
 
         },
-/*            if (context.user) {
-                const userData = await User.findOne({ _id: context.user._id })
-                    .select('-__v -password')
-                    .populate('pets')
-                    .populate([{
-                        path: 'pets',
-                        populate: {
-                            path: 'health',
-                            model: 'Health'
-                        },
-                        populate: {
-                            path: 'size',
-                            model: 'Size'
-                        },
-                        populate: {
-                            path: 'sociability',
-                            model: 'Sociability'
-                        }
-                    }])
-                    .populate('eventsOwned')
-                    .populate([{
-                        path: 'eventsOwned',
-                        populate: {
-                            path: 'pets',
-                            model: 'Pet'
-                        },
-                        populate: {
-                            path: 'petSitter',
-                            model: 'PetSitter'
-                        },
-                        populate: {
-                            path: 'daysOfEvent',
-                            model: 'RangeOfDays'
-                        },
-                        populate: {
-                            path: 'status',
-                            model: 'Status'
-                        },
-                    }])
-                return userData;
-            }
-            console.log("context user:" + context.user);
-            throw new AuthenticationError('Please, log in!');
-        },*/
+        /*            if (context.user) {
+                        const userData = await User.findOne({ _id: context.user._id })
+                            .select('-__v -password')
+                            .populate('pets')
+                            .populate([{
+                                path: 'pets',
+                                populate: {
+                                    path: 'health',
+                                    model: 'Health'
+                                },
+                                populate: {
+                                    path: 'size',
+                                    model: 'Size'
+                                },
+                                populate: {
+                                    path: 'sociability',
+                                    model: 'Sociability'
+                                }
+                            }])
+                            .populate('eventsOwned')
+                            .populate([{
+                                path: 'eventsOwned',
+                                populate: {
+                                    path: 'pets',
+                                    model: 'Pet'
+                                },
+                                populate: {
+                                    path: 'petSitter',
+                                    model: 'PetSitter'
+                                },
+                                populate: {
+                                    path: 'daysOfEvent',
+                                    model: 'RangeOfDays'
+                                },
+                                populate: {
+                                    path: 'status',
+                                    model: 'Status'
+                                },
+                            }])
+                        return userData;
+                    }
+                    console.log("context user:" + context.user);
+                    throw new AuthenticationError('Please, log in!');
+                },*/
         petSitterProfile: async (parent, args, context) => {
             if (context.petSitter) {
                 const userData = await PetSitter.findOne({ _id: context.petSitter._id })
@@ -171,12 +174,6 @@ const resolvers = {
 
     Mutation: {
 
-        addUser: async (parent, args) => {
-            const user = await User.create(args);
-            const token = signToken(user);
-            return { token, user };
-        },
-
         addPetSitterUser: async (parent, args) => {
             try {
                 const petSitterUser = await User.create(args);
@@ -201,8 +198,6 @@ const resolvers = {
 
         },
 
-
-
         login: async (parent, { email, password }) => {
             const user = await User.findOne({ email });
 
@@ -215,23 +210,17 @@ const resolvers = {
                 throw new AuthenticationError('Credentials are not valid')
             }
             const token = signToken(user);
-            return { token, user };
+            switch (user.role) {
+                case "PetSitter":
+                    const petSitterData = await PetSitter.findOne({ _id: user._id });
+                    return { token, user, petSitter: petSitterData };
+                case "PetOwner":
+                    const petOwnerData = await PetOwner.findOne({ _id: user._id });
+                    return { token, user, petOner: petOwnerData };
+                default:
+                    console.log(`Sorry, we are out of profiles`);
+            }
         },
-
-        // loginPetSitter: async (parent, { email, password }) => {
-        //     const user = await PetSitter.findOne({ email });
-
-        //     if (!user) {
-        //         throw new AuthenticationError('Credentials are not valid')
-        //     }
-        //     const correctPw = await user.isCorrectPassword(password);
-
-        //     if (!correctPw) {
-        //         throw new AuthenticationError('Credentials are not valid')
-        //     }
-        //     const token = signToken(user);
-        //     return { token, user };
-        // },
 
         addHealth: async (parent, args) => {
             const health = await Health.create(args);
@@ -255,23 +244,28 @@ const resolvers = {
             return status;
         },
         addDaysOff: async (parent, args, context) => {
-            const start = new Date(args.start)
-            const end = new Date(args.end)
-            const newDaysOff = await RangeOfDays.create({ start, end })
-            const petSitter = await PetSitter.findByIdAndUpdate(context.petSitter._id, {
-                $push: { daysOff: newDaysOff }
-            })
-            return petSitter
+            try {
+                const start = new Date(args.start)
+                const end = new Date(args.end)
+                const newDaysOff = await RangeOfDays.create({ start, end });
+                const petSitter = await PetSitter.findByIdAndUpdate(context.user._id, {
+                    $addToSet: { daysOff: newDaysOff._id }
+                })
+                return petSitter
+            } catch (err) {
+                console.log(err);
+            }
         },
         addPet: async (parent, args, context) => {
-            const newPet = await Pet.create(args)
-            const user = await User.findOneAndUpdate({ _id: args.human }, {
-                $push: { pets: newPet }
-            }, { new: true })
-            console.log(user)
-
-            console.log(newPet);
-            return { ...newPet, human: user }
+            try {
+                const newPet = await Pet.create(args)
+                const petOwner = await PetOwner.findByIdAndUpdate(context.user._id, {
+                    $addToSet: { petsOwned: newPet._id }
+                })
+                return petOwner
+            } catch (err) {
+                console.log(err);
+            }
         },
 
         // addPetSitter: async(parent, args) => {

@@ -3,7 +3,7 @@ const mongoose = require('mongoose');
 const { Schema } = mongoose;
 
 const petSchema = new Schema({
-  human: {
+  owner: {
     type: Schema.Types.ObjectId,
     ref: 'User',
     required: true
@@ -25,12 +25,14 @@ const petSchema = new Schema({
     type: String
   },
   health: {
-    type: Schema.Types.ObjectId,
-    ref: 'Health'
+    type: String,
+    required: true,
+    enum: ["Healthy", "Special Care", "HC"],
   },
   sociability: {
-    type: Schema.Types.ObjectId,
-    ref: 'Sociability'
+    type: String,
+    required: true,
+    enum: ["Social", "Asocial", "Loner"],
   },
   ratings: [
     {
