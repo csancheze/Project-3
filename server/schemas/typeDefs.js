@@ -131,7 +131,6 @@ const typeDefs = gql`
   type Query {
     me: Profile
     petSitter(_id:ID!): PetSitter
-    
     petSitters(services: ID!, size: ID!, health: ID!, sociability:ID!): PetSitters
     sizes: [Size]
     healths: [Health]
@@ -167,11 +166,11 @@ const typeDefs = gql`
     addStatus(name: String!): Status
     addService(name: String!): TypeOfService
     addDaysOff(start: String!, end: String!): PetSitterProfile
-    addPet(owner:ID!, name: String!, size: ID!, description: String, image: String, health: ID!, sociability: ID!): PetOwner
+    addPet(owner:ID!, name: String!, size: ID!, description: String, image: String, health: ID!, sociability: ID!): Pet
     addEvent(petOwner: ID!, pets: [ID!], petSitter: ID!, daysOfEvent: String!, price: Float, status: ID!): Event
-    updateEventStatus(status: ID!): Event
-    addPetSitterRating(_id: ID!, rating: Int): PetSitter
-    addPetRating( _id: ID!, rating: String): Pet
+    updateEventStatus(_id: ID!, status: ID): Event
+    addPetSitterRating(eventId: ID, petSitterId: ID!, rating: Int): PetSitter
+    addPetRating( eventId: ID!, dogId: ID!, name:String! rating: Int): Pet
     updateAvailability(availability: Boolean): PetSitter
   }
  

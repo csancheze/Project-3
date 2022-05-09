@@ -107,7 +107,7 @@ const resolvers = {
                             model: 'Status'
                         },
                     }])
-                    
+                    console.log(PetOwnerData.eventsOwned.daysOfEvent)
                     return { user: userData, petOwner: PetOwnerData };
                 default:
                     console.log(`Sorry, we are out of profiles`);
@@ -298,10 +298,12 @@ const resolvers = {
         
         addEvent: async(parent, args, context) => {
             const daysofeventArray = args.daysOfEvent.split(",")
+            console.log(args.daysOfEvent)
             const start = new Date(daysofeventArray[0])
             const end = new Date(daysofeventArray[1])
             const newDaysOfEvent = await RangeOfDays.create({ start , end })
             args.daysOfEvent = newDaysOfEvent
+            console.log(newDaysOfEvent)
             if (context.user) {
             const newEvent = await Event.create(args)
             const petOwner = await PetOwner.findOneAndUpdate( {_id: args.petOwner} , {
@@ -324,18 +326,25 @@ const resolvers = {
         },
 
         addPetSitterRating: async(parent, args, context) => {
-            const petSitter = await PetSitter.findByIdAndUpdate(args.petSitter._id , {
+            const event = await Event.findByIdAndUpdate(args.eventId, 
+                {petSitterRating : args.rating}
+            )
+            console.log(event)
+            const petSitter = await PetSitter.findByIdAndUpdate(args.petSitterId , {
                 $push: {ratings : args.rating}
             })
             return petSitter
         },
 
         addPetRating: async(parent, args, context) => {
-            //send in args.rating "name-4"
-            const ratingArray = args.rating.split("-")
-            const pet = await Pet.findOneAndUpdate({name: ratingArray[0]} , {
-                $push: {ratings : ratingArray[1]}
+
+            const pet = await Pet.findOneAndUpdate({_id: args.dogId} , {
+                $push: {ratings : args.rating}
             })
+            const event = await Event.findByIdAndUpdate(args.eventId, {
+                $push: {petsRating : `${args.name} - ${args.rating}`
+            }})
+            console.log(event)
             return pet
         },
 
@@ -346,7 +355,7 @@ const resolvers = {
             } else {
                 newAvailability = true
             }
-            const petSitter = await PetSitter.findByIdAndUpdate(context.petSitter._id , {
+            const petSitter = await PetSitter.findByIdAndUpdate(context.user._id , {
                 availability : newAvailability })
             
             return petSitter

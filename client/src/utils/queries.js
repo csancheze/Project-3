@@ -1,108 +1,120 @@
 import { gql } from '@apollo/client';
 
-export const QUERY_ME = gql`
-  query me {
-    me {
-      _id
-      username
-      email
-      pets {
-        _id
-        name
-        size {
+export const QUERY_ME_PETOWNER = gql`
+    query Me {
+      me {
+        petOwner {
           _id
           name
+          petsOwned {
+            _id
+            name
+            ratings
+            size {
+              name
+              _id
+            }
+            description
+            image
+            health {
+              name
+              _id
+            }
+            sociability {
+              name
+              _id
+            }
+          }
+          eventsOwned {
+            _id
+            pets {
+              name
+              _id
+            }
+            daysOfEvent {
+              start
+              end
+            }
+            petSitter {
+              name
+              _id
+            }
+            status {
+              name
+            }
+            petsRating
+            petSitterRating
+            price
+          }
         }
-        description
-        image
-        health {
-          _id
-          name
-        }
-        sociability {
-          _id
-          name
-        }
-        ratings
-      }
-      eventsOwned {
-        pets{
-          _id
-          name
-        }
-        petSitter{
-          _id
+        user {
           username
-        }
-        daysOfEvent{
           _id
-          start
-          end
+          email
+          role
         }
-        price
-        status{
-          _id
-          name
-        }
-        petsRating
-        petSitterRating
       }
     }
   }
 `
-export const QUERY_PETSITTER_PROFILE = gql`
-  query petSitterProfile {
-    petSitter {
-      _id
-      username
-      email
-      services {
-        name
-      }
-      ratePerNight
-      description
-      image
-      sizes {
-        name
-      }
-      healthReady {
-        name
-      }
-      socialReady{
-        name
-      }
-      ratings
-      availability
-      daysOff {
-        start
-        end
-      }
-      eventsOffered {
-        pets{
-          name
-        }
-        username
-        daysOfEvent{
+export const QUERY_ME_PETSITTER = gql`
+    query Me {
+      me {
+        petSitter {
           _id
-          start
-          end
-        }
-        price
-        status{
           name
+          services {
+            name
+          }
+          ratePerNight
+          description
+          image
+          sizes {
+            name
+          }
+          healthReady {
+            name
+          }
+          socialReady {
+            name
+          }
+          ratings
+          availability
+          daysOff {
+            start
+            end
+          }
+          eventsOffered {
+            _id
+            petOwner {
+              name
+            }
+            pets {
+              name
+            }
+            daysOfEvent {
+              start
+              end
+            }
+            price
+            status {
+              name
+            }
+            petSitterRating
+            petsRating
+          }
         }
-        petsRating
-        petSitterRating
       }
     }
   }
 `
+
+
 export const PETSITTER = gql`
   query petSitter($petSitterId: ID!) {
     petSitter (_id: $petSitterId){
       _id
-      username
-      email
+      name
       services {
         name
       }
@@ -127,7 +139,7 @@ export const SEARCH_PETSITTERS = gql`
   query PetSitters($services: ID!, $size: ID!, $health: ID!, $sociability: ID!) {
     petSitters(services: $services, size: $size, health: $health, sociability: $sociability) {
       _id
-      username
+      name
       services {
         name
       }
@@ -179,6 +191,14 @@ export const PETS = gql`
     pets {
       name
       image
+    }
+  }
+`
+
+export const STATUS = gql`
+  query status {
+    status {
+      name
     }
   }
 `

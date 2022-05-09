@@ -21,7 +21,10 @@ const eventSchema = new Schema({
     ref: 'PetSitter'
   },
 
-  daysOfEvent:[RangeOfDays.schema],
+  daysOfEvent:{
+    type: Schema.Types.ObjectId,
+    ref: 'RangeOfDays'
+  },
 
   price: {
     type: Number,
@@ -35,7 +38,7 @@ const eventSchema = new Schema({
   },
 
   petsRating: [ {
-    type:Number,
+    type:String,
   } ],
   petSitterRating: {
     type: Number
