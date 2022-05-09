@@ -5,9 +5,9 @@ const { Schema } = mongoose;
 const RangeOfDays = require('./RangeOfDays')
 
 const eventSchema = new Schema({
- username: {
+ petOwner: {
     type: Schema.Types.ObjectId,
-    ref: 'User'
+    ref: 'PetOwner'
   },
   
   pets: [

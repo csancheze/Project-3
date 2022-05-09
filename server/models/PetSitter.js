@@ -1,24 +1,15 @@
 const mongoose = require('mongoose');
 
 const { Schema } = mongoose;
-const bcrypt = require('bcrypt');
-const RangeOfDays = require('./RangeOfDays')
+
 
 const petSitterSchema = new Schema({
- username: {
-    type: String,
-    required: true,
-    trim: true
+  _id: {
+    type: Schema.Types.ObjectId,
+    ref: 'User'
   },
-  email: {
-    type: String,
-    required: true,
-    unique: true
-  },
-  password: {
-    type: String,
-    required: true,
-    minlength: 5
+  name: {
+    type: String
   },
   services: [
     {
@@ -67,7 +58,12 @@ const petSitterSchema = new Schema({
     default: false,
   },
 
-  daysOff:[RangeOfDays.schema],
+  daysOff: [
+    {
+      type: Schema.Types.ObjectId,
+      ref: 'RangeOfDays'
+    }
+  ],
 
   eventsOffered: [
     {
@@ -76,21 +72,6 @@ const petSitterSchema = new Schema({
     }
   ],
 });
-
-// set up pre-save middleware to create password
-petSitterSchema.pre('save', async function(next) {
-  if (this.isNew || this.isModified('password')) {
-    const saltRounds = 10;
-    this.password = await bcrypt.hash(this.password, saltRounds);
-  }
-
-  next();
-});
-
-// compare the incoming password with the hashed password
-petSitterSchema.methods.isCorrectPassword = async function(password) {
-  return await bcrypt.compare(password, this.password);
-};
 
 const PetSitter = mongoose.model('PetSitter', petSitterSchema);
 

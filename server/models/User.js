@@ -1,7 +1,5 @@
 const { Schema, model } = require('mongoose');
 const bcrypt = require('bcrypt');
-const petSchema = require('./Pet');
-const eventSchema = require('./Event');
 
 
 const userSchema = new Schema({
@@ -22,14 +20,12 @@ const userSchema = new Schema({
     required: true,
     minlength: 5
   },
-  petsOwned: [petSchema.schema],
-
-  eventsOwned: [
-    {
-      type: Schema.Types.ObjectId,
-      ref: 'eventSchema'
-    }
-  ],
+  role: {
+    type: String,
+    required: true,
+    enum: ["PetOwner", "PetSitter"],
+    default: "PetOwner"
+  },
 },
 
   {
@@ -38,7 +34,6 @@ const userSchema = new Schema({
     },
   }
 );
-
 
 
 // set up pre-save middleware to create password

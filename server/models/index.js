@@ -8,5 +8,6 @@ const Size = require('./Size')
 const TypeOfService = require ('./TypeOfService')
 const Status = require ('./Status')
 const Event = require ('./Event')
+const PetOwner = require ('./PetOwner')
 
-module.exports = { User, Pet, Health, Sociability, PetSitter, RangeOfDays, Size, TypeOfService, Status, Event};
+module.exports = { User, Pet, Health, Sociability, PetSitter, RangeOfDays, Size, TypeOfService, Status, Event, PetOwner};

@@ -3,9 +3,9 @@ const mongoose = require('mongoose');
 const { Schema } = mongoose;
 
 const petSchema = new Schema({
-  human: {
+  owner: {
     type: Schema.Types.ObjectId,
-    ref: 'User',
+    ref: 'PetOwner',
     required: true
   },
   name: {

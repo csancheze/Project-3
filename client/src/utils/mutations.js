@@ -45,12 +45,13 @@ export const ADD_DAYSOFF = gql`
 `
 
 export const ADD_PET = gql`
-  mutation addPet($human: ID!, $name: String!, $size: ID!, $health: ID!, $sociability: ID!) {
+  mutation addPet($human: ID!, $name: String!, $size: String, $health: ID!, $sociability: ID!) {
     addPet(human: $human, name: $name, size: $size, health: $health, sociability: $sociability) {
       _id
       name
       size {
         
+        name
       }
       description
       image

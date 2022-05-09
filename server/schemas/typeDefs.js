@@ -6,20 +6,33 @@ const typeDefs = gql`
     _id: ID!
     username: String!
     email: String!
-    pets: [Pet]
-    eventsOwned: [Event]
-  }
+    role: String!
+  } 
+
 
   type Auth {
     token: ID!
     user: User
+    petSitter: PetSitterProfile
+    petOwner: PetOwner
+  }
+
+  type PetOwner {
+    _id: ID
+    name: String
+    petsOwned: [Pet]
+    eventsOwned: [Event]
+  }
+
+  type Profile {
+    user: User!
+    petSitter: PetSitterProfile
+    petOwner: PetOwner
   }
  
   type PetSitterProfile {
-    id: ID
-    username: String
-    email: String
-    password: String
+    _id: ID
+    name: String
     services: [TypeOfService]
     ratePerNight: Float
     description: String
@@ -35,7 +48,7 @@ const typeDefs = gql`
 
   type PetSitter {
     _id: ID
-    username: String
+    name: String
     services: [TypeOfService]
     ratePerNight: Float
     description: String
@@ -49,7 +62,7 @@ const typeDefs = gql`
 
   type PetSitters {
     _id: ID
-    username: String
+    name: String
     services: [TypeOfService]
     image: String
     sizes: [Size]
@@ -62,7 +75,7 @@ const typeDefs = gql`
 
   type Event {
     _id: ID
-    username: User
+    petOwner: PetOwner
     pets: [Pet]
     petSitter: PetSitter
     daysOfEvent: RangeOfDays
@@ -105,7 +118,7 @@ const typeDefs = gql`
 
   type Pet {
     _id: ID
-    human: User
+    owner: PetOwner
     name: String
     size: Size
     description: String
@@ -116,28 +129,46 @@ const typeDefs = gql`
   }
 
   type Query {
-    me: User
-    petSitterProfile: PetSitterProfile
+    me: Profile
     petSitter(_id:ID!): PetSitter
+    
     petSitters(services: ID!, size: ID!, health: ID!, sociability:ID!): PetSitters
     sizes: [Size]
     healths: [Health]
     services: [TypeOfService]
     sociabilities: [Sociability]
     pets: [Pet]
+    status: [Status]
   }
 
   type Mutation {
     login(email: String!, password: String!): Auth
-    addUser(username: String!, email: String!, password: String!): Auth
+    addUser(username: String!, email: String!, password: String!, role: String!): Auth
+    addPetSitterUser(
+      username: String!
+      email: String!
+      password: String!
+      role: String!
+      services:[ID]
+      ratePerNight: Float!
+      description: String
+      sizes: [ID]
+      healthReady: [ID]
+      socialReady: [ID]
+      ): Auth
+    addPetOwnerUser(
+      username: String!, 
+      email: String!, 
+      password: String!, 
+      role: String! ): Auth
     addHealth(name: String!): Health
     addSize(name: String!): Size
     addSociability(name: String!): Sociability
     addStatus(name: String!): Status
     addService(name: String!): TypeOfService
-    addDaysOff(start: String!, end: String!): RangeOfDays
-    addPet(human:ID!, name: String!, size: ID!, description: String, image: String, health: ID!, sociability: ID!): Pet
-    addEvent(username: ID!, pets: [ID!], petSitter: ID!, daysOfEvent: ID!, price: Float, status: ID!): Event
+    addDaysOff(start: String!, end: String!): PetSitterProfile
+    addPet(owner:ID!, name: String!, size: ID!, description: String, image: String, health: ID!, sociability: ID!): PetOwner
+    addEvent(petOwner: ID!, pets: [ID!], petSitter: ID!, daysOfEvent: String!, price: Float, status: ID!): Event
     updateEventStatus(status: ID!): Event
     addPetSitterRating(_id: ID!, rating: Int): PetSitter
     addPetRating( _id: ID!, rating: String): Pet
