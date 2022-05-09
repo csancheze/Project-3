@@ -1,5 +1,7 @@
 import React from 'react';
+import { NavLink } from "react-router-dom";
 import 'antd/dist/antd.css';
+import { Container, Row, Col } from 'react-bootstrap';
 import '../styles/loginUser.css';
 import { Form, Input, Button, Checkbox } from 'antd';
 
@@ -13,6 +15,12 @@ const loginUser = () => {
   };
 
   return (
+    <Container className='d-flex justify-content-center'>
+    <Row>
+    <Col sm={12} md={6} lg={9}>
+    <img id="golden" src={require('../images/puppy.jpeg')} alt="golden-retriever"></img>
+    </Col>
+    <Col sm={12} md={6} lg={3}>
     <Form
       name="basic"
       className='form'
@@ -65,18 +73,22 @@ const loginUser = () => {
       >
         <Checkbox>Remember me</Checkbox>
       </Form.Item>
-
+  
       <Form.Item
         wrapperCol={{
           offset: 8,
           span: 16,
         }}
       >
-        <Button type="primary" htmlType="submit">
+        <Button id='submit-button' type="primary" htmlType="submit">
           Submit
         </Button>
       </Form.Item>
+      <NavLink id="message" to="/signup-user"> Don't have an account? Sign up</NavLink>
     </Form>
+    </Col>
+    </Row>
+    </Container>
   );
 };
 

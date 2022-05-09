@@ -1,4 +1,15 @@
 .form {
-    width: 50vw;
-    height: 80vh;
+    text-align: center;
+    padding: 20px;
   }
+
+#golden {
+  max-height: 100vh;
+  width: auto;
+  max-width: 100vw;
+  border-radius: 15px;
+}
+
+#signup-user {
+  align-items: center;
+}

@@ -10,12 +10,12 @@ const Nav = () => {
         <Container>
         <Row>
         <Col sm={12} md={6} lg={4}>
-        <h1 id='app-name'>Dogsbnb</h1>
+        <h1 id='app-name'>Woofstel</h1>
         </Col>
         <Col sm={12} md={6} lg={8}>
         <ul id='nav-options' className='m-0'>
         <NavLink style={({ isActive }) => 
-                      (isActive ? {color: '#83580b', backgroundColor: '#fde994', borderRadius: '10px'} : {color: 'white'})} to="/home">Home</NavLink>
+                      (isActive ? {color: '#83580b', backgroundColor: '#fde994', borderRadius: '10px'} : {color: 'white'})} to="/">Home</NavLink>
         <NavLink style={({ isActive }) => 
                       (isActive ? {color: '#83580b', backgroundColor: '#fde994', borderRadius: '10px'} : {color: 'white'})} to="/profile">Profile</NavLink>
         <NavLink style={({ isActive }) => 
