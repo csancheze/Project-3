@@ -12,15 +12,15 @@ const resolvers = {
                 console.log("El context es: " + context.user)
                 throw new AuthenticationError('Please, log in!');
             }
-            const userData = await User.findOne({ _id: context.user._id })
+            const userData = await User.findById({ _id: context.user._id })
                 .select('-__v -password');
             switch (userData.role) {
                 case "PetSitter":
-                    const PetSitterData = await PetSitter.findOne({ userId: context.user._id })
+                    const PetSitterData = await PetSitter.findById({ _id: context.user._id })
                         .populate('daysOff');
                     return { user: userData, petSitter: PetSitterData };
                 case "PetOwner":
-                    const PetOwnerData = await PetOwner.findOne({ userId: context.user._id })
+                    const PetOwnerData = await PetOwner.findById({ _id: context.user._id })
                     .populate('petsOwned');
                     return { user: userData, petOwner: PetOwnerData };
                 default:
@@ -216,7 +216,7 @@ const resolvers = {
                     return { token, user, petSitter: petSitterData };
                 case "PetOwner":
                     const petOwnerData = await PetOwner.findOne({ _id: user._id });
-                    return { token, user, petOner: petOwnerData };
+                    return { token, user, petOwner: petOwnerData };
                 default:
                     console.log(`Sorry, we are out of profiles`);
             }
@@ -250,7 +250,7 @@ const resolvers = {
                 const newDaysOff = await RangeOfDays.create({ start, end });
                 const petSitter = await PetSitter.findByIdAndUpdate(context.user._id, {
                     $addToSet: { daysOff: newDaysOff._id }
-                })
+                },{ new: true }).populate('daysOff')
                 return petSitter
             } catch (err) {
                 console.log(err);
