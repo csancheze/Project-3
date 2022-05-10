@@ -1,0 +1,51 @@
+.container-benefits-block {
+    background-color: #2cccc4;
+}
+
+.container-benefits-block__list {
+    padding: 2rem;
+}
+
+.container-benefits-block__list-title {
+    color: white;
+    text-align: left;
+    font-size: 2.75rem;
+    font-weight: 500;
+    font-family: Source Sans Pro, sans-serif ;
+    padding-bottom: 2rem;
+}
+
+#container-benefits-block__list-item {
+    background-color: #2cccc4;
+    color: white;
+    font-size: 1rem;
+    letter-spacing: 2px;
+    padding: 1rem;
+    font-weight: 700;
+    border-style: none;
+}
+
+
+.container-benefits-block__list-item-icon {
+    height: auto;
+    width: auto;
+    max-width: 10%;
+}
+
+.container-benefits-block__image {
+    height: auto;
+    width: 75%;
+    padding: 2rem;
+}
+
+@media screen and (min-width: 40rem) {
+
+    .container-benefits-block__list-title {
+        color: white;
+        text-align: left;
+        font-size: 4.75rem;
+        font-weight: 500;
+        font-family: Source Sans Pro, sans-serif ;
+        padding-bottom: 2rem;
+    }
+}

@@ -1,0 +1,81 @@
+.container-sign-up-block {
+    padding: 4rem;
+}
+
+.container-sign-up-block__col {
+    padding: 0px;
+}
+
+.container-sign-up-block__info {
+    padding: 3rem 3rem;
+}
+
+.container-sign-up-block__info-title {
+    color: white;
+    text-align: left;
+    font-size: 2.75rem;
+    font-weight: 500;
+    font-family: Source Sans Pro, sans-serif ;
+    padding-bottom: 2rem;
+}
+
+.container-sign-up-block__info-subtitle {
+    color: white;
+    text-align: left;
+    font-size: 1.5rem;
+    font-weight: 500;
+    font-family: Source Sans Pro, sans-serif;
+}
+
+.container-sign-up-block__info-text {
+    font-style: italic;
+    line-height: 1.8;
+    margin: 20px 1px 0;
+    color: white;
+    font-size: 1.75rem;
+}
+
+.container-sign-up-block__info-icon {
+    height:auto;
+    width: auto;
+    max-width: 25%;
+}
+
+.container-sing-up-block__col-image {
+    height: auto;
+    max-width: 100%; 
+}
+
+@media screen and (min-width: 40rem) {
+
+    .container-sign-up-block {
+        padding: 2rem;
+    }
+
+    .container-sign-up-block__info{
+        padding: 9rem 6rem;
+    }
+
+    .container-sign-up-block__info-title {
+        color: white;
+        text-align: left;
+        font-size: 4.75rem;
+        font-weight: 500;
+        font-family: Source Sans Pro, sans-serif ;
+        padding-bottom: 2rem;
+    }
+
+    .container-sign-up-block__info-subtitle {
+        color: white;
+        text-align: left;
+        font-size: 2.75rem;
+        font-weight: 500;
+        font-family: Source Sans Pro, sans-serif ;
+    }
+
+    .container-sign-up-block__info-icon {
+        height:auto;
+        width: auto;
+        max-width: 15%;
+    }
+}
