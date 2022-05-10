@@ -62,18 +62,22 @@ export const QUERY_ME_PETSITTER = gql`
           _id
           name
           services {
+            _id
             name
           }
           ratePerNight
           description
           image
           sizes {
+            _id
             name
           }
           healthReady {
+            _id
             name
           }
           socialReady {
+            _id
             name
           }
           ratings
@@ -85,12 +89,15 @@ export const QUERY_ME_PETSITTER = gql`
           eventsOffered {
             _id
             petOwner {
+              _id
               name
             }
             pets {
+              _id
               name
             }
             daysOfEvent {
+              _id
               start
               end
             }
