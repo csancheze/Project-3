@@ -6,7 +6,7 @@ import { Container, Row, Col } from 'react-bootstrap';
 import '../styles/loginUser.css';
 import { Form, Input, Button, Checkbox } from 'antd';
 
-import { GET_SERVICES, GET_HEALTHS, GET_SIZES, GET_SOCIABILITIES} from '../utils/queries';
+import { GET_SERVICES, GET_HEALTHS, GET_SIZES, GET_SOCIABILITIES, QUERY_ME_PETSITTER} from '../utils/queries';
 // import { GET_SIZES, GET_SERVICES, GET_HEALTHS, GET_SOCIABILITIES, QUERY_ME_PETSITTER } from '../utils/queries';
 // import { UPDATE_AVAILABILTY, UPDATE_PETSITTER, ADD_DAYSOFF } from '../utils/mutations';
 
@@ -33,6 +33,11 @@ const Profile = () => {
   const onChangeTextArea = e => {
     console.log('Change:', e.target.value);
   };
+
+  const { loading: loadingPetSitter, data: dataPetSitter } = useQuery(QUERY_ME_PETSITTER);
+  const petSitter = dataPetSitter?.me.petSitter|| []
+  console.log(loadingPetSitter)
+  console.log(petSitter)
 
   const { loading: loadingServices, data: dataServices} = useQuery(GET_SERVICES);
   const servicesList = dataServices?.services || []
@@ -101,16 +106,19 @@ const Profile = () => {
     >
     <TextArea 
       name="description" 
-      value="hola" 
+      value= {petSitter.description}
       showCount 
       maxLength={100} 
       style={{ height: 120 }} 
       onChange={onChangeTextArea} 
       />
     </Form.Item>
+    {loadingPetSitter ?(<div>Loading</div>) : (
     <Form.Item
         label="Rate per Night"
         name="ratePetNight"
+        initialValue= {petSitter.name}
+
         rules={[
           {
             required: true,
@@ -118,8 +126,11 @@ const Profile = () => {
           },
         ]}
       >
-      <Input />      
+
+      <Input         
+    />
       </Form.Item>
+      )}
       {loadingServices ? (
           <div>Loading...</div>
           ) : (
@@ -127,7 +138,7 @@ const Profile = () => {
       <p>Services</p>
       <Checkbox.Group
         options={services}
-        defaultValue={['Apple']}
+        defaultValue={[""]}
         onChange={onChange}
       />
          
