@@ -2,6 +2,7 @@ import React from "react";
 import { Row, Col, Image, Button } from "react-bootstrap";
 import ContactUsImage from "../images/ContactUs.jpeg";
 import "../styles/contactUsBlock.css";
+import { NavLink } from "react-router-dom";
 
 const ContactUsBlock = () => {
   return (
@@ -25,7 +26,7 @@ const ContactUsBlock = () => {
             Please leave your message and our support team will contact you as
             soon as possible.
           </p>
-          <Button id="submit-button">CONTACT US</Button>
+          <NavLink id="message" to="/contact"><Button id="submit-button">CONTACT US</Button></NavLink>
         </div>
       </Col>
     </Row>
