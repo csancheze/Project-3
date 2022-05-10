@@ -1,4 +1,5 @@
 import './App.css';
+import LandingPage from './pages/LandingPage';
 import Nav from './components/Nav';
 import Footer from './components/Footer';
 import Contact from './pages/ContactForm';
@@ -16,6 +17,7 @@ function App() {
         <Route path="/signup-user" element={<SignupFormUser />}></Route>
         <Route path="/signup-sitter" element={<SignupFormSitter />}></Route>
         <Route path="/login-user" element={<LoginUser />}></Route>
+        <Route path="/" element={<LandingPage />}></Route>
       </Routes>
       <Footer />
     </Router>
