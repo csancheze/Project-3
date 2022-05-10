@@ -5,6 +5,7 @@ import Contact from "./pages/ContactForm";
 import SignupFormUser from "./pages/SignupFormUser";
 import SignupFormSitter from "./pages/SignupFormSitter";
 import LoginUser from "./pages/LoginUser";
+import Profile from "./pages/Profile"
 import LandingPage from "./pages/LandingPage";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 
@@ -28,6 +29,7 @@ function App() {
           <Route path="/signup-sitter" element={<SignupFormSitter />}></Route>
           <Route path="/login-user" element={<LoginUser />}></Route>
           <Route path="/" element={<LandingPage />}></Route>
+          <Route path="/profile" element={<Profile />}></Route>
         </Routes>
         <Footer />
       </Router>

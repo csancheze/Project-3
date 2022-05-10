@@ -176,6 +176,7 @@ const typeDefs = gql`
       sizes: [ID]
       healthReady: [ID]
       socialReady: [ID]
+      image: String
       ): PetSitterProfile
     addPetSitterRating(eventId: ID, petSitterId: ID!, rating: Int): PetSitterProfile
     addPetRating( eventId: ID!, dogId: ID!, name:String! rating: Int): Pet

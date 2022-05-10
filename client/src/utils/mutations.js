@@ -158,3 +158,12 @@ export const UPDATE_AVAILABILTY = gql`
     }
   }
 `
+export const UPDATE_PETSITTER = gql`
+mutation UpdatePetSitter($services: [ID], $ratePerNight: Float, $description: String, $sizes: [ID], $healthReady: [ID], $socialReady: [ID], $image: String) {
+  updatePetSitter(services: $services, ratePerNight: $ratePerNight, description: $description, sizes: $sizes, healthReady: $healthReady, socialReady: $socialReady, image: $image) {
+    _id
+    name
+    description
+  }
+}
+`

@@ -16,6 +16,8 @@ const server = new ApolloServer({
 
 app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
+const cors = require('cors');
+app.use(cors())
 
 // Serve up static assets
 app.use("/images", express.static(path.join(__dirname, "../client/images")));

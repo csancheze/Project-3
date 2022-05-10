@@ -53,7 +53,7 @@ export const QUERY_ME_PETOWNER = gql`
         }
       }
     }
-  }
+
 `
 export const QUERY_ME_PETSITTER = gql`
     query Me {
@@ -102,7 +102,7 @@ export const QUERY_ME_PETSITTER = gql`
         }
       }
     }
-  }
+
 `
 
 
@@ -161,6 +161,7 @@ query PetSitters($size: ID!, $health: ID!, $sociability: ID!, $services: [ID!]) 
 export const GET_SIZES = gql`
   query sizes {
     sizes {
+      _id
       name
     }
   }
@@ -168,6 +169,7 @@ export const GET_SIZES = gql`
 export const GET_HEALTHS = gql`
   query healths {
     healths {
+      _id
       name
     }
   }
@@ -175,13 +177,15 @@ export const GET_HEALTHS = gql`
 export const GET_SERVICES = gql`
   query services {
     services {
+      _id
       name
     }
   }
 `
-export const GET_SOCIABILITES = gql`
+export const GET_SOCIABILITIES = gql`
   query sociabilities {
     sociabilities {
+      _id
       name
     }
   }
