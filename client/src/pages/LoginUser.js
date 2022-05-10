@@ -15,9 +15,9 @@ const loginUser = () => {
   };
 
   return (
-    <Container className='d-flex justify-content-between'>
+    <Container className='d-flex justify-content-between m-0'>
     <Row>
-    <Col sm={12} md={6} lg={9}>
+    <Col sm={12} md={6} lg={9} className="p-0">
     <img id="golden" src={require('../images/puppy.jpeg')} alt="golden-retriever"></img>
     </Col>
     <Col sm={12} md={6} lg={3}>
