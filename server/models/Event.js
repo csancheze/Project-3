@@ -2,7 +2,7 @@ const mongoose = require('mongoose');
 
 const { Schema } = mongoose;
 
-const RangeOfDays = require('./RangeOfDays')
+// const RangeOfDays = require('./RangeOfDays')
 
 const eventSchema = new Schema({
  petOwner: {
@@ -33,8 +33,9 @@ const eventSchema = new Schema({
   },
 
   status: {
-    type: Schema.Types.ObjectId,
-    ref: 'Status'
+    type: String,
+    enum: ["Reserved","Confirmed","Paid","Rejected"],
+    default: "Reserved"
   },
 
   petsRating: [ {

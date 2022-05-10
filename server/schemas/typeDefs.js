@@ -81,15 +81,15 @@ const typeDefs = gql`
     petSitter: PetSitter
     daysOfEvent: RangeOfDays
     price: Float
-    status: Status
+    status: String
     petsRating: [String]
     petSitterRating: Int
   }
 
-  type Status {
-    _id: ID
-    name: String
-  }
+  # type Status {
+  #   _id: ID
+  #   name: String
+  # }
 
   type RangeOfDays {
     _id: ID
@@ -138,7 +138,6 @@ const typeDefs = gql`
     services: [TypeOfService]
     sociabilities: [Sociability]
     pets: [Pet]
-    status: [Status]
   }
 
   type Mutation {
@@ -149,12 +148,12 @@ const typeDefs = gql`
       email: String!
       password: String!
       role: String!
-      services:[ID]
-      ratePerNight: Float!
-      description: String
-      sizes: [ID]
-      healthReady: [ID]
-      socialReady: [ID]
+      # services:[ID]
+      # ratePerNight: Float
+      # description: String
+      # sizes: [ID]
+      # healthReady: [ID]
+      # socialReady: [ID]
       ): Auth
     addPetOwnerUser(
       username: String!, 
@@ -164,13 +163,21 @@ const typeDefs = gql`
     addHealth(name: String!): Health
     addSize(name: String!): Size
     addSociability(name: String!): Sociability
-    addStatus(name: String!): Status
+    # addStatus(name: String!): Status
     addService(name: String!): TypeOfService
     addDaysOff(start: String!, end: String!): PetSitterProfile
     addPet(owner:ID!, name: String!, size: ID!, description: String, image: String, health: ID!, sociability: ID!): Pet
-    addEvent(petOwner: ID!, pets: [ID!], petSitter: ID!, daysOfEvent: String!, price: Float, status: ID!): Event
-    updateEventStatus(_id: ID!, status: ID): Event
-    addPetSitterRating(eventId: ID, petSitterId: ID!, rating: Int): PetSitter
+    addEvent(petOwner: ID!, pets: [ID!], petSitter: ID!, daysOfEvent: String!, price: Float): Event
+    updateEventStatus(_id: ID!, status: String): Event
+    updatePetSitter( 
+      services:[ID]
+      ratePerNight: Float
+      description: String
+      sizes: [ID]
+      healthReady: [ID]
+      socialReady: [ID]
+      ): PetSitterProfile
+    addPetSitterRating(eventId: ID, petSitterId: ID!, rating: Int): PetSitterProfile
     addPetRating( eventId: ID!, dogId: ID!, name:String! rating: Int): Pet
     updateAvailability(availability: Boolean): PetSitter
   }

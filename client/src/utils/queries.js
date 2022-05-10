@@ -39,9 +39,7 @@ export const QUERY_ME_PETOWNER = gql`
               name
               _id
             }
-            status {
-              name
-            }
+            status
             petsRating
             petSitterRating
             price
@@ -97,9 +95,7 @@ export const QUERY_ME_PETSITTER = gql`
               end
             }
             price
-            status {
-              name
-            }
+            status
             petSitterRating
             petsRating
           }
@@ -199,10 +195,10 @@ export const PETS = gql`
   }
 `
 
-export const STATUS = gql`
-  query status {
-    status {
-      name
-    }
-  }
-`
+// export const STATUS = gql`
+//   query status {
+//     status {
+//       name
+//     }
+//   }
+// `
