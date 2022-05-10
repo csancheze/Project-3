@@ -15,7 +15,7 @@ const loginUser = () => {
   };
 
   return (
-    <Container className='d-flex justify-content-center'>
+    <Container className='d-flex justify-content-between'>
     <Row>
     <Col sm={12} md={6} lg={9}>
     <img id="golden" src={require('../images/puppy.jpeg')} alt="golden-retriever"></img>
