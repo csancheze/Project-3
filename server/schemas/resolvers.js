@@ -46,7 +46,10 @@ const resolvers = {
                         }
                     }])
 
+
+
                     return { user: userData, petSitter: PetSitterData };
+
                 case "PetOwner":
                     const PetOwnerData = await PetOwner.findOne({ _id: context.user._id })
                     // .populate('petsOwned')
@@ -148,6 +151,8 @@ const resolvers = {
                     filteredPetSitters.push(petSitters[i])
                 }
             }
+
+        
  
             return filteredPetSitters
         },
@@ -337,6 +342,7 @@ const resolvers = {
 
         updatePetSitter: async (parent, args, context) => {
         const petSitterData = await PetSitter.findByIdAndUpdate(context.user._id, {
+            
             services: args.services,
             ratePerNight: args.ratePerNight,
             description: args.description,
@@ -345,6 +351,7 @@ const resolvers = {
             healthReady: args. healthReady,
             socialReady: args.socialReady
         })
+        console.log(args.ratePerNight)
         return petSitterData;
         },
 
