@@ -132,24 +132,35 @@ const resolvers = {
                     socialReady: { $in: args.sociability }
                 })
                 .populate('services')
-                .sort({ price: -1 })
+                .populate('sizes')
+                .populate('socialReady')
+                .populate('healthReady')
+                .populate('daysOff')
+                .sort({ ratePerNight: -1 })
+
+            console.log(petSitters)
 
             const filteredPetSitters = []
+            let start = new Date (args.daysStart)
+            let end = new Date (args.daysEnd)
 
             //check for each Petsitter, for each daysOff if it is between the event dates, if none of the daysoff are between, then push the petSitter to the filtered array
 
             for (let i = 0; i < petSitters.length; i++) {
                 let includesDaysOff = false
+           
                 for (let j = 0; j < petSitters[i].daysOff.length; j++) {
-                    if (args.daysOfEvent.start < petSitters[i].daysOff[j].start > args.daysOfEvent.end || args.daysOfEvent.start < petSitters[i].daysOff[j].end > args.daysOfEvent.end) {
+                    console.log(start < petSitters[i].daysOff[j].start)
+                    if (start < petSitters[i].daysOff[j].start < end || start < petSitters[i].daysOff[j].end < end) {
                         includesDaysOff = true
                     }
                 }
                 if (includesDaysOff === false) {
+                    console.log(petSitters[i])
                     filteredPetSitters.push(petSitters[i])
                 }
             }
-
+ 
             return filteredPetSitters
         },
 

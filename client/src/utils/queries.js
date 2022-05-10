@@ -136,26 +136,30 @@ export const PETSITTER = gql`
   }
 `
 export const SEARCH_PETSITTERS = gql`
-  query PetSitters($services: ID!, $size: ID!, $health: ID!, $sociability: ID!) {
-    petSitters(services: $services, size: $size, health: $health, sociability: $sociability) {
+query PetSitters($size: ID!, $health: ID!, $sociability: ID!, $services: [ID!]) {
+  petSitters(size: $size, health: $health, sociability: $sociability, services: $services) {
+    _id
+    name
+    services {
+      name
+    }
+    image
+    ratings
+    price
+    sizes {
+      name
+      _id
+    }
+    healthReady {
       _id
       name
-      services {
-        name
-      }
-      image
-      ratings
-      healthReady {
-        name
-      }
-      socialReady {
-        name
-      }
-      sizes {
-        name
-      }
+    }
+    socialReady {
+      _id
+      name
     }
   }
+}
 `
 
 export const GET_SIZES = gql`
