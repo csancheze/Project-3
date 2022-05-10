@@ -45,13 +45,7 @@ const resolvers = {
                             model: 'RangeOfDays'
                         }
                     }])
-                    .populate([{
-                        path: 'eventsOffered',
-                        populate: {
-                            path: 'status',
-                            model: 'Status'
-                        },
-                    }])
+
                     return { user: userData, petSitter: PetSitterData };
                 case "PetOwner":
                     const PetOwnerData = await PetOwner.findOne({ _id: context.user._id })
@@ -100,13 +94,7 @@ const resolvers = {
                             model: 'RangeOfDays'
                         }
                     }])
-                    .populate([{
-                        path: 'eventsOwned',
-                        populate: {
-                            path: 'status',
-                            model: 'Status'
-                        },
-                    }])
+
                     console.log(PetOwnerData.eventsOwned.daysOfEvent)
                     return { user: userData, petOwner: PetOwnerData };
                 default:
@@ -192,12 +180,12 @@ const resolvers = {
 
         },
 
-        status: async (parent, args, context) => {
-            const status = await Status.find({})
+        // status: async (parent, args, context) => {
+        //     const status = await Status.find({})
  
-            return status
+        //     return status
 
-        },
+        // },
     },
 
     Mutation: {
@@ -281,10 +269,10 @@ const resolvers = {
             const sociability = await Sociability.create(args);
             return sociability;
         },
-        addStatus: async(parent, args) => {
-            const status = await Status.create(args);
-            return status;
-        },
+        // addStatus: async(parent, args) => {
+        //     const status = await Status.create(args);
+        //     return status;
+        // },
         addDaysOff: async(parent, args, context) => {
             const start = new Date(args.start)
             const end = new Date(args.end)
@@ -345,6 +333,19 @@ const resolvers = {
                 $push: {ratings : args.rating}
             })
             return petSitter
+        },
+
+        updatePetSitter: async (parent, args, context) => {
+        const petSitterData = await PetSitter.findByIdAndUpdate(context.user._id, {
+            services: args.services,
+            ratePerNight: args.ratePerNight,
+            description: args.description,
+            image: args.image,
+            sizes: args.sizes,
+            healthReady: args. healthReady,
+            socialReady: args.socialReady
+        })
+        return petSitterData;
         },
 
         addPetRating: async(parent, args, context) => {

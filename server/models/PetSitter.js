@@ -19,7 +19,6 @@ const petSitterSchema = new Schema({
   ],
   ratePerNight: {
     type: Number,
-    required: true,
     min: 0.99
   },
   description: {
@@ -38,13 +37,11 @@ const petSitterSchema = new Schema({
     {
     type: Schema.Types.ObjectId,
     ref: 'Health',
-    required: true
     }
   ],
   socialReady: [ {
     type: Schema.Types.ObjectId,
     ref: 'Sociability',
-    required: true
     }
   ],
   ratings: [
@@ -54,7 +51,6 @@ const petSitterSchema = new Schema({
   ],
   availability: {
     type: Boolean,
-    require: true,
     default: false,
   },
 
