@@ -52,7 +52,7 @@ export const ADD_USER_PETOWNER= gql`
   }
 `;
 export const ADD_USER_PETSITTER= gql`
-  mutation AddPetSitterUser($username: String!, $email: String!, $password: String!, $role: String!, $ratePerNight: Float!, $services: [ID], $description: String, $sizes: [ID], $healthReady: [ID], $socialReady: [ID]) {
+  mutation AddPetSitterUser($username: String!, $email: String!, $password: String!, $role: String!, $ratePerNight: Float, $services: [ID], $description: String, $sizes: [ID], $healthReady: [ID], $socialReady: [ID]) {
     addPetSitterUser(username: $username, email: $email, password: $password, role: $role, ratePerNight: $ratePerNight, services: $services, description: $description, sizes: $sizes, healthReady: $healthReady, socialReady: $socialReady) {
       token
       user {
@@ -91,8 +91,8 @@ export const ADD_PET = gql`
 `
 
 export const ADD_EVENT = gql`
-    mutation AddEvent($petOwner: ID!, $petSitter: ID!, $daysOfEvent: String!, $status: ID!, $pets: [ID!], $price: Float) {
-      addEvent(petOwner: $petOwner, petSitter: $petSitter, daysOfEvent: $daysOfEvent, status: $status, pets: $pets, price: $price) {
+    mutation AddEvent($petOwner: ID!, $petSitter: ID!, $daysOfEvent: String!, $pets: [ID!], $price: Float) {
+      addEvent(petOwner: $petOwner, petSitter: $petSitter, daysOfEvent: $daysOfEvent, pets: $pets, price: $price) {
         _id
         petOwner {
           name
@@ -111,23 +111,17 @@ export const ADD_EVENT = gql`
           end
         }
         price
-        status {
-          name
-          _id
-        }
+        status
       }
     }
 `
 
 
 export const UPDATE_EVENT_STATUS = gql`
-  mutation UpdateEventStatus($id: ID!, $status: ID) {
+  mutation UpdateEventStatus($id: ID!, $status: String) {
     updateEventStatus(_id: $id, status: $status) {
       _id
-      status {
-        name
-        _id
-      }
+      status 
       daysOfEvent {
         start
         end
@@ -163,4 +157,13 @@ export const UPDATE_AVAILABILTY = gql`
       availability
     }
   }
+`
+export const UPDATE_PETSITTER = gql`
+mutation UpdatePetSitter($services: [ID], $ratePerNight: Float, $description: String, $sizes: [ID], $healthReady: [ID], $socialReady: [ID], $image: String) {
+  updatePetSitter(services: $services, ratePerNight: $ratePerNight, description: $description, sizes: $sizes, healthReady: $healthReady, socialReady: $socialReady, image: $image) {
+    _id
+    name
+    description
+  }
+}
 `

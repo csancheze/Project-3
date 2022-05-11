@@ -11,7 +11,7 @@ const Footer = () => {
           <Col sm={12} md={6} lg={3} className="pb-3">
             <h5 className="title">About us</h5>
             <p>
-            Dogsbnb is a service of petsitter in Mexico so you don't have to worry about where to leave your Dog when you travel.
+            Woofstel is a service of petsitter in Mexico so you don't have to worry about where to leave your Dog when you travel.
             </p>
           </Col>
           <Col sm={12} md={6} lg={3} className="pb-3">
@@ -31,7 +31,7 @@ const Footer = () => {
           <Col sm={12} md={6} lg={3} className="pb-3">
           <h5 className="title">Contact us</h5>
             <p>Offices: Calle Lago Zurich Piso 11, Ampliación Granada, Mexico City, CDMX</p>
-            <NavLink id="message" to="/contact"> Send us a message <i class="bi bi-chat-dots-fill"></i></NavLink>
+            <NavLink id="message" to="/contact"> Send us a message <i className="bi bi-chat-dots-fill"></i></NavLink>
           </Col>
           <Col sm={12} md={6} lg={3} className="pb-3">
             <h5 className="title">Links</h5>
