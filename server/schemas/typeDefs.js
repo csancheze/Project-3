@@ -148,12 +148,12 @@ const typeDefs = gql`
       email: String!
       password: String!
       role: String!
-      # services:[ID]
-      # ratePerNight: Float
-      # description: String
-      # sizes: [ID]
-      # healthReady: [ID]
-      # socialReady: [ID]
+       services:[ID]
+       ratePerNight: Float
+       description: String
+       sizes: [ID]
+       healthReady: [ID]
+       socialReady: [ID]
       ): Auth
     addPetOwnerUser(
       username: String!, 

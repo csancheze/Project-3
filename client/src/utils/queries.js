@@ -58,6 +58,12 @@ export const QUERY_ME_PETOWNER = gql`
 export const QUERY_ME_PETSITTER = gql`
     query Me {
       me {
+        user {
+          username
+          _id
+          email
+          role
+        }
         petSitter {
           _id
           name

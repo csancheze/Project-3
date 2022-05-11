@@ -51,6 +51,7 @@ export const ADD_USER_PETOWNER = gql`
     }
   }
 `;
+
 export const ADD_USER_PETSITTER = gql`
   mutation AddPetSitterUser($username: String!, $email: String!, $password: String!, $role: String!, $ratePerNight: Float, $services: [ID], $description: String, $sizes: [ID], $healthReady: [ID], $socialReady: [ID]) {
     addPetSitterUser(username: $username, email: $email, password: $password, role: $role, ratePerNight: $ratePerNight, services: $services, description: $description, sizes: $sizes, healthReady: $healthReady, socialReady: $socialReady) {

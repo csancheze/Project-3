@@ -1,19 +1,25 @@
-import React from 'react';
-// import { NavLink } from "react-router-dom";
-import 'antd/dist/antd.css';
-import { useMutation,useQuery } from '@apollo/client';
+import { DateRangePicker } from 'rsuite';
+import { useMutation, useQuery } from '@apollo/client';
 import { Container, Row, Col } from 'react-bootstrap';
 import '../styles/loginUser.css';
 import { Form, Input, Button, Checkbox, InputNumber } from 'antd';
 
-import { GET_SERVICES, GET_HEALTHS, GET_SIZES, GET_SOCIABILITIES, QUERY_ME_PETSITTER} from '../utils/queries';
+
+import { GET_SERVICES, GET_HEALTHS, GET_SIZES, GET_SOCIABILITIES, QUERY_ME_PETSITTER, QUERY_ME_PETOWNER} from '../utils/queries';
 // import { GET_SIZES, GET_SERVICES, GET_HEALTHS, GET_SOCIABILITIES, QUERY_ME_PETSITTER } from '../utils/queries';
 import { UPDATE_AVAILABILTY, UPDATE_PETSITTER, ADD_DAYSOFF } from '../utils/mutations';
 
+
+
 const Profile = () => {
+  const dateFormat = (date) =>{
+    let stringDate = new Date(parseInt(date)).toDateString()
+    return stringDate
+  }
 
   const [updateAvailability] = useMutation(UPDATE_AVAILABILTY);
-  const [UpdatePetSitter] = useMutation(UPDATE_PETSITTER)
+  const [UpdatePetSitter] = useMutation(UPDATE_PETSITTER);
+  const [UpdateDaysOff] = useMutation(ADD_DAYSOFF)
 
 
   const { TextArea } = Input;
@@ -43,6 +49,21 @@ const Profile = () => {
     }
     
   }
+
+  const onChangeDaysOff =  async (date) =>  {
+    console.log(date);
+    try {
+    const mutationResponse = await UpdateDaysOff({
+      variables: {
+        start: date[0],
+        end: date[1]
+        }
+    })
+  } catch (err) {
+    console.error("el error" + err);
+  } 
+  }
+
 
   const onFinishFailed = (errorInfo) => {
     console.log('Failed:', errorInfo);
@@ -117,39 +138,40 @@ const Profile = () => {
   const petSitter = dataPetSitter?.me.petSitter|| []
   console.log(petSitter)
 
+
   const { loading: loadingServices, data: dataServices} = useQuery(GET_SERVICES);
   const servicesList = dataServices?.services || []
 
   const services = []
-  servicesList.map(service =>{
-    services.push({label: service.name, value: service._id})
+  servicesList.map(service => {
+    services.push({ label: service.name, value: service._id })
   })
 
-  const {loading: loadingHealths, data : dataHealth} = useQuery(GET_HEALTHS);
+  const { loading: loadingHealths, data: dataHealth } = useQuery(GET_HEALTHS);
   const healthsList = dataHealth?.healths || []
 
 
   const healths = []
-  healthsList.map(health =>{
-    healths.push({label: health.name, value: health._id})
+  healthsList.map(health => {
+    healths.push({ label: health.name, value: health._id })
   })
 
-  const {loading: loadingSizes, data : dataSize} = useQuery(GET_SIZES);
+  const { loading: loadingSizes, data: dataSize } = useQuery(GET_SIZES);
   const sizesList = dataSize?.sizes || []
 
 
   const sizes = []
-  sizesList.map(size =>{
-    sizes.push({label: size.name, value: size._id})
+  sizesList.map(size => {
+    sizes.push({ label: size.name, value: size._id })
   })
 
-  const {loading: loadingSociabilities, data : dataSociability} = useQuery(GET_SOCIABILITIES);
+  const { loading: loadingSociabilities, data: dataSociability } = useQuery(GET_SOCIABILITIES);
   const sociabilitiesList = dataSociability?.sociabilities || []
   console.log()
 
   const sociabilities = []
-  sociabilitiesList.map(sociability =>{
-    sociabilities.push({label: sociability.name, value: sociability._id})
+  sociabilitiesList.map(sociability => {
+    sociabilities.push({ label: sociability.name, value: sociability._id })
   })
 
 
@@ -166,6 +188,21 @@ const Profile = () => {
     </Button>
     { petSitter.availability ? (<p>Available</p>) : (<p>Not available</p>)}
     </div>
+
+
+    <div  >
+      <label>Days Off: </label>
+     <DateRangePicker onOk={onChangeDaysOff} />
+    </div>
+    
+    Days Off
+    
+    {petSitter.daysOff.map(days => (
+        <div>
+          De <span>{dateFormat(days.start)}</span> a 
+          <span> {dateFormat(days.end)}</span>
+        </div>
+      ))}
 
     <Col sm={12} md={12} lg={12}>
     <Form
@@ -282,14 +319,39 @@ const Profile = () => {
           Submit
         </Button>
       </Form.Item>
+
+
+
   
 
       {/* <NavLink id="message" to="/signup-user"> Don't have an account? Sign up</NavLink> */}
     </Form>
     
     </Col>
+    <Col>
+   Events
+    {
+      petSitter.eventsOffered.map(event => (
+        <div>
+          {event.petOwner.name}
+          {event.pets[0].name}
+          {dateFormat(event.daysOfEvent.start)}
+          {dateFormat(event.daysOfEvent.end)}
+          {event.price}
+          {event.status}
+          {event.petsRating[0]}
+          {event.petSitterRating}
+        </div>
+      ))
+    }
+    
+    </Col>
     </Row>
+
+      
+      
       )}
+    
     </Container>
   );
 
