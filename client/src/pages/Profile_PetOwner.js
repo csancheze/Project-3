@@ -29,6 +29,7 @@ const ProfilePetOwner = () => {
       sociability: state.social
     }
     console.log(variables)
+    try {
     const mutationResponse = await AddPet({
       variables: {
         owner: petOwner._id,
@@ -40,9 +41,15 @@ const ProfilePetOwner = () => {
         sociability: state.social
       }
     })
-    return mutationResponse 
-
+    console.log(mutationResponse) 
+    if (mutationResponse) {
+      alert("Pet added")
+      window.location.assign('/profile-petowner')
+    }
+  } catch (e) {
+   console.error(e);
   };
+}
 
   const onFinishFailed = (errorInfo) => {
     console.log('Failed:', errorInfo);
