@@ -289,8 +289,30 @@ const Profile = () => {
     </Form>
     
     </Col>
+    <Col>
+   Events
+    {
+      petSitter.eventsOffered.map(event => (
+        <div>
+          {event.petOwner.name}
+          {event.pets[0].name}
+          {event.daysOfEvent.start}
+          {event.daysOfEvent.end}
+          {event.price}
+          {event.status}
+          {event.petsRating[0]}
+          {event.petsRating}
+        </div>
+      ))
+    }
+    
+    </Col>
     </Row>
+
+      
+      
       )}
+    
     </Container>
   );
 

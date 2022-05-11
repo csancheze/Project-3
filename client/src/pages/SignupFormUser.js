@@ -20,6 +20,7 @@ function SignupFormUser() {
     });
     const token = mutationResponse.data.addPetOwnerUser.token;
     Auth.login(token);
+    
   };
 
   const handleChange = (event) => {
