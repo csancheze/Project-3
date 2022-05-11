@@ -134,6 +134,7 @@ const resolvers = {
 
             const filteredPetSitters = []
             let start = new Date(args.daysStart)
+            console.log(start)
             let end = new Date(args.daysEnd)
             
 
