@@ -8,14 +8,14 @@ import { NavLink } from "react-router-dom";
 const SignUpBlock = () => {
   return (
     <Row className="container-sign-up-block">
-      <Col sm={12} md={12} lg={6} className="container-sign-up-block__col" sm>
+      <Col sm={12} md={12} lg={6} className="container-sign-up-block__col">
         <Image
           src={SignUpImage}
           rounded
           className="container-sing-up-block__col-image"
         />
       </Col>
-      <Col sm={12} md={12} lg={6} style={{ backgroundColor: "#2cccc4" }} sm>
+      <Col sm={12} md={12} lg={6} style={{ backgroundColor: "#2cccc4" }}>
         <div className="container-sign-up-block__info">
           <h1 id="app-name" className="container-sign-up-block__info-title">
             <Image
@@ -39,7 +39,7 @@ const SignUpBlock = () => {
             If you want to be a
             <span style={{ fontWeight: "700" }}> Pet Sitter </span>
             please
-            <Card.Link> Sign Up </Card.Link>
+            <NavLink to="/signup-sitter"><Card.Link> Sign up</Card.Link></NavLink>
           </p>
         </div>
       </Col>
