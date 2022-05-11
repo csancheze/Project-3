@@ -17,6 +17,7 @@
     "concurrently": "^5.1.0"
   },
   "dependencies": {
-    "react-router-dom": "^6.3.0"
+    "react-router-dom": "^6.3.0",
+    "rsuite": "^5.11.0"
   }
 }
