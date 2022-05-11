@@ -1,0 +1,22 @@
+.profile-form {
+    background-color: #2cccc4;
+    padding-top: 20px;
+    max-width: 100vw;
+    padding: 30px;
+    border-radius: 30px;
+  }
+
+#availability {
+    text-align: end;
+    padding: 15px;
+}
+
+#availability-status-available {
+    color: green;
+    font-weight: bolder;
+}
+
+#availability-status-notAvailable {
+    color: red;
+    font-weight: bolder;
+}
