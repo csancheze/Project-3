@@ -1,5 +1,5 @@
 import { DateRangePicker } from 'rsuite';
-import { /*useMutation,*/ useQuery } from '@apollo/client';
+import { useMutation, useQuery } from '@apollo/client';
 import { Container, Row, Col } from 'react-bootstrap';
 import '../styles/loginUser.css';
 import { Form, Input, Button, Checkbox, InputNumber } from 'antd';
@@ -13,7 +13,8 @@ import { UPDATE_AVAILABILTY, UPDATE_PETSITTER, ADD_DAYSOFF } from '../utils/muta
 const Profile = () => {
 
   const [updateAvailability] = useMutation(UPDATE_AVAILABILTY);
-  const [UpdatePetSitter] = useMutation(UPDATE_PETSITTER)
+  const [UpdatePetSitter] = useMutation(UPDATE_PETSITTER);
+  const [UpdateDaysOff] = useMutation(ADD_DAYSOFF)
 
 
   const { TextArea } = Input;
@@ -43,6 +44,21 @@ const Profile = () => {
     }
     
   }
+
+  const onChangeDaysOff =  async (date) =>  {
+    console.log(date);
+    try {
+    const mutationResponse = await UpdateDaysOff({
+      variables: {
+        start: date[0],
+        end: date[1]
+        }
+    })
+  } catch (err) {
+    console.error("el error" + err);
+  }
+  }
+
 
   const onFinishFailed = (errorInfo) => {
     console.log('Failed:', errorInfo);
@@ -167,6 +183,12 @@ const Profile = () => {
     { petSitter.availability ? (<p>Available</p>) : (<p>Not available</p>)}
     </div>
 
+
+    <div  >
+      <label>Days Off: </label>
+     <DateRangePicker onOk={onChangeDaysOff} />
+    </div>
+
     <Col sm={12} md={12} lg={12}>
     <Form
       name="basic"
@@ -282,6 +304,9 @@ const Profile = () => {
           Submit
         </Button>
       </Form.Item>
+
+
+
   
 
       {/* <NavLink id="message" to="/signup-user"> Don't have an account? Sign up</NavLink> */}
