@@ -23,9 +23,10 @@ const Contact = () => {
     };
 
     return (
-    <div className="row justify-content-between main">
+    <div className="row d-flex justify-content-between m-0 main">
     <img className='col-12 col-sm-6' id="background-contact" src={require('../images/5c3d49967e3aa842c876a81d15f01931f8f3644778d57466c0c35f9a143eb8f1df1cb83656335d64f648db9dda63a60828632569629a01a39e55eb_1280.jpg')} alt="background" />
-    <div className='p-5 col-11 col-sm-6 justify-content-center'>
+    <div className='p-5 col-12 col-sm-6 justify-content-center'>
+    <h1>Send us a meesage 🐶</h1>
   <form onSubmit={sendEmail} ref={form} className="border rounded-3 p-3 contact-form">
   <div className="form-group">
     <label htmlFor="exampleFormControlInput1">Email address</label>
