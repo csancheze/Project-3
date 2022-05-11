@@ -33,10 +33,7 @@ const Profile = () => {
       }
     })
     console.log( values.ratePerNight)
-    if (mutationResponse) {
-      alert("Your information has been updated.")
-    }
-    return mutationResponse 
+    return mutationResponse
 
   };
 

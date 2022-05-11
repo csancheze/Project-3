@@ -154,7 +154,7 @@ query PetSitters($size: ID!, $health: ID!, $sociability: ID!, $services: [ID!]) 
     }
     image
     ratings
-    price
+    ratePerNight
     sizes {
       name
       _id
