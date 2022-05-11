@@ -25,7 +25,7 @@ function SignupFormSitter(props) {
     alert('Failed to sign up!')
     console.error(e);
   };
-
+  }
   const handleChange = (event) => {
     const { name, value } = event.target;
     setFormState({
