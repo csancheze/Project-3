@@ -25,6 +25,7 @@ const Profile = () => {
   const { TextArea } = Input;
   const onFinish = async (values) => {
     console.log('Success:', values);
+    try {
     const mutationResponse = await UpdatePetSitter({
       variables: {
         description: values.description,
@@ -32,10 +33,15 @@ const Profile = () => {
         image: values.image,
       }
     })
-    console.log( values.ratePerNight)
-    return mutationResponse
-
-  };
+    console.log(mutationResponse) 
+    if (mutationResponse) {
+      alert("Profile updated")
+      window.location.assign('/profile')
+    }
+  } catch (e) {
+    console.error(e);
+   };
+ }
 
   const changeAvailability = async (e) => {
     const mutationResponse = await updateAvailability({
