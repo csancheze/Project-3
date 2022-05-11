@@ -17,17 +17,17 @@ const Nav = () => {
        
         <Container>
         <Row>
-        <Col sm={12} md={6} lg={4}>
+        <Col sm={12} md={6} lg={3}>
         <h1 id='app-name'>Woofstel</h1>
-        {Auth.loggedIn() ? ( <div>{loading ? (<p>loading</p>) : (<p>Welcome {data.me.user.username}</p>)}</div>) : (<br></br>) }
+        {Auth.loggedIn() ? ( <div>{loading ? (<p>loading</p>) : (<p style={{color: "white", textAlign: "start", fontSize: "2vh"}}>Welcome {data.me.user.username}!</p>)}</div>) : (<br></br>) }
      
         </Col>
-        <Col sm={12} md={6} lg={8}>
-        <ul id='nav-options' className='m-0'>
+        <Col sm={12} md={6} lg={9}>
+        <ul id='nav-options' className='m-0 justify-content-end'>
         <NavLink style={({ isActive }) => 
                       (isActive ? {color: '#83580b', backgroundColor: '#fde994', borderRadius: '10px'} : {color: 'white'})} to="/">Home</NavLink>
         
-        {Auth.loggedIn() ? ( <div>{loading ? (<p>loading</p>) : (<div>{data.me.user.role == "PetSitter" ?( 
+        {Auth.loggedIn() ? ( <div>{loading ? (<p>loading</p>) : (<div className='d-flex align-items-center'>{data.me.user.role === "PetSitter" ?( 
         <NavLink style={({ isActive }) => 
                       (isActive ? {color: '#83580b', backgroundColor: '#fde994', borderRadius: '10px'} : {color: 'white'})} to="/profile">Profile</NavLink>):
         (  <NavLink style={({ isActive }) => 
@@ -40,9 +40,9 @@ const Nav = () => {
 
         { Auth.loggedIn() ? (
           
-          <a  href="/" onClick={() => Auth.logout()}>
+          <NavLink style={{color: 'white'}} to="/" onClick={() => Auth.logout()}>
               Logout 
-            </a>) :
+            </NavLink>) :
             (    <NavLink style={({ isActive }) => 
             (isActive ? {color: '#83580b', backgroundColor: '#fde994', borderRadius: '10px'} : {color: 'white'})} to="/login-user">Login</NavLink>)
         
