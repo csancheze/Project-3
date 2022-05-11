@@ -6,7 +6,6 @@ nav {
 
 #app-name {
     color: white;
-    padding-left: 20px;
     padding-top: 5px;
     font-family: 'Oleo Script Swash Caps', cursive;
 }
@@ -15,6 +14,7 @@ nav {
   text-align: end;
   padding: 10px;
   padding-top: 20px;
+  display: flex;
 }
 
 ul a {
@@ -26,4 +26,8 @@ ul a {
 
 ul a:hover {
   text-decoration: underline;
+}
+
+#welcome-messsage {
+  color: white;
 }
