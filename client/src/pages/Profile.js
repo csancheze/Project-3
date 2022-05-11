@@ -1,24 +1,46 @@
 import React from 'react';
 // import { NavLink } from "react-router-dom";
 import 'antd/dist/antd.css';
-import { /*useMutation,*/ useQuery } from '@apollo/client';
+import { useMutation,useQuery } from '@apollo/client';
 import { Container, Row, Col } from 'react-bootstrap';
 import '../styles/loginUser.css';
-import { Form, Input, Button, Checkbox } from 'antd';
+import { Form, Input, Button, Checkbox, InputNumber } from 'antd';
 
-import { GET_SERVICES, GET_HEALTHS, GET_SIZES, GET_SOCIABILITIES} from '../utils/queries';
+import { GET_SERVICES, GET_HEALTHS, GET_SIZES, GET_SOCIABILITIES, QUERY_ME_PETSITTER} from '../utils/queries';
 // import { GET_SIZES, GET_SERVICES, GET_HEALTHS, GET_SOCIABILITIES, QUERY_ME_PETSITTER } from '../utils/queries';
-// import { UPDATE_AVAILABILTY, UPDATE_PETSITTER, ADD_DAYSOFF } from '../utils/mutations';
+import { UPDATE_AVAILABILTY, UPDATE_PETSITTER, ADD_DAYSOFF } from '../utils/mutations';
 
 const Profile = () => {
 
+  const [updateAvailability] = useMutation(UPDATE_AVAILABILTY);
+  const [UpdatePetSitter] = useMutation(UPDATE_PETSITTER)
+
+
   const { TextArea } = Input;
-  const onFinish = (values) => {
+  const onFinish = async (values) => {
     console.log('Success:', values);
+    const mutationResponse = await UpdatePetSitter({
+      variables: {
+        description: values.description,
+        ratePerNight: values.ratePerNight,
+        image: values.image,
+      }
+    })
+    console.log( values.ratePerNight)
+    return mutationResponse 
+
   };
 
-  const changeAvailability = (e) => {
+  const changeAvailability = async (e) => {
     e.preventDefault();
+    const mutationResponse = await updateAvailability({
+      variables: {
+        availability: petSitter.availability
+      }
+    })
+    if (mutationResponse) {
+      window.location.reload()
+    }
     
   }
 
@@ -26,13 +48,71 @@ const Profile = () => {
     console.log('Failed:', errorInfo);
   };
 
-  function onChange(checkedValues) {
+  const onChangeServices = async (checkedValues) => {
     console.log('checked = ', checkedValues);
+    const mutationResponse = await UpdatePetSitter({
+      variables: {
+       services: checkedValues
+      }
+    })
+    return mutationResponse 
+
+  }
+
+  const onChangeHealths = async (checkedValues) => {
+    console.log('checked = ', checkedValues);
+    const mutationResponse = await UpdatePetSitter({
+      variables: {
+        healthReady: checkedValues
+      }
+    })
+    return mutationResponse 
+
+  }
+
+  const onChangeSizes = async (checkedValues) => {
+    console.log('checked = ', checkedValues);
+    const mutationResponse = await UpdatePetSitter({
+      variables: {
+        sizes: checkedValues
+      }
+    })
+    return mutationResponse 
+
+  }
+
+  const onChangeSociability = async (checkedValues) => {
+    console.log('checked = ', checkedValues);
+    const mutationResponse = await UpdatePetSitter({
+      variables: {
+        socialReady: checkedValues
+      }
+    })
+    return mutationResponse 
+
+  }
+
+
+  function arrayOfIds(array) {
+    const newArray = []
+    for (let x = 0; x <array.length; x++){
+      newArray.push(array[x]._id)
+    }
+    if (newArray) {
+      return newArray
+    } else {
+
+      return ["empty"]
+    }
   }
 
   const onChangeTextArea = e => {
     console.log('Change:', e.target.value);
   };
+
+  const { loading: loadingPetSitter, data: dataPetSitter } = useQuery(QUERY_ME_PETSITTER);
+  const petSitter = dataPetSitter?.me.petSitter|| []
+  console.log(petSitter)
 
   const { loading: loadingServices, data: dataServices} = useQuery(GET_SERVICES);
   const servicesList = dataServices?.services || []
@@ -71,13 +151,19 @@ const Profile = () => {
   })
 
 
+
   return (
-    <Container className='container'>
-    <Row>
+     <Container className='container'>
     
+    {loadingPetSitter ? (<div>Loading</div>) : (
+
+    <Row>
+    <div>
     <Button id='available' type="primary" htmlType="button" onClick={changeAvailability}>
           Change availability
     </Button>
+    { petSitter.availability ? (<p>Available</p>) : (<p>Not available</p>)}
+    </div>
 
     <Col sm={12} md={12} lg={12}>
     <Form
@@ -98,19 +184,19 @@ const Profile = () => {
     >
     <Form.Item
     label= "Description"
+    name="description"  
+    onChange={onChangeTextArea} 
+    initialValue= {petSitter.description}
     >
     <TextArea 
-      name="description" 
-      value="hola" 
-      showCount 
-      maxLength={100} 
-      style={{ height: 120 }} 
-      onChange={onChangeTextArea} 
+  
       />
     </Form.Item>
+   
     <Form.Item
         label="Rate per Night"
-        name="ratePetNight"
+        name="ratePerNight"
+       
         rules={[
           {
             required: true,
@@ -118,17 +204,22 @@ const Profile = () => {
           },
         ]}
       >
-      <Input />      
+
+      <InputNumber  placeholder= {petSitter.ratePerNight}     
+    />
       </Form.Item>
+
       {loadingServices ? (
           <div>Loading...</div>
           ) : (
       <Form.Item>
       <p>Services</p>
+      
       <Checkbox.Group
         options={services}
-        defaultValue={['Apple']}
-        onChange={onChange}
+        name="services"
+        defaultValue={arrayOfIds(petSitter.services)}
+        onChange={onChangeServices}
       />
          
          </Form.Item> )}
@@ -139,8 +230,9 @@ const Profile = () => {
       <p>Healths</p>
       <Checkbox.Group
         options={healths}
-        defaultValue={['Apple']}
-        onChange={onChange}
+        name="health"
+        defaultValue={arrayOfIds(petSitter.healthReady)}
+        onChange={onChangeHealths}
       />
       </Form.Item> )}
       {loadingSizes ? (
@@ -148,10 +240,12 @@ const Profile = () => {
             ) : (
         <Form.Item>
         <p>Sizes</p>
+     
         <Checkbox.Group
           options={sizes}
-          defaultValue={['Apple']}
-          onChange={onChange}
+          name="sizes"
+          defaultValue={arrayOfIds(petSitter.sizes)}
+          onChange={onChangeSizes}
         />
         </Form.Item> )}
 
@@ -162,8 +256,9 @@ const Profile = () => {
           <p>Sociability</p>
           <Checkbox.Group
             options={sociabilities}
-            defaultValue={['Apple']}
-            onChange={onChange}
+            name = "sociabilities"
+            defaultValue={arrayOfIds(petSitter.socialReady)}
+            onChange={onChangeSociability}
           />
          </Form.Item> )}
 
@@ -175,7 +270,6 @@ const Profile = () => {
       >
         <Input />
       </Form.Item>
-  
       <Form.Item
         wrapperCol={{
           offset: 8,
@@ -186,12 +280,17 @@ const Profile = () => {
           Submit
         </Button>
       </Form.Item>
+  
+
       {/* <NavLink id="message" to="/signup-user"> Don't have an account? Sign up</NavLink> */}
     </Form>
+    
     </Col>
     </Row>
+      )}
     </Container>
   );
+
 };
 
 export default Profile;

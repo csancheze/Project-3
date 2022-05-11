@@ -4,10 +4,26 @@ import 'antd/dist/antd.css';
 import { Container, Row, Col } from 'react-bootstrap';
 import '../styles/loginUser.css';
 import { Form, Input, Button, Checkbox } from 'antd';
+import Auth from '../utils/auth';
+import { LOGIN_PETOWNER } from '../utils/mutations';
+import { useMutation } from '@apollo/client';
 
-const loginUser = () => {
-  const onFinish = (values) => {
+const LoginUser = () => {
+  const [login, { error, data }] = useMutation(LOGIN_PETOWNER);
+  console.log(error + data)
+
+  const onFinish = async (values) => {
+    
     console.log('Success:', values);
+    try {
+      const { data } = await login({
+        variables: { ...values },
+      });
+
+      Auth.login(data.login.token);
+    } catch (e) {
+      console.error(e);
+    }
   };
 
   const onFinishFailed = (errorInfo) => {
@@ -38,12 +54,12 @@ const loginUser = () => {
       autoComplete="off"
     >
       <Form.Item
-        label="Username"
-        name="username"
+        label="Email"
+        name="email"
         rules={[
           {
             required: true,
-            message: 'Please input your username!',
+            message: 'Please input your email!',
           },
         ]}
       >
@@ -92,4 +108,4 @@ const loginUser = () => {
   );
 };
 
-export default loginUser;
+export default LoginUser;
