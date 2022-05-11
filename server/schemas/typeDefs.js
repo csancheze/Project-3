@@ -180,6 +180,8 @@ const typeDefs = gql`
       ): PetSitterProfile
     addPetSitterRating(eventId: ID, petSitterId: ID!, rating: Int): PetSitterProfile
     addPetRating( eventId: ID!, dogId: ID!, name:String! rating: Int): Pet
+    deletePet(dogId: ID!): Pet
+    deleteDaysOff(rangeId: ID!): PetSitterProfile
     updateAvailability(availability: Boolean): PetSitter
   }
  

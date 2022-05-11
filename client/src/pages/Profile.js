@@ -94,8 +94,9 @@ const Profile = () => {
 
 
   function arrayOfIds(array) {
+    if(!array) return ["empty"]
     const newArray = []
-    for (let x = 0; x <array.length; x++){
+    for (let x = 0; x <array?.length; x++){
       newArray.push(array[x]._id)
     }
     if (newArray) {
@@ -110,7 +111,9 @@ const Profile = () => {
     console.log('Change:', e.target.value);
   };
 
-  const { loading: loadingPetSitter, data: dataPetSitter } = useQuery(QUERY_ME_PETSITTER);
+  const { loading: loadingPetSitter, data: dataPetSitter } = useQuery(QUERY_ME_PETSITTER); // 400ms
+  
+  
   const petSitter = dataPetSitter?.me.petSitter|| []
   console.log(petSitter)
 
@@ -144,7 +147,6 @@ const Profile = () => {
   const {loading: loadingSociabilities, data : dataSociability} = useQuery(GET_SOCIABILITIES);
   const sociabilitiesList = dataSociability?.sociabilities || []
   console.log()
-
 
   const sociabilities = []
   sociabilitiesList.map(sociability =>{

@@ -34,7 +34,7 @@ export const LOGIN_PETSITTER = gql`
   }
 `;
 
-export const ADD_USER_PETOWNER= gql`
+export const ADD_USER_PETOWNER = gql`
   mutation AddPetOwnerUser($username: String!, $email: String!, $password: String!, $role: String!) {
     addPetOwnerUser(username: $username, email: $email, password: $password, role: $role) {
       token
@@ -51,7 +51,8 @@ export const ADD_USER_PETOWNER= gql`
     }
   }
 `;
-export const ADD_USER_PETSITTER= gql`
+
+export const ADD_USER_PETSITTER = gql`
   mutation AddPetSitterUser($username: String!, $email: String!, $password: String!, $role: String!, $ratePerNight: Float, $services: [ID], $description: String, $sizes: [ID], $healthReady: [ID], $socialReady: [ID]) {
     addPetSitterUser(username: $username, email: $email, password: $password, role: $role, ratePerNight: $ratePerNight, services: $services, description: $description, sizes: $sizes, healthReady: $healthReady, socialReady: $socialReady) {
       token
@@ -159,11 +160,27 @@ export const UPDATE_AVAILABILTY = gql`
   }
 `
 export const UPDATE_PETSITTER = gql`
-mutation UpdatePetSitter($services: [ID], $ratePerNight: Float, $description: String, $sizes: [ID], $healthReady: [ID], $socialReady: [ID], $image: String) {
-  updatePetSitter(services: $services, ratePerNight: $ratePerNight, description: $description, sizes: $sizes, healthReady: $healthReady, socialReady: $socialReady, image: $image) {
+  mutation UpdatePetSitter($services: [ID], $ratePerNight: Float, $description: String, $sizes: [ID], $healthReady: [ID], $socialReady: [ID], $image: String) {
+    updatePetSitter(services: $services, ratePerNight: $ratePerNight, description: $description, sizes: $sizes, healthReady: $healthReady, socialReady: $socialReady, image: $image) {
+      _id
+      name
+      description
+    }
+  }
+`
+
+export const DELETE_PET = gql`
+mutation DeletePet($dogId: ID!) {
+  deletePet(dogId: $dogId) {
     _id
-    name
-    description
+  }
+}
+`
+
+export const DELETE_DAYSOFF = gql`
+mutation DeleteDaysOff($rangeId: ID!) {
+  deleteDaysOff(rangeId: $rangeId) {
+    _id
   }
 }
 `
