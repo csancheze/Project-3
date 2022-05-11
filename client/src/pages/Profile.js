@@ -33,19 +33,22 @@ const Profile = () => {
       }
     })
     console.log( values.ratePerNight)
+    if (mutationResponse) {
+      alert("Your information has been updated.")
+    }
     return mutationResponse 
 
   };
 
   const changeAvailability = async (e) => {
-    e.preventDefault();
     const mutationResponse = await updateAvailability({
       variables: {
         availability: petSitter.availability
       }
     })
     if (mutationResponse) {
-      window.location.reload()
+      alert('Availability updated')
+      window.location.assign('/profile')
     }
     
   }

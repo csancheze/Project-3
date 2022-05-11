@@ -10,6 +10,7 @@ function SignupFormSitter(props) {
 
   const handleFormSubmit = async (event) => {
     event.preventDefault();
+    try {
     const mutationResponse = await AddPetSitterUser({
       variables: {
         email: formState.email,
@@ -20,6 +21,9 @@ function SignupFormSitter(props) {
     });
     const token = mutationResponse.data.addPetSitterUser.token;
     Auth.login(token);
+  } catch (e) {
+    alert('Failed to sign up!')
+    console.error(e);
   };
 
   const handleChange = (event) => {
