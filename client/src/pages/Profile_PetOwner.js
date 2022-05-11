@@ -11,6 +11,10 @@ import { GET_HEALTHS, GET_SIZES, GET_SOCIABILITIES, QUERY_ME_PETOWNER} from '../
 import { ADD_PET } from '../utils/mutations';
 
 const ProfilePetOwner = () => {
+  const dateFormat = (date) =>{
+    let stringDate = new Date(parseInt(date)).toDateString()
+    return stringDate
+  }
   const [AddPet] = useMutation(ADD_PET)
 
   const onFinish = async (values) => {
@@ -231,8 +235,8 @@ const ProfilePetOwner = () => {
         <div>
           {event.petSitter.name}
           {event.pets[0].name}
-          {event.daysOfEvent.start}
-          {event.daysOfEvent.end}
+          {dateFormat(event.daysOfEvent.start)}
+          {dateFormat(event.daysOfEvent.end)}
           {event.price}
           {event.status}
           {event.petsRating[0]}
