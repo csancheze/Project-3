@@ -1,7 +1,7 @@
 import { DateRangePicker } from 'rsuite';
 import { useMutation, useQuery } from '@apollo/client';
 import { Container, Row, Col } from 'react-bootstrap';
-import '../styles/loginUser.css';
+import '../styles/profile.css';
 import { Form, Input, Button, Checkbox, InputNumber } from 'antd';
 
 
@@ -183,43 +183,35 @@ const Profile = () => {
 
 
   return (
-     <Container className='container'>
+     <Container className='container d-flex justify-content-center'>
     
     {loadingPetSitter ? (<div>Loading</div>) : (
 
-    <Row>
+    <Row className='col-10'>
+    <div id='availability'>
     <div>
-    <Button id='available' type="primary" htmlType="button" onClick={changeAvailability}>
+    <Button id='submit-button' type="primary" htmlType="button" onClick={changeAvailability}>
           Change availability
     </Button>
-    { petSitter.availability ? (<p>Available</p>) : (<p>Not available</p>)}
+    { petSitter.availability ? (<p id="availability-status-available">Current status: Available</p>) : (<p id="availability-status-notAvailable">Current status: Not available</p>)}
     </div>
 
 
-    <div  >
+    <div  className='pt-2'>
       <label>Days Off: </label>
      <DateRangePicker onOk={onChangeDaysOff} />
     </div>
     
-    Days Off
-    
     {petSitter.daysOff.map(days => (
-        <div>
-          De <span>{dateFormat(days.start)}</span> a 
+        <div className='pt-2'>
+          Unavailable from <span>{dateFormat(days.start)}</span> to
           <span> {dateFormat(days.end)}</span>
         </div>
       ))}
-
+    </div>
     <Col sm={12} md={12} lg={12}>
     <Form
-      name="basic"
-      className='form'
-      labelCol={{
-        span: 8,
-      }}
-      wrapperCol={{
-        span: 16,
-      }}
+      className='profile-form'
       initialValues={{
         remember: true,
       }}
@@ -249,9 +241,10 @@ const Profile = () => {
           },
         ]}
       >
-
+        $
       <InputNumber  placeholder= {petSitter.ratePerNight}     
     />
+    MXN
       </Form.Item>
 
       {loadingServices ? (
@@ -315,16 +308,10 @@ const Profile = () => {
       >
         <Input />
       </Form.Item>
-      <Form.Item
-        wrapperCol={{
-          offset: 8,
-          span: 16,
-        }}
-      >
+
         <Button id='submit-button' type="primary" htmlType="submit">
-          Submit
+          Save
         </Button>
-      </Form.Item>
 
 
 
@@ -335,7 +322,7 @@ const Profile = () => {
     
     </Col>
     <Col>
-   Events
+   Upcoming Events:
     {
       petSitter.eventsOffered.map(event => (
         <div>
