@@ -135,6 +135,7 @@ const resolvers = {
             const filteredPetSitters = []
             let start = new Date(args.daysStart)
             let end = new Date(args.daysEnd)
+            
 
             //check for each Petsitter, for each daysOff if it is between the event dates, if none of the daysoff are between, then push the petSitter to the filtered array
 
@@ -143,7 +144,9 @@ const resolvers = {
 
                 for (let j = 0; j < petSitters[i].daysOff.length; j++) {
                     console.log(start < petSitters[i].daysOff[j].start)
-                    if (start < petSitters[i].daysOff[j].start < end || start < petSitters[i].daysOff[j].end < end) {
+                    let dayoffStart = new Date(parseInt(petSitters[i].daysOff[j].start))
+                    let dayoffEnd  = new Date(parseInt(petSitters[i].daysOff[j].end))
+                    if (start < dayoffStart < end || start < dayoffEnd < end) {
                         includesDaysOff = true
                     }
                 }

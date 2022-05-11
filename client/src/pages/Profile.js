@@ -340,7 +340,7 @@ const Profile = () => {
           {event.price}
           {event.status}
           {event.petsRating[0]}
-          {event.petsRating}
+          {event.petSitterRating}
         </div>
       ))
     }
