@@ -22,6 +22,7 @@ const LoginUser = () => {
 
       Auth.login(data.login.token);
     } catch (e) {
+      alert('Failed to login!')
       console.error(e);
     }
   };
