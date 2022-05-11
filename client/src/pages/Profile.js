@@ -6,7 +6,7 @@ import { Container, Row, Col } from 'react-bootstrap';
 import '../styles/loginUser.css';
 import { Form, Input, Button, Checkbox, InputNumber } from 'antd';
 
-import { GET_SERVICES, GET_HEALTHS, GET_SIZES, GET_SOCIABILITIES, QUERY_ME_PETSITTER} from '../utils/queries';
+import { GET_SERVICES, GET_HEALTHS, GET_SIZES, GET_SOCIABILITIES, QUERY_ME_PETSITTER, QUERY_ME_PETOWNER} from '../utils/queries';
 // import { GET_SIZES, GET_SERVICES, GET_HEALTHS, GET_SOCIABILITIES, QUERY_ME_PETSITTER } from '../utils/queries';
 import { UPDATE_AVAILABILTY, UPDATE_PETSITTER, ADD_DAYSOFF } from '../utils/mutations';
 
@@ -113,6 +113,7 @@ const Profile = () => {
   const { loading: loadingPetSitter, data: dataPetSitter } = useQuery(QUERY_ME_PETSITTER);
   const petSitter = dataPetSitter?.me.petSitter|| []
   console.log(petSitter)
+
 
   const { loading: loadingServices, data: dataServices} = useQuery(GET_SERVICES);
   const servicesList = dataServices?.services || []
