@@ -19,11 +19,42 @@ const CardPetSitter = ({
 }) => {
   const [show, setShow] = useState(false);
   const [petSitterSelect, setPetSitterSelect] = useState({});
+  const [average, setAverage] = useState({})
+  const [servicesOne, setServicesOne] = useState({})
+  const [sizesOne, setSizesOne] = useState({})
+  const [healthsOne, setHealthsOne] = useState({})
+  const [socialOne, setSocialsOne] = useState({})
+
+  const getAverage = (array) => {
+    console.log(array)
+    let total = 0;
+    for(let i = 0; i < array.length; i++) {
+        total += array[i];
+    }
+    let avg = total / array.length;
+    console.log(avg)
+    return avg
+  }
+
+  const simpleMap = (array) => {
+    const newArray = array.map(element =>{
+      return <ListGroupItem className="list-group-item h4 ">{element.name}</ListGroupItem>
+    })
+
+    return <ListGroup className="list-group-flush">{newArray}</ListGroup>
+  }
+
 
   const handleClose = () => setShow(false);
   const handleShow = (e, petSitter) => {
+    console.log(petSitter)
     setPetSitterSelect(petSitter);
     setShow(true);
+    setAverage(getAverage(petSitter.ratings))
+    setHealthsOne(simpleMap(petSitter.healthReady))
+    setServicesOne(simpleMap(petSitter.services))
+    setSizesOne(simpleMap(petSitter.sizes))
+    setSocialsOne(simpleMap(petSitter.socialReady))
   };
 
   return (
@@ -35,7 +66,7 @@ const CardPetSitter = ({
               key={petSitter._id}
               style={{ width: "18rem", margin: "2rem" }}
             >
-              <Card.Img variant="top" src="holder.js/100px180" />
+              {/* <Card.Img variant="top" src="holder.js/100px180" /> */}
               <Card.Body>
                 <Card.Title>{petSitter.name}</Card.Title>
                 <Card.Text>$ {petSitter.ratePerNight} MXN Per Night</Card.Text>
@@ -69,6 +100,12 @@ const CardPetSitter = ({
               daysOfEvent={daysOfEvent}
               dogsId={dogsId}
               price={petSitter.ratePerNight * totalDays}
+              ratings = {average}
+              services ={servicesOne}
+              sizes = {sizesOne}
+              healths = {healthsOne}
+              socials = {socialOne}
+
             />
           </>
         ))}

@@ -63,6 +63,7 @@ const typeDefs = gql`
   type PetSitters {
     _id: ID
     name: String
+    description: String
     ratePerNight: Float
     services: [TypeOfService]
     image: String

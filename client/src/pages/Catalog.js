@@ -29,6 +29,8 @@ const Catalog = () => {
 
   const [searchPetSitter, { error }] = useMutation(SEARCH_PETSITTERS);
 
+  
+
   const calculateDates = (day1, day2) => {
     const date1 = new Date(day1);
     const date2 = new Date(day2);

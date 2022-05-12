@@ -190,6 +190,7 @@ mutation Mutation($size: ID!, $health: ID!, $sociability: ID!, $daysStart: Strin
     _id
     name
     ratePerNight
+    description
     services {
       _id
       name

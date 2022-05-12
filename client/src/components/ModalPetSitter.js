@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Button, Modal } from "react-bootstrap";
 import { ADD_EVENT } from "../utils/mutations";
 import { PETSITTER } from "../utils/queries";
@@ -12,23 +12,22 @@ const ModalPetSitter = ({
   daysOfEvent,
   dogsId,
   price,
+  ratings,
+  services,
+  socials,
+  sizes,
+  healths
 }) => {
 
   const [AddEvent, { error }] = useMutation(ADD_EVENT);
-  const [petSitterInfo, setPetSitterInfo] = useState({});
-  const { loading, data } =useQuery(PETSITTER, {
-    variables: {
-      petSitterId: petSitter._id
-    }
-  });
-  setPetSitterInfo(data.petSitter)
+  // const [average, setAverage] = useState({})
 
   const makeReservation = async () =>{
     try {
       const addEvent = await AddEvent({
         variables: {
           petOwner: petOwnerId,
-          petSitter: petSitter,
+          petSitter: petSitter._id,
           daysOfEvent: daysOfEvent,
           pets: [dogsId],
           price: price
@@ -45,12 +44,23 @@ const ModalPetSitter = ({
   }
   };
 
-  const getAverage = (array) => {
-    const sum = array.reduce((a, b) => a + b, 0);
-    const avg = (sum / array.length) || 0;
-    return avg
-  }
 
+
+  // const getAverage = () => {
+  //   console.log(petSitter.ratings)
+  //   let total = 0;
+  //   for(let i = 0; i < petSitter.ratings.length; i++) {
+  //       total += average[i];
+  //   }
+  //   let avg = total / petSitter.ratings.length;
+  //   setAverage(avg)
+  // }
+
+  // useEffect(() => {
+  //   getAverage()
+  // }, [petSitter]);
+
+  
 
   // AddEvent($petOwner: ID!, $petSitter: ID!, $daysOfEvent: String!, $pets: [ID!], $price: Float)
 
@@ -61,39 +71,26 @@ const ModalPetSitter = ({
       <Modal.Header closeButton>
         <Modal.Title>{petSitter.name}</Modal.Title>
       </Modal.Header>
-      {loading ? (<div>loading..</div>) : (  
+  
       <Modal.Body>
-        Props for add a reservation: petOwnerId {petOwnerId}, petSitterId{" "}
-        {petSitter._id}, daysOfEvent {daysOfEvent}, petId {dogsId}, price{" "}
-        {price}
-        <h1>{petSitterInfo.name} <span>Rating: {getAverage(petSitterInfo.ratings)}</span></h1>
 
-        <p>{petSitterInfo.description}</p>
-        <ul>
-          {petSitterInfo.services.map(service =>{
-            <li>{service.name}</li>
-          })}
-        </ul>
-        <ul>
-          {petSitterInfo.sizes.map(size =>{
-            <li>{size.name}</li>
-          })}
-        </ul>
-        <ul>
-          {petSitterInfo.healthReady.map(health =>{
-            <li>{health.name}</li>
-          })}
-        </ul>
-        <ul>
-          {petSitterInfo.socialReady.map(social =>{
-            <li>{social.name}</li>
-          })}
-        </ul>
-        <p>Price for reservation: {price}</p>
+
+        <h1>Rating: {ratings}</h1>
+        <h3>{petSitter.description}</h3>
+        <h2>Services offered:</h2>
+        {services}
+        <h2>Sizes allowed:</h2>
+        {sizes}
+        <h2>Prepared for:</h2>
+        {healths} 
+        {socials}
+
+     
+        <h4>Price for reservation: ${price} MXN</h4>
 
 
 
-      </Modal.Body>)}
+      </Modal.Body>
     
       <Modal.Footer>
         <Button variant="secondary" onClick={onHide}>
