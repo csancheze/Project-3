@@ -13,12 +13,14 @@ import {
   QUERY_ME_PETSITTER,
   QUERY_ME_PETOWNER,
 } from "../utils/queries";
+
 // import { GET_SIZES, GET_SERVICES, GET_HEALTHS, GET_SOCIABILITIES, QUERY_ME_PETSITTER } from '../utils/queries';
 import {
   UPDATE_AVAILABILTY,
   UPDATE_PETSITTER,
   ADD_DAYSOFF,
 } from "../utils/mutations";
+
 
 const Profile = () => {
   const dateFormat = (date) => {
@@ -49,6 +51,7 @@ const Profile = () => {
     } catch (e) {
       console.error(e);
     }
+
   };
 
   const changeAvailability = async (e) => {
@@ -162,6 +165,7 @@ const Profile = () => {
   });
 
   const { loading: loadingSizes, data: dataSize } = useQuery(GET_SIZES);
+
   const sizesList = dataSize?.sizes || [];
 
   const sizes = [];
@@ -178,6 +182,7 @@ const Profile = () => {
   sociabilitiesList.map((sociability) => {
     sociabilities.push({ label: sociability.name, value: sociability._id });
   });
+
 
   //Function to upload image
   // const [baseImage, setBaseImage] = useState("")
@@ -273,6 +278,7 @@ const Profile = () => {
 
               {loadingServices ? (
                 <div>Loading...</div>
+
               ) : (
                 <Form.Item>
                   <p>Services</p>
