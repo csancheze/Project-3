@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import "antd/dist/antd.css";
 import { useMutation, useQuery } from "@apollo/client";
-import { Container, Row, Col, Card, ListGroup } from "react-bootstrap";
+import { Container, Row, Col, Card, ListGroup, ButtonGroup } from "react-bootstrap";
 import "../styles/loginUser.css";
 import "../styles/profile.css";
 import { Form, Input, Button, Radio } from "antd";
@@ -18,6 +18,7 @@ import {
   DELETE_EVENT,
   UPDATE_EVENT_STATUS,
   DELETE_PET,
+  ADD_PETSITTER_RATING,
 } from "../utils/mutations";
 
 const ProfilePetOwner = () => {
@@ -29,6 +30,7 @@ const ProfilePetOwner = () => {
   const [UpdateEventStatus] = useMutation(UPDATE_EVENT_STATUS);
   const [DeleteEvent] = useMutation(DELETE_EVENT);
   const [DeletePet] = useMutation(DELETE_PET);
+  const [AddPetSitterRating] = useMutation(ADD_PETSITTER_RATING)
 
   const deletePet = async (e, dogId) => {
     try {
@@ -193,6 +195,25 @@ const ProfilePetOwner = () => {
       console.error(e);
     }
   };
+
+  const addPetSitterRating = async (e, eventId, petSitterId, rating) => {
+    try {
+      const mutationResponse = await AddPetSitterRating({
+        variables: {
+          eventId: eventId,
+          petSitterId: petSitterId,
+          rating: rating
+        }
+      });
+      if (mutationResponse) {
+      
+        alert("Rating added");
+        window.location.assign("/profile-petowner");
+      }
+    } catch (e) {
+      console.error(e);
+    }
+  }
 
   return (
     <Container className="p-5 mr-0 ml-0">
@@ -364,6 +385,16 @@ const ProfilePetOwner = () => {
                           ? "No ratings yet"
                           : event.petSitterRating}
                       </ListGroup.Item>
+
+                           
+                      { !event.petsSitterRating  ? (<ButtonGroup>  
+                        <Button onClick={(e) => addPetSitterRating(e, event._id, event.petSitter._id, 1)}>1</Button>
+                        <Button onClick={(e) => addPetSitterRating(e, event._id, event.petSitter._id, 2)}>2</Button>
+                        <Button onClick={(e) => addPetSitterRating(e, event._id, event.petSitter._id, 3)}>3</Button>
+                        <Button onClick={(e) => addPetSitterRating(e, event._id, event.petSitter._id, 4)}>4</Button>
+                        <Button onClick={(e) => addPetSitterRating(e, event._id, event.petSitter._id, 5)}>5</Button>
+                        </ButtonGroup>) : (<span></span>)}
+                      
                       <ListGroup.Item>
                         {event.status === "Confirmed" ? (
                           <div>
