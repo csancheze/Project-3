@@ -44,10 +44,6 @@ const Nav = () => {
                 Home
               </NavLink>
               {Auth.loggedIn() ? (
-                <a href="/" onClick={() => Auth.logout()}>
-                  Logout
-                </a>
-              ) : (
                 <NavLink
                   style={({ isActive }) =>
                     isActive
@@ -62,6 +58,8 @@ const Nav = () => {
                 >
                   Catalog
                 </NavLink>
+              ) : (
+                <br></br>
               )}
               {Auth.loggedIn() ? (
                 <div>

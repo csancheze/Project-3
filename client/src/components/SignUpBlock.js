@@ -31,15 +31,18 @@ const SignUpBlock = () => {
             Sign up to look the perfect Pet Sitter match for your fur favorite
             member
           </p>
-          <NavLink to="/signup-user"><Button id='submit-button' type="primary" htmlType="submit">
-          Sign up
-        </Button>
-        </NavLink>
+          <NavLink to="/signup-user">
+            <Button id="submit-button" type="primary">
+              Sign up
+            </Button>
+          </NavLink>
           <p className="container-sign-up-block__info-text">
             If you want to be a
             <span style={{ fontWeight: "700" }}> Pet Sitter </span>
             please
-            <NavLink to="/signup-sitter"><Card.Link> Sign up</Card.Link></NavLink>
+            <NavLink to="/signup-sitter">
+              <Card.Link> Sign up</Card.Link>
+            </NavLink>
           </p>
         </div>
       </Col>

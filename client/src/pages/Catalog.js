@@ -1,61 +1,76 @@
 import React, { useState } from "react";
-import {
-  Container,
-  Form,
-  Row,
-  Col,
-  InputGroup,
-  Button,
-  FormControl,
-} from "react-bootstrap";
-import { useQuery } from "@apollo/client";
+import { Container, Form, Row, Col, Button } from "react-bootstrap";
+import { DateRangePicker } from "rsuite";
+import { useQuery, useLazyQuery } from "@apollo/client";
 import CheckBoxOptions from "../components/CheckBoxOptions";
-import { GET_SERVICES } from "../utils/queries";
+import DropDownOptions from "../components/DropDownOptions";
+import {
+  GET_SERVICES,
+  QUERY_ME_PETOWNER,
+  SEARCH_PETSITTERS,
+} from "../utils/queries";
 
 const Catalog = () => {
+  const [dog, setDog] = useState({});
+  const [dates, setDates] = useState([]);
+  const [services, setServices] = useState([]);
+
   const { loading: loadingServices, data: dataServices } =
     useQuery(GET_SERVICES);
 
-  // const { loading: loadingPetOwner, data: dataPetOwner } = useQuery(QUERY_ME_PETOWNER);
-  // console.log(dataPetOwner)
-  // const { loading: loadingPetSitters, data: dataPetSitters } = useQuery(SEARCH_PETSITTERS, {
-  // variables: {
-  //   services: ["3214234123","2342334"],
-  //   // size: dataPetOwner.me.petOwner.pet.size._id,
-  //   // health: dataPetOwner.me.petOwner.pet.health._id,
-  //   // sociability: dataPetOwner.me.petOwner.pet.sociability._id,
-  //   daysStart: "34255",
-  //   daysEnd: "2345234523"
-  // }
-  // });
-  // const petSittersResult = dataPetSitters || [];
-  // console.log(petSittersResult);
+  const { loading: loadingPetOwner, data: dataPetOwner } =
+    useQuery(QUERY_ME_PETOWNER);
 
+  const onChangeDaysOff = async (date) => {
+    setDates(date);
+  };
+
+  const [getPetSitters, { loadingPetSitters, error, dataPetSitters }] =
+    useLazyQuery(SEARCH_PETSITTERS);
+
+  const OnFinish = (e) => {
+    e.preventDefault();
+    getPetSitters({
+      variables: {
+        services: services,
+        size: dog?.size?._id,
+        health: dog?.health?._id,
+        sociability: dog?.sociability?._id,
+        daysStart: dates[0],
+        daysEnd: dates[1],
+      },
+    });
+    console.log(loadingPetSitters);
+  };
+
+  // import {createContext} from "react"
+  // const reservationContext = createContext(dataAddEvent);
+  //export const {Provider, Consumer} = CounterContext;
+
+  // export default reservationContext;
+  // add in context mutation AddEvent($petOwner: ID!, $petSitter: ID!, $daysOfEvent: String!, $pets: [ID!], $price: Float)
   return (
     <Container fluid>
-      <Form>
+      <Form name="basic" className="form">
         <Row className="align-items-center">
           <Col xs="auto">
-            <Form.Label htmlFor="inlineFormInput" visuallyHidden>
-              Name
-            </Form.Label>
-            <Form.Control
-              className="mb-2"
-              id="inlineFormInput"
-              placeholder="Jane Doe"
-            />
-          </Col>
-          <Col xs="auto">
-            <Form.Label htmlFor="inlineFormInputGroup" visuallyHidden>
-              Username
-            </Form.Label>
-            <InputGroup className="mb-2">
-              <InputGroup.Text>@</InputGroup.Text>
-              <FormControl id="inlineFormInputGroup" placeholder="Username" />
-            </InputGroup>
+            {loadingPetOwner ? (
+              <div>Loading...</div>
+            ) : (
+              <>
+                <Row>Select your pet:</Row>
+                <Row>
+                  <DropDownOptions
+                    title="Dog"
+                    data={dataPetOwner.me.petOwner.petsOwned}
+                    setDog={setDog}
+                  />
+                </Row>
+              </>
+            )}
           </Col>
 
-          <Col>
+          <Col xs="auto">
             <Row>
               {loadingServices ? (
                 <div>Loading...</div>
@@ -63,17 +78,36 @@ const Catalog = () => {
                 <CheckBoxOptions
                   title="Services"
                   data={dataServices.services}
+                  setServices={setServices}
                 />
               )}
             </Row>
           </Col>
+
           <Col xs="auto">
-            <Button type="submit" id="submit-button" className="mb-2">
+            <Row>Select your Days off:</Row>
+            <Row>
+              <DateRangePicker onOk={onChangeDaysOff} />
+            </Row>
+          </Col>
+
+          <Col xs="auto">
+            <Button
+              type="submit"
+              id="submit-button"
+              onClick={OnFinish}
+              className="mb-2"
+            >
               Search
             </Button>
           </Col>
         </Row>
       </Form>
+      {loadingPetSitters ? (
+        <div>Loading...</div>
+      ) : (
+        <p>{JSON.stringify(dataPetSitters)}</p>
+      )}
     </Container>
   );
 };
