@@ -52,23 +52,36 @@ const Nav = () => {
                 Home
               </NavLink>
               {Auth.loggedIn() ? (
-                <NavLink
-                  style={({ isActive }) =>
-                    isActive
-                      ? {
-                          color: "#83580b",
-                          backgroundColor: "#fde994",
-                          borderRadius: "10px",
-                        }
-                      : { color: "white" }
-                  }
-                  to="/catalog"
-                >
-                  Catalog
-                </NavLink>
+                <div>
+                  {loading ? (
+                    <p>loading</p>
+                  ) : (
+                    <div className="d-flex align-items-center">
+                      {data.me.user.role === "PetOwner" ? (
+                        <NavLink
+                          style={({ isActive }) =>
+                            isActive
+                              ? {
+                                  color: "#83580b",
+                                  backgroundColor: "#fde994",
+                                  borderRadius: "10px",
+                                }
+                              : { color: "white" }
+                          }
+                          to="/catalog"
+                        >
+                          Catalog
+                        </NavLink>
+                      ) : (
+                        <br></br>
+                      )}
+                    </div>
+                  )}
+                </div>
               ) : (
                 <br></br>
               )}
+
               {Auth.loggedIn() ? (
                 <div>
                   {loading ? (
