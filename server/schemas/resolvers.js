@@ -108,7 +108,7 @@ const resolvers = {
         },
 
         petSitter: async (parent, args, context) => {
-            return await PetSitter.findById(args.petSitter._id)
+            return await PetSitter.findById(args._id)
                 .populate('services')
                 .populate('sizes')
                 .populate('socialReady')
@@ -374,6 +374,12 @@ const resolvers = {
             const changeStatus = await Event.findByIdAndUpdate(
                 args._id, { status: args.status }
             )
+            if (changeStatus.status == "Paid") {
+                const addContactInfo = await Event.findByIdAndUpdate(
+                    args._id, { contactInfo: context.user.email}
+                )
+                return addContactInfo
+            }
             return changeStatus
         },
 

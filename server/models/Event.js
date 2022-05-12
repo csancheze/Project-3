@@ -43,6 +43,9 @@ const eventSchema = new Schema({
   } ],
   petSitterRating: {
     type: Number
+  },
+  contactInfo: {
+    type: String,
   }
 });
 

@@ -12,9 +12,6 @@ import { GET_HEALTHS, GET_SIZES, GET_SOCIABILITIES, QUERY_ME_PETOWNER } from '..
 import { ADD_PET } from '../utils/mutations';
 
 
-
-
-
 const ProfilePetOwner = () => {
   const dateFormat = (date) =>{
     let stringDate = new Date(parseInt(date)).toDateString()
@@ -71,7 +68,7 @@ const ProfilePetOwner = () => {
 
   const { loading: loadingPetOwner, data: dataPetOwner } = useQuery(QUERY_ME_PETOWNER); // 400ms 
   const petOwner = dataPetOwner?.me.petOwner || []
-  console.log(petOwner)
+  // console.log(petOwner)
 
   const { loading: loadingHealths, data: dataHealth } = useQuery(GET_HEALTHS);
   const healthsList = dataHealth?.healths || []
@@ -230,7 +227,7 @@ const ProfilePetOwner = () => {
                     <ListGroup>
                       <ListGroup.Item >Name: {pet.name}</ListGroup.Item>
                       <ListGroup.Item>Size: {pet.size.name}</ListGroup.Item>
-                      <ListGroup.Item>Description: {pet.description.name}</ListGroup.Item>
+                      <ListGroup.Item>Description: {pet.description}</ListGroup.Item>
                       <ListGroup.Item>Health: {pet.health.name}</ListGroup.Item>
                       <ListGroup.Item>Sociability: {pet.sociability.name}</ListGroup.Item>
                       <ListGroup.Item>Rating: {pet.ratings.name}</ListGroup.Item>
@@ -252,12 +249,12 @@ const ProfilePetOwner = () => {
                     <ListGroup>
                       <ListGroup.Item >Name: {event.petSitter.name}</ListGroup.Item>
                       <ListGroup.Item>Name: {event.pets[0].name}</ListGroup.Item>
-                      <ListGroup.Item>Start Date: {event.daysOfEvent.start}</ListGroup.Item>
-                      <ListGroup.Item>End Date: {event.daysOfEvent.end}</ListGroup.Item>
+                      <ListGroup.Item>Start Date: {dateFormat(event.daysOfEvent.start)}</ListGroup.Item>
+                      <ListGroup.Item>End Date: {dateFormat(event.daysOfEvent.end)}</ListGroup.Item>
                       <ListGroup.Item>Price: {event.price}</ListGroup.Item>
                       <ListGroup.Item>Status: {event.status}</ListGroup.Item>
                       <ListGroup.Item>Rating:  {event.petsRating[0]}</ListGroup.Item>
-                      <ListGroup.Item>Rating: {event.petsRating}</ListGroup.Item>
+                      <ListGroup.Item>Pet Sitter Rating: {event.petSitterRating}</ListGroup.Item>
                     </ListGroup>
                   </Card>
                 </div>

@@ -10,7 +10,7 @@ import { useMutation } from "@apollo/client";
 
 const LoginUser = () => {
   const [login, { error, data }] = useMutation(LOGIN_PETOWNER);
-  console.log(error + data);
+  // console.log(error + data);
 
   const onFinish = async (values) => {
     console.log("Success:", values);

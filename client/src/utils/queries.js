@@ -43,6 +43,7 @@ export const QUERY_ME_PETOWNER = gql`
           petsRating
           petSitterRating
           price
+          contactInfo
         }
       }
       user {
@@ -110,6 +111,7 @@ export const QUERY_ME_PETSITTER = gql`
           status
           petSitterRating
           petsRating
+          contactInfo
         }
       }
     }

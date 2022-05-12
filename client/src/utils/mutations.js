@@ -119,10 +119,10 @@ export const ADD_EVENT = gql`
 
 
 export const UPDATE_EVENT_STATUS = gql`
-  mutation UpdateEventStatus($id: ID!, $status: String) {
-    updateEventStatus(_id: $id, status: $status) {
+  mutation UpdateEventStatus($id: ID!, $status: String, $contactInfo: String) {
+    updateEventStatus(_id: $id, status: $status, contactInfo: $contactInfo) {
       _id
-      status 
+      status
       daysOfEvent {
         start
         end
@@ -190,6 +190,7 @@ mutation Mutation($size: ID!, $health: ID!, $sociability: ID!, $daysStart: Strin
     _id
     name
     ratePerNight
+    description
     services {
       _id
       name
