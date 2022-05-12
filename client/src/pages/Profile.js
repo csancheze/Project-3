@@ -210,162 +210,169 @@ const Profile = () => {
   // };
 
   return (
-    <Container className="container">
-      {loadingPetSitter ? (
-        <div>Loading</div>
-      ) : (
-        <Row>
-          <div>
-            <Button
-              id="available"
-              type="primary"
-              htmlType="button"
-              onClick={changeAvailability}
-            >
-              Change availability
-            </Button>
-            {petSitter.availability ? <p>Available</p> : <p>Not available</p>}
-          </div>
-          <div>
-            <label>Days Off: </label>
-            <DateRangePicker onOk={onChangeDaysOff} />
-          </div>
-          Days Off
-          {petSitter.daysOff.map((days) => (
-            <div>
-              De <span>{dateFormat(days.start)}</span> a
-              <span> {dateFormat(days.end)}</span>
-            </div>
-          ))}
-          <Col sm={12} md={12} lg={12}>
-            <Form
-              name="basic"
-              className="form"
-              labelCol={{
-                span: 8,
-              }}
-              wrapperCol={{
-                span: 16,
-              }}
-              initialValues={{
-                remember: true,
-              }}
-              onFinish={onFinish}
-              onFinishFailed={onFinishFailed}
-              autoComplete="off"
-            >
-              <Form.Item
-                label="Description"
-                name="description"
-                onChange={onChangeTextArea}
-                initialValue={petSitter.description}
-              >
-                <TextArea />
-              </Form.Item>
+    <Container className='container d-flex justify-content-center'>
+    
+    {loadingPetSitter ? (<div>Loading</div>) : (
 
-              <Form.Item
-                label="Rate per Night"
-                name="ratePerNight"
-                rules={[
-                  {
-                    required: true,
-                    message: "Please enter your rate!",
-                  },
-                ]}
-              >
-                <InputNumber placeholder={petSitter.ratePerNight} />
-              </Form.Item>
+    <Row lg={10} md={12} sm={10}>
+    <div id='availability'>
+    <div>
+    <Button id='submit-button' type="primary" htmlType="button" onClick={changeAvailability}>
+          Change availability
+    </Button>
+    { petSitter.availability ? (<p id="availability-status-available">Current status: Available</p>) : (<p id="availability-status-notAvailable">Current status: Not available</p>)}
+    </div>
 
-              {loadingServices ? (
-                <div>Loading...</div>
 
+    <div className='pt-2' >
+      <label>Days Off: </label>
+     <DateRangePicker onOk={onChangeDaysOff} />
+    </div>
+
+    {petSitter.daysOff.map(days => (
+        <div className='pt-2'>
+          Unavailable from <span>{dateFormat(days.start)}</span> to 
+          <span> {dateFormat(days.end)}</span>
+        </div>
+      ))}
+    </div>
+    <Col sm={12} md={12} lg={12}>
+    <Form
+      name="basic"
+      className='profile-form'
+      initialValues={{
+        remember: true,
+      }}
+      onFinish={onFinish}
+      onFinishFailed={onFinishFailed}
+      autoComplete="off"
+    >
+    <Form.Item
+    label= "Description"
+    name="description"  
+    onChange={onChangeTextArea} 
+    initialValue= {petSitter.description}
+    >
+    <TextArea 
+  
+      />
+    </Form.Item>
+   
+    <Form.Item
+        label="Rate per Night"
+        name="ratePerNight"
+       
+        rules={[
+          {
+            required: true,
+            message: 'Please enter your rate!',
+          },
+        ]}
+      >
+
+      <InputNumber  placeholder= {petSitter.ratePerNight}     
+    />
+      </Form.Item>
+
+      {loadingServices ? (
+          <div>Loading...</div>
+          ) : (
+      <Form.Item>
+      <p>Services</p>
+      
+      <Checkbox.Group
+        options={services}
+        name="services"
+        defaultValue={arrayOfIds(petSitter.services)}
+        onChange={onChangeServices}
+      />
+         
+         </Form.Item> )}
+      {loadingHealths ? (
+          <div>Loading...</div>
+          ) : (
+      <Form.Item>
+      <p>Healths</p>
+      <Checkbox.Group
+        options={healths}
+        name="health"
+        defaultValue={arrayOfIds(petSitter.healthReady)}
+        onChange={onChangeHealths}
+      />
+      </Form.Item> )}
+      {loadingSizes ? (
+        <div>Loading...</div>
+            ) : (
+        <Form.Item>
+        <p>Sizes</p>
+     
+        <Checkbox.Group
+          options={sizes}
+          name="sizes"
+          defaultValue={arrayOfIds(petSitter.sizes)}
+          onChange={onChangeSizes}
+        />
+        </Form.Item> )}
+
+        {loadingSociabilities ? (
+        <div>Loading...</div>
               ) : (
-                <Form.Item>
-                  <p>Services</p>
+          <Form.Item>
+          <p>Sociability</p>
+          <Checkbox.Group
+            options={sociabilities}
+            name = "sociabilities"
+            defaultValue={arrayOfIds(petSitter.socialReady)}
+            onChange={onChangeSociability}
+          />
+         </Form.Item> )}
 
-                  <Checkbox.Group
-                    options={services}
-                    name="services"
-                    defaultValue={arrayOfIds(petSitter.services)}
-                    onChange={onChangeServices}
-                  />
-                </Form.Item>
-              )}
-              {loadingHealths ? (
-                <div>Loading...</div>
-              ) : (
-                <Form.Item>
-                  <p>Healths</p>
-                  <Checkbox.Group
-                    options={healths}
-                    name="health"
-                    defaultValue={arrayOfIds(petSitter.healthReady)}
-                    onChange={onChangeHealths}
-                  />
-                </Form.Item>
-              )}
-              {loadingSizes ? (
-                <div>Loading...</div>
-              ) : (
-                <Form.Item>
-                  <p>Sizes</p>
 
-                  <Checkbox.Group
-                    options={sizes}
-                    name="sizes"
-                    defaultValue={arrayOfIds(petSitter.sizes)}
-                    onChange={onChangeSizes}
-                  />
-                </Form.Item>
-              )}
 
-              {loadingSociabilities ? (
-                <div>Loading...</div>
-              ) : (
-                <Form.Item>
-                  <p>Sociability</p>
-                  <Checkbox.Group
-                    options={sociabilities}
-                    name="sociabilities"
-                    defaultValue={arrayOfIds(petSitter.socialReady)}
-                    onChange={onChangeSociability}
-                  />
-                </Form.Item>
-              )}
+      <Form.Item
+        label="Image"
+        name="image"
+      >
+        <Input />
+      </Form.Item>
+      <Form.Item
+        wrapperCol={{
+          offset: 8,
+          span: 16,
+        }}
+      >
+        <Button id='submit-button' style={{display: "inline-block"}} type="primary" htmlType="submit">
+          Submit
+        </Button>
+      </Form.Item>
 
-              <Form.Item label="Image" name="image">
-                <Input />
-              </Form.Item>
-              <Form.Item
-                wrapperCol={{
-                  offset: 8,
-                  span: 16,
-                }}
-              >
-                <Button id="submit-button" type="primary" htmlType="submit">
-                  Submit
-                </Button>
-              </Form.Item>
 
-              {/* <NavLink id="message" to="/signup-user"> Don't have an account? Sign up</NavLink> */}
-            </Form>
-          </Col>
-          <Col>
-            Events
-            {petSitter.eventsOffered.map((event) => (
-              <div>
-                {event.petOwner.name}
-                {event.pets[0].name}
-                {dateFormat(event.daysOfEvent.start)}
-                {dateFormat(event.daysOfEvent.end)}
-                {event.price}
-                {event.status}
-                {event.petsRating[0]}
-                {event.petSitterRating}
-              </div>
-            ))}
-          </Col>
-        </Row>
+
+  
+
+      {/* <NavLink id="message" to="/signup-user"> Don't have an account? Sign up</NavLink> */}
+    </Form>
+    
+    </Col>
+    <Col>
+   Events
+    {
+      petSitter.eventsOffered.map(event => (
+        <div>
+          {event.petOwner.name}
+          {event.pets[0].name}
+          {dateFormat(event.daysOfEvent.start)}
+          {dateFormat(event.daysOfEvent.end)}
+          {event.price}
+          {event.status}
+          {event.petsRating[0]}
+          {event.petSitterRating}
+        </div>
+      ))
+    }
+    
+    </Col>
+    </Row>
       )}
     </Container>
   );

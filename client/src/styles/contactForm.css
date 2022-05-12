@@ -22,6 +22,7 @@
     border-radius: 10px;
     border: 0px;
     background-color: #83580b;
+    display: inline-block;
   }
   
   #submit-button:hover {
