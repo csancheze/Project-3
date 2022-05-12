@@ -1,8 +1,7 @@
-import React, { useState, useEffect } from "react";
+import React  from "react";
 import { Button, Modal } from "react-bootstrap";
 import { ADD_EVENT } from "../utils/mutations";
-import { PETSITTER } from "../utils/queries";
-import { useMutation, useQuery } from "@apollo/client";
+import { useMutation} from "@apollo/client";
 
 const ModalPetSitter = ({
   show,

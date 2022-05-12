@@ -374,6 +374,12 @@ const resolvers = {
             const changeStatus = await Event.findByIdAndUpdate(
                 args._id, { status: args.status }
             )
+            if (changeStatus.status == "Paid") {
+                const addContactInfo = await Event.findByIdAndUpdate(
+                    args._id, { contactInfo: context.user.email}
+                )
+                return addContactInfo
+            }
             return changeStatus
         },
 

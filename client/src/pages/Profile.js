@@ -1,7 +1,7 @@
 import { DateRangePicker } from "rsuite";
 // import { useState } from 'react';
 import { useMutation, useQuery } from "@apollo/client";
-import { Container, Row, Col } from "react-bootstrap";
+import { Container, Row, Col, Card, ListGroup} from "react-bootstrap";
 import "../styles/profile.css";
 import { Form, Input, Button, Checkbox, InputNumber } from "antd";
 
@@ -11,7 +11,6 @@ import {
   GET_SIZES,
   GET_SOCIABILITIES,
   QUERY_ME_PETSITTER,
-  QUERY_ME_PETOWNER,
 } from "../utils/queries";
 
 // import { GET_SIZES, GET_SERVICES, GET_HEALTHS, GET_SOCIABILITIES, QUERY_ME_PETSITTER } from '../utils/queries';
@@ -19,6 +18,7 @@ import {
   UPDATE_AVAILABILTY,
   UPDATE_PETSITTER,
   ADD_DAYSOFF,
+  UPDATE_EVENT_STATUS,
 } from "../utils/mutations";
 
 
@@ -31,6 +31,7 @@ const Profile = () => {
   const [updateAvailability] = useMutation(UPDATE_AVAILABILTY);
   const [UpdatePetSitter] = useMutation(UPDATE_PETSITTER);
   const [UpdateDaysOff] = useMutation(ADD_DAYSOFF);
+  const [UpdateEventStatus] = useMutation(UPDATE_EVENT_STATUS)
 
   const { TextArea } = Input;
   const onFinish = async (values) => {
@@ -75,6 +76,9 @@ const Profile = () => {
           end: date[1],
         },
       });
+      if (mutationResponse) {
+        alert("Days off added");
+      }
     } catch (err) {
       console.error("el error" + err);
     }
@@ -145,7 +149,7 @@ const Profile = () => {
     useQuery(QUERY_ME_PETSITTER); // 400ms
 
   const petSitter = dataPetSitter?.me.petSitter || [];
-  console.log(petSitter);
+ 
 
   const { loading: loadingServices, data: dataServices } =
     useQuery(GET_SERVICES);
@@ -349,23 +353,34 @@ const Profile = () => {
     </Form>
     
     </Col>
-    <Col>
+    <Col className= "d-flex flex-row">
    Events
-    {
-      petSitter.eventsOffered.map(event => (
-        <div>
-          {event.petOwner.name}
-          {event.pets[0].name}
-          {dateFormat(event.daysOfEvent.start)}
-          {dateFormat(event.daysOfEvent.end)}
-          {event.price}
-          {event.status}
-          {event.petsRating[0]}
-          {event.petSitterRating}
-        </div>
-      ))
-    }
-    
+
+                {
+               petSitter.eventsOffered.map(event => (
+                <div>
+                  <Card style={{ width: '18rem' }}>
+                    <Card.Header className="d-flex justify-content-center"></Card.Header>
+                    <ListGroup>
+                      <ListGroup.Item >Name: {event.petOwner.name}</ListGroup.Item>
+                      <ListGroup.Item>Name: {event.pets[0].name}</ListGroup.Item>
+                      <ListGroup.Item>Start Date: {dateFormat(event.daysOfEvent.start)}</ListGroup.Item>
+                      <ListGroup.Item>End Date: {dateFormat(event.daysOfEvent.end)}</ListGroup.Item>
+                      <ListGroup.Item>Price: {event.price}</ListGroup.Item>
+                      <ListGroup.Item>Status: {event.status}</ListGroup.Item>
+                      <ListGroup.Item>Rating:  {event.petsRating[0]}</ListGroup.Item>
+                      <ListGroup.Item>My Rating: {event.petSitterRating}</ListGroup.Item>
+                    </ListGroup>
+                  </Card>
+                  { event.status == "Reserved" ? (
+                  <div>
+                    <Button onClick={changeToConfirmed}>Confirm</Button>
+                    <Button onClick={changeToRejected}>Reject</Button></div>) : (<br></br>)}
+                  { event.status == "Paid" ? (<p>{event.contactInfo}</p>) : (<br></br>)}
+                  { event.status == "Confirmed" ? (<p>Wait for Payment</p>) : (<br></br>)}
+                </div>
+                   ))}
+                  
     </Col>
     </Row>
       )}
@@ -374,3 +389,31 @@ const Profile = () => {
 };
 
 export default Profile;
+
+const changeToConfirmed = () => {
+  // try {
+  //   const mutationResponse = await UpdateEventStatus({
+  //     variables: {
+  //       eventId: event.id
+  //       status: ,
+  //     },
+  //   });
+  //   console.log(mutationResponse);
+  //   if (mutationResponse) {
+  //     alert("Profile updated");
+  //     window.location.assign("/profile");
+  //   }
+  // } catch (e) {
+  //   console.error(e);
+  // }
+
+
+}
+
+const changeToRejected = () => {
+
+}
+
+const contact = () => {
+
+}

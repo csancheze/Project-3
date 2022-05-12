@@ -249,8 +249,8 @@ const ProfilePetOwner = () => {
                     <ListGroup>
                       <ListGroup.Item >Name: {event.petSitter.name}</ListGroup.Item>
                       <ListGroup.Item>Name: {event.pets[0].name}</ListGroup.Item>
-                      <ListGroup.Item>Start Date: {event.daysOfEvent.start}</ListGroup.Item>
-                      <ListGroup.Item>End Date: {event.daysOfEvent.end}</ListGroup.Item>
+                      <ListGroup.Item>Start Date: {dateFormat(event.daysOfEvent.start)}</ListGroup.Item>
+                      <ListGroup.Item>End Date: {dateFormat(event.daysOfEvent.end)}</ListGroup.Item>
                       <ListGroup.Item>Price: {event.price}</ListGroup.Item>
                       <ListGroup.Item>Status: {event.status}</ListGroup.Item>
                       <ListGroup.Item>Rating:  {event.petsRating[0]}</ListGroup.Item>
