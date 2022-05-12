@@ -9,7 +9,6 @@
     "install": "cd server && npm i && cd ../client && npm i",
     "seed": "cd server && npm run seed",
     "build": "cd client && npm run build",
-    "postinstall": "ng build"
   },
   "keywords": [],
   "author": "",
@@ -18,7 +17,6 @@
     "concurrently": "^5.1.0"
   },
   "dependencies": {
-    "postinstall": "^0.7.4",
     "react-router-dom": "^6.3.0",
     "rsuite": "^5.11.0"
   }
