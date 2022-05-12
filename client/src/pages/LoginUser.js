@@ -17,7 +17,7 @@ const LoginUser = () => {
     console.log('Success:', values);
     try {
       const { data } = await login({
-        variables: { ...values },
+        variables: { ...values },npm
       });
 
       Auth.login(data.login.token);
