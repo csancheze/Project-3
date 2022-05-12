@@ -291,11 +291,11 @@ const deleteDaysOff = async (e, daysId) => {
   // };
 
   return (
-    <Container className='container d-flex justify-content-center'>
+    <Container cclassName='p-5 mr-0 ml-0'>
     
     {loadingPetSitter ? (<div>Loading</div>) : (
 
-    <Row lg={10} md={12} sm={10}>
+    <Row>
     <div id='availability'>
     <div>
     <Button id='submit-button' type="primary" htmlType="button" onClick={changeAvailability}>
@@ -321,7 +321,7 @@ const deleteDaysOff = async (e, daysId) => {
         </div>
       ))}
     </div>
-    <Col sm={12} md={12} lg={12}>
+    <Col xl={6} lg={6} md={12} sm={12}>
     <Form
       name="basic"
       className='profile-form'
@@ -433,17 +433,17 @@ const deleteDaysOff = async (e, daysId) => {
     </Form>
     
     </Col>
-    <Col className= "d-flex flex-row">
-   Events
-
+    <Col className=  "pb-3" xl={6} lg={6} md={12} sm={12}>
+    <h4 className="pb-3">Your events:</h4>
+    <div id='event-container'>
                 {
                petSitter.eventsOffered.map(event => (
-                <div>
-                  <Card style={{ width: '18rem' }}>
+                <div className='pb-3'>
+                  <Card>
                     <Card.Header className="d-flex justify-content-center"></Card.Header>
                     <ListGroup>
-                      <ListGroup.Item >Name: {event.petOwner.name}</ListGroup.Item>
-                      <ListGroup.Item>Name: {event.pets[0]? (<span>{event.pets[0].name}</span>): (<span>Pet Deleted</span>)}</ListGroup.Item>
+                      <ListGroup.Item >Username: {event.petOwner.name}</ListGroup.Item>
+                      <ListGroup.Item>Pet name: {event.pets[0]? (<span>{event.pets[0].name}</span>): (<span>Pet Deleted</span>)}</ListGroup.Item>
                       <ListGroup.Item>Start Date: {dateFormat(event.daysOfEvent.start)}</ListGroup.Item>
                       <ListGroup.Item>End Date: {dateFormat(event.daysOfEvent.end)}</ListGroup.Item>
                       <ListGroup.Item>Price: {event.price}</ListGroup.Item>
@@ -465,6 +465,7 @@ const deleteDaysOff = async (e, daysId) => {
                  
                 </div>
                    ))}
+                   </div>
                   
     </Col>
     </Row>
