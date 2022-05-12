@@ -317,7 +317,7 @@ const ProfilePetOwner = () => {
               petOwner.eventsOwned.map(event => (
                 <div className='pb-3'>
                   <Card style={{ width: '18rem' }}>
-                    <Card.Header className="d-flex justify-content-center">Booking for {event.pets[0].name}</Card.Header>
+                    <Card.Header className="d-flex justify-content-center">Booking for {event.pets[0]? (<span>{event.pets[0].name}</span>): (<span> Pet Deleted</span>)}</Card.Header>
                     <ListGroup>
                       <ListGroup.Item >Name: {event.petSitter.name}</ListGroup.Item>
                       <ListGroup.Item>Pet name: {event.pets[0]? (<span>{event.pets[0].name}</span>): (<span>Pet Deleted</span>)}</ListGroup.Item>
