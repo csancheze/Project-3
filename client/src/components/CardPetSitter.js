@@ -64,13 +64,13 @@ const CardPetSitter = ({
           <>
             <Card
               key={petSitter._id}
-              style={{ width: "18rem", margin: "2rem", backgroundColor: "#2cccc4", borderRadius: "20px", border: "0px" }}
+              style={{ width: "18rem", margin: "2rem", backgroundColor: "#2cccc4", borderRadius: "20px", border: "0px", display: "grid" }}
             >
               {/* <Card.Img variant="top" src="holder.js/100px180" /> */}
-              <Card.Body>
-                <Card.Title>{petSitter.name}</Card.Title>
-                <Card.Text>$ {petSitter.ratePerNight} MXN Per Night</Card.Text>
-                <Card.Text>
+              <Card.Body style={{ margin: "auto"}}>
+                <Card.Title style={{ textAlign: "center"}}>{petSitter.name}</Card.Title>
+                <Card.Text style={{ textAlign: "center"}}>$ {petSitter.ratePerNight} MXN Per Night</Card.Text>
+                <Card.Text style={{ textAlign: "center", fontWeight: "bolder"}}>
                   TOTAL $ {petSitter.ratePerNight * totalDays} MXN{" "}
                 </Card.Text>
               </Card.Body>

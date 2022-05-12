@@ -28,7 +28,7 @@
 
 }
 
-#pet-container {
+#pet-container, #event-container {
     height: 80vh;
     overflow: scroll;
 }
@@ -36,3 +36,4 @@
 #search-bar {
     min-height: 80vh;
 }
+
