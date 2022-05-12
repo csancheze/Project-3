@@ -19,6 +19,8 @@ import {
   UPDATE_PETSITTER,
   ADD_DAYSOFF,
   UPDATE_EVENT_STATUS,
+  DELETE_EVENT,
+  DELETE_DAYSOFF
 } from "../utils/mutations";
 
 
@@ -32,6 +34,9 @@ const Profile = () => {
   const [UpdatePetSitter] = useMutation(UPDATE_PETSITTER);
   const [UpdateDaysOff] = useMutation(ADD_DAYSOFF);
   const [UpdateEventStatus] = useMutation(UPDATE_EVENT_STATUS)
+  const [DeleteEvent] = useMutation(DELETE_EVENT)
+  const [DeleteDaysOff] = useMutation(DELETE_DAYSOFF)
+
 
   const { TextArea } = Input;
   const onFinish = async (values) => {
@@ -187,6 +192,78 @@ const Profile = () => {
     sociabilities.push({ label: sociability.name, value: sociability._id });
   });
 
+  
+const changeToConfirmed =  async (e, id) => {
+  try {
+    const mutationResponse = await UpdateEventStatus({
+      variables: {
+        eventId: id,
+        status: "Confirmed"
+      },
+    });
+    console.log(mutationResponse);
+    if (mutationResponse) {
+      alert("Status Updated");
+      window.location.assign("/profile");
+    }
+  } catch (e) {
+    console.error(e);
+  }
+}
+
+const changeToRejected = async (e ,id) => {
+  try {
+    const mutationResponse = await UpdateEventStatus({
+      variables: {
+        eventId: id,
+        status: "Rejected"
+      },
+    });
+    console.log(id)
+    console.log(mutationResponse);
+    if (mutationResponse) {
+      alert("Status Updated");
+      window.location.assign("/profile");
+    }
+  } catch (e) {
+    console.error(e);
+  }
+}
+
+const deleteEvent = async (e, eventId, petSitterId, petOwnerId) => {
+  try {
+    const mutationResponse = await DeleteEvent({
+      variables: {
+        eventId: eventId,
+        petSitterId: petSitterId,
+        petOwnerId: petOwnerId
+      },
+    });
+    if (mutationResponse) {
+      alert("Event deleted!");
+      window.location.assign("/profile");
+    }
+  } catch (e) {
+    console.error(e);
+  }
+}
+
+const deleteDaysOff = async (e, daysId) => {
+  console.log(daysId)
+  try {
+    const mutationResponse = await DeleteDaysOff({
+      variables: {
+        rangeId: daysId
+      }
+    });
+    if (mutationResponse) {
+      alert("Days off Deleted!");
+      window.location.assign("/profile");
+    }
+  } catch (e) {
+    console.error(e);
+  }
+}
 
   //Function to upload image
   // const [baseImage, setBaseImage] = useState("")
@@ -238,6 +315,9 @@ const Profile = () => {
         <div className='pt-2'>
           Unavailable from <span>{dateFormat(days.start)}</span> to 
           <span> {dateFormat(days.end)}</span>
+          <ListGroup.Item>
+          <Button onClick={(e) => deleteDaysOff(e, days._id)}>Delete</Button>
+          </ListGroup.Item>
         </div>
       ))}
     </div>
@@ -363,21 +443,26 @@ const Profile = () => {
                     <Card.Header className="d-flex justify-content-center"></Card.Header>
                     <ListGroup>
                       <ListGroup.Item >Name: {event.petOwner.name}</ListGroup.Item>
-                      <ListGroup.Item>Name: {event.pets[0].name}</ListGroup.Item>
+                      <ListGroup.Item>Name: {event.pets[0]? (<span>{event.pets[0].name}</span>): (<span>Pet Deleted</span>)}</ListGroup.Item>
                       <ListGroup.Item>Start Date: {dateFormat(event.daysOfEvent.start)}</ListGroup.Item>
                       <ListGroup.Item>End Date: {dateFormat(event.daysOfEvent.end)}</ListGroup.Item>
                       <ListGroup.Item>Price: {event.price}</ListGroup.Item>
                       <ListGroup.Item>Status: {event.status}</ListGroup.Item>
                       <ListGroup.Item>Rating:  {event.petsRating[0]}</ListGroup.Item>
                       <ListGroup.Item>My Rating: {event.petSitterRating}</ListGroup.Item>
+                      <ListGroup.Item> 
+                  { event.status === "Reserved" ? (
+                  <div>
+                    <Button onClick={(e) => changeToConfirmed(e, event._id)}>Confirm</Button>
+                    <Button onClick={(e) => changeToRejected(e, event._id)}>Reject</Button>
+                    </div>) : (<span></span>)}
+                  { event.status === "Paid" ? ( <a href={`mailto:${event.contactInfo}`} rel="noreferrer" target="_blank">Contact Client Soon!</a>) : (<span></span>)}
+                  { event.status === "Confirmed" ? (<p>Wait for Payment</p>) : (<span></span>)}
+                  { event.status === "Rejected" ? (<Button onClick={(e) => deleteEvent(e, event._id, event.petSitter._id, event.petOwner._id)}>Delete</Button>) : (<span></span>)}
+                  </ListGroup.Item>
                     </ListGroup>
                   </Card>
-                  { event.status == "Reserved" ? (
-                  <div>
-                    <Button onClick={changeToConfirmed}>Confirm</Button>
-                    <Button onClick={changeToRejected}>Reject</Button></div>) : (<br></br>)}
-                  { event.status == "Paid" ? (<p>{event.contactInfo}</p>) : (<br></br>)}
-                  { event.status == "Confirmed" ? (<p>Wait for Payment</p>) : (<br></br>)}
+                 
                 </div>
                    ))}
                   
@@ -389,31 +474,3 @@ const Profile = () => {
 };
 
 export default Profile;
-
-const changeToConfirmed = () => {
-  // try {
-  //   const mutationResponse = await UpdateEventStatus({
-  //     variables: {
-  //       eventId: event.id
-  //       status: ,
-  //     },
-  //   });
-  //   console.log(mutationResponse);
-  //   if (mutationResponse) {
-  //     alert("Profile updated");
-  //     window.location.assign("/profile");
-  //   }
-  // } catch (e) {
-  //   console.error(e);
-  // }
-
-
-}
-
-const changeToRejected = () => {
-
-}
-
-const contact = () => {
-
-}
