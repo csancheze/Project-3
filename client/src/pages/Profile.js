@@ -1,4 +1,5 @@
 import { DateRangePicker } from 'rsuite';
+// import { useState } from 'react';
 import { useMutation, useQuery } from '@apollo/client';
 import { Container, Row, Col } from 'react-bootstrap';
 import '../styles/profile.css';
@@ -8,6 +9,7 @@ import { Form, Input, Button, Checkbox, InputNumber } from 'antd';
 import { GET_SERVICES, GET_HEALTHS, GET_SIZES, GET_SOCIABILITIES, QUERY_ME_PETSITTER, QUERY_ME_PETOWNER} from '../utils/queries';
 // import { GET_SIZES, GET_SERVICES, GET_HEALTHS, GET_SOCIABILITIES, QUERY_ME_PETSITTER } from '../utils/queries';
 import { UPDATE_AVAILABILTY, UPDATE_PETSITTER, ADD_DAYSOFF } from '../utils/mutations';
+
 
 
 
@@ -29,13 +31,10 @@ const Profile = () => {
       variables: {
         description: values.description,
         ratePerNight: values.ratePerNight,
-        image: values.image,
+        // image: baseImage,
       }
     })
     console.log( values.ratePerNight)
-    if (mutationResponse) {
-      alert("Your information has been updated.")
-    }
     return mutationResponse 
 
   };
@@ -177,38 +176,69 @@ const Profile = () => {
     sociabilities.push({ label: sociability.name, value: sociability._id })
   })
 
+  //Function to upload image
+  // const [baseImage, setBaseImage] = useState("")
 
+  // const uploadImage = async (e) =>{
+  //   const file = e.target.files[0]
+  //   const base64 = await convertBase64(file)
+  //   setBaseImage(base64);
+  //   console.log(base64);
+  // };
+
+  // const convertBase64 = (file) => {
+  //   return new Promise((resolve, reject) => {
+  //     const fileReader = new FileReader();
+  //     fileReader.readAsDataURL(file);
+
+  //     fileReader.onload = (() => {
+  //       resolve(fileReader.result);
+  //     });
+
+  //     fileReader.onerror = ((error) => {
+  //       reject(error);
+  //     });
+  //   });
+  // };
 
   return (
-     <Container className='container d-flex justify-content-center'>
+    <Container className='container'>
     
     {loadingPetSitter ? (<div>Loading</div>) : (
 
-    <Row className='col-10'>
-    <div id='availability'>
+    <Row>
     <div>
-    <Button id='submit-button' type="primary" htmlType="button" onClick={changeAvailability}>
+    <Button id='available' type="primary" htmlType="button" onClick={changeAvailability}>
           Change availability
     </Button>
-    { petSitter.availability ? (<p id="availability-status-available">Current status: Available</p>) : (<p id="availability-status-notAvailable">Current status: Not available</p>)}
+    { petSitter.availability ? (<p>Available</p>) : (<p>Not available</p>)}
     </div>
 
 
-    <div  className='pt-2'>
+    <div  >
       <label>Days Off: </label>
      <DateRangePicker onOk={onChangeDaysOff} />
     </div>
     
+    Days Off
+    
     {petSitter.daysOff.map(days => (
-        <div className='pt-2'>
-          Unavailable from <span>{dateFormat(days.start)}</span> to
+        <div>
+          De <span>{dateFormat(days.start)}</span> a 
           <span> {dateFormat(days.end)}</span>
         </div>
       ))}
-    </div>
+
     <Col sm={12} md={12} lg={12}>
     <Form
-      className='profile-form'
+      name="basic"
+      className='form'
+      labelCol={{
+        span: 8,
+      }}
+      wrapperCol={{
+        span: 16,
+      }}
       initialValues={{
         remember: true,
       }}
@@ -238,10 +268,9 @@ const Profile = () => {
           },
         ]}
       >
-        $
+
       <InputNumber  placeholder= {petSitter.ratePerNight}     
     />
-    MXN
       </Form.Item>
 
       {loadingServices ? (
@@ -305,10 +334,16 @@ const Profile = () => {
       >
         <Input />
       </Form.Item>
-
+      <Form.Item
+        wrapperCol={{
+          offset: 8,
+          span: 16,
+        }}
+      >
         <Button id='submit-button' type="primary" htmlType="submit">
-          Save
+          Submit
         </Button>
+      </Form.Item>
 
 
 
@@ -319,7 +354,7 @@ const Profile = () => {
     
     </Col>
     <Col>
-   Upcoming Events:
+   Events
     {
       petSitter.eventsOffered.map(event => (
         <div>
