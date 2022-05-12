@@ -16,7 +16,7 @@ import { ADD_PET } from '../utils/mutations';
 
 
 const ProfilePetOwner = () => {
-  const dateFormat = (date) => {
+  const dateFormat = (date) =>{
     let stringDate = new Date(parseInt(date)).toDateString()
     return stringDate
   }
@@ -35,26 +35,26 @@ const ProfilePetOwner = () => {
     }
     console.log(variables)
     try {
-      const mutationResponse = await AddPet({
-        variables: {
-          owner: petOwner._id,
-          description: values.description,
-          name: values.name,
-          image: values.image,
-          size: state.size,
-          health: state.health,
-          sociability: state.social
-        }
-      })
-      console.log(mutationResponse)
-      if (mutationResponse) {
-        alert("Pet added")
-        window.location.assign('/profile-petowner')
+    const mutationResponse = await AddPet({
+      variables: {
+        owner: petOwner._id,
+        description: values.description,
+        name: values.name,
+        image: values.image,
+        size: state.size,
+        health: state.health,
+        sociability: state.social
       }
-    } catch (e) {
-      console.error(e);
-    };
-  }
+    })
+    console.log(mutationResponse) 
+    if (mutationResponse) {
+      alert("Pet added")
+      window.location.assign('/profile-petowner')
+    }
+  } catch (e) {
+   console.error(e);
+  };
+}
 
   const onFinishFailed = (errorInfo) => {
     console.log('Failed:', errorInfo);
@@ -219,23 +219,47 @@ const ProfilePetOwner = () => {
               {/* <NavLink id="message" to="/signup-user"> Don't have an account? Sign up</NavLink> */}
             </Form>
 
-            ))
-    
-
           </Col>
+          <Col>
+            Pets
+            {
+              petOwner.petsOwned.map(pet => (
+                <div>
+                  <Card style={{ width: '18rem' }}>
+                    <Card.Header className="d-flex justify-content-center"><img className="cardImage" src={require("../images/puppy.jpeg")}></img></Card.Header>
+                    <ListGroup>
+                      <ListGroup.Item >Name: {pet.name}</ListGroup.Item>
+                      <ListGroup.Item>Size: {pet.size.name}</ListGroup.Item>
+                      <ListGroup.Item>Description: {pet.description.name}</ListGroup.Item>
+                      <ListGroup.Item>Health: {pet.health.name}</ListGroup.Item>
+                      <ListGroup.Item>Sociability: {pet.sociability.name}</ListGroup.Item>
+                      <ListGroup.Item>Rating: {pet.ratings.name}</ListGroup.Item>
+
+                    </ListGroup>
+                  </Card>
+                </div>
+              ))
+            }
+          </Col>
+
           <Col>
             Events
             {
               petOwner.eventsOwned.map(event => (
                 <div>
-                  {event.petSitter.name}
-                  {event.pets[0].name}
-                  {dateFormat(event.daysOfEvent.start)}
-                  {dateFormat(event.daysOfEvent.end)}
-                  {event.price}
-                  {event.status}
-                  {event.petsRating[0]}
-                  {event.petSitterRating}
+                  <Card style={{ width: '18rem' }}>
+                    <Card.Header className="d-flex justify-content-center"></Card.Header>
+                    <ListGroup>
+                      <ListGroup.Item >Name: {event.petSitter.name}</ListGroup.Item>
+                      <ListGroup.Item>Name: {event.pets[0].name}</ListGroup.Item>
+                      <ListGroup.Item>Start Date: {event.daysOfEvent.start}</ListGroup.Item>
+                      <ListGroup.Item>End Date: {event.daysOfEvent.end}</ListGroup.Item>
+                      <ListGroup.Item>Price: {event.price}</ListGroup.Item>
+                      <ListGroup.Item>Status: {event.status}</ListGroup.Item>
+                      <ListGroup.Item>Rating:  {event.petsRating[0]}</ListGroup.Item>
+                      <ListGroup.Item>Rating: {event.petsRating}</ListGroup.Item>
+                    </ListGroup>
+                  </Card>
                 </div>
               ))
             }
