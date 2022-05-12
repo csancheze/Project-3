@@ -202,43 +202,36 @@ const Profile = () => {
   // };
 
   return (
-    <Container className='container'>
+    <Container className='container d-flex justify-content-center'>
     
     {loadingPetSitter ? (<div>Loading</div>) : (
 
-    <Row>
+    <Row lg={10} md={12} sm={10}>
+    <div id='availability'>
     <div>
-    <Button id='available' type="primary" htmlType="button" onClick={changeAvailability}>
+    <Button id='submit-button' type="primary" htmlType="button" onClick={changeAvailability}>
           Change availability
     </Button>
-    { petSitter.availability ? (<p>Available</p>) : (<p>Not available</p>)}
+    { petSitter.availability ? (<p id="availability-status-available">Current status: Available</p>) : (<p id="availability-status-notAvailable">Current status: Not available</p>)}
     </div>
 
 
-    <div  >
+    <div className='pt-2' >
       <label>Days Off: </label>
      <DateRangePicker onOk={onChangeDaysOff} />
     </div>
-    
-    Days Off
-    
+
     {petSitter.daysOff.map(days => (
-        <div>
-          De <span>{dateFormat(days.start)}</span> a 
+        <div className='pt-2'>
+          Unavailable from <span>{dateFormat(days.start)}</span> to 
           <span> {dateFormat(days.end)}</span>
         </div>
       ))}
-
+    </div>
     <Col sm={12} md={12} lg={12}>
     <Form
       name="basic"
-      className='form'
-      labelCol={{
-        span: 8,
-      }}
-      wrapperCol={{
-        span: 16,
-      }}
+      className='profile-form'
       initialValues={{
         remember: true,
       }}
@@ -340,7 +333,7 @@ const Profile = () => {
           span: 16,
         }}
       >
-        <Button id='submit-button' type="primary" htmlType="submit">
+        <Button id='submit-button' style={{display: "inline-block"}} type="primary" htmlType="submit">
           Submit
         </Button>
       </Form.Item>
