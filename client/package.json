@@ -2,7 +2,7 @@
   "name": "pet-sitter",
   "version": "0.1.0",
   "private": true,
-  "homepage": "/",
+  "homepage": "./",
   "proxy": "http://localhost:3001",
   "dependencies": {
     "@apollo/client": "^3.6.2",
