@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Container, Form, Row, Col, Button, Card } from "react-bootstrap";
+import { Container, Form, Row, Col, Button } from "react-bootstrap";
 import { DateRangePicker } from "rsuite";
 import { useQuery, useMutation } from "@apollo/client";
 import CheckBoxOptions from "../components/CheckboxOptions";
@@ -7,7 +7,7 @@ import DropDownOptions from "../components/DropDownOptions";
 import { GET_SERVICES, QUERY_ME_PETOWNER } from "../utils/queries";
 import { SEARCH_PETSITTERS } from "../utils/mutations";
 import CardPetSitter from "../components/CardPetSitter";
-import '../styles/profile.css';
+import "../styles/profile.css";
 
 const Catalog = () => {
   const [dog, setDog] = useState({});
@@ -29,8 +29,6 @@ const Catalog = () => {
   };
 
   const [searchPetSitter, { error }] = useMutation(SEARCH_PETSITTERS);
-
-
 
   const calculateDates = (day1, day2) => {
     const date1 = new Date(day1);
@@ -64,14 +62,19 @@ const Catalog = () => {
   };
   return (
     <Container fluid id="search-bar">
-      <Form name="basic" className="d-flex justify-content-around p-4 text-center">
+      <Form
+        name="basic"
+        className="d-flex justify-content-around p-4 text-center"
+      >
         <Row className="border border-3 rounded p-3">
           <Col xxl={3} xl={3} lg={3} md={6} sm={12}>
             {loadingPetOwner ? (
               <div>Loading...</div>
             ) : (
               <>
-                <Row className="d-flex justify-content-around">Select your pet:</Row>
+                <Row className="d-flex justify-content-around">
+                  Select your pet:
+                </Row>
                 <Row>
                   <DropDownOptions
                     title="Dog"
@@ -98,7 +101,9 @@ const Catalog = () => {
           </Col>
 
           <Col xxl={3} xl={3} lg={3} md={6} sm={12}>
-            <Row className="d-flex justify-content-around">Select your dates:</Row>
+            <Row className="d-flex justify-content-around">
+              Select your dates:
+            </Row>
             <Row>
               <DateRangePicker onOk={onChangeDaysOff} />
             </Row>
@@ -129,7 +134,7 @@ const Catalog = () => {
           />
         </Row>
       ) : (
-        <br />
+        <h1 className="d-flex justify-content-around">No Pet Sitters</h1>
       )}
     </Container>
   );
