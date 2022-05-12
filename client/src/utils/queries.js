@@ -32,11 +32,15 @@ export const QUERY_ME_PETOWNER = gql`
             _id
           }
           daysOfEvent {
+            _id
             start
             end
           }
           petSitter {
             name
+            _id
+          }
+          petOwner {
             _id
           }
           status
@@ -89,6 +93,7 @@ export const QUERY_ME_PETSITTER = gql`
         ratings
         availability
         daysOff {
+          _id
           start
           end
         }
@@ -106,6 +111,9 @@ export const QUERY_ME_PETSITTER = gql`
             _id
             start
             end
+          }
+          petSitter {
+            _id
           }
           price
           status

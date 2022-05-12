@@ -42,6 +42,13 @@ const resolvers = {
                         .populate([{
                             path: 'eventsOffered',
                             populate: {
+                                path: 'petSitter',
+                                model: 'PetSitter'
+                            }
+                        }])
+                        .populate([{
+                            path: 'eventsOffered',
+                            populate: {
                                 path: 'daysOfEvent',
                                 model: 'RangeOfDays'
                             }
@@ -89,6 +96,13 @@ const resolvers = {
                             populate: {
                                 path: 'petSitter',
                                 model: 'PetSitter'
+                            }
+                        }])
+                        .populate([{
+                            path: 'eventsOwned',
+                            populate: {
+                                path: 'petOwner',
+                                model: 'PetOwner'
                             }
                         }])
                         .populate([{
@@ -372,11 +386,16 @@ const resolvers = {
 
         updateEventStatus: async (parent, args, context) => {
             const changeStatus = await Event.findByIdAndUpdate(
-                args._id, { status: args.status }
+                args.eventId, { status: args.status }, {
+                    new: true
+                  }
             )
+            console.log(args.eventId)
+            console.log(args.status)
+            console.log(changeStatus)
             if (changeStatus.status == "Paid") {
                 const addContactInfo = await Event.findByIdAndUpdate(
-                    args._id, { contactInfo: context.user.email}
+                    args.eventId, { contactInfo: context.user.email}
                 )
                 return addContactInfo
             }
@@ -452,6 +471,19 @@ const resolvers = {
                 $pull: { daysOff: args.rangeId }
             })
             return { ...PetSitter }
+        },
+
+        deleteEvent: async (parent, args, context) => {
+            const event = await Event.findByIdAndDelete({ _id: args.eventId })
+            const petSitterData = await PetSitter.findByIdAndUpdate({ _id: args.petSitterId }, {
+                $pull: { eventsOffered: args.eventId }
+            })
+            console.log(petSitterData)
+            const petOwnerData = await PetOwner.findByIdAndUpdate({ _id: args.petOwnerId}, {
+                $pull: { eventsOwned: args.eventId }
+            })
+            console.log(petOwnerData)
+            return { event }
         },
 
     },

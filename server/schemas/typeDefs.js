@@ -171,7 +171,7 @@ const typeDefs = gql`
     addDaysOff(start: String!, end: String!): PetSitterProfile
     addPet(owner:ID!, name: String!, size: ID!, description: String, image: String, health: ID!, sociability: ID!): Pet
     addEvent(petOwner: ID!, pets: [ID!], petSitter: ID!, daysOfEvent: String!, price: Float): Event
-    updateEventStatus(_id: ID!, status: String, contactInfo: String): Event
+    updateEventStatus(eventId: ID!, status: String, contactInfo: String): Event
     updatePetSitter( 
       services:[ID]
       ratePerNight: Float
@@ -185,6 +185,7 @@ const typeDefs = gql`
     addPetRating( eventId: ID!, dogId: ID!, name:String! rating: Int): Pet
     deletePet(dogId: ID!): Pet
     deleteDaysOff(rangeId: ID!): PetSitterProfile
+    deleteEvent(eventId:ID!,  petSitterId: ID, petOwnerId: ID): Event
     updateAvailability(availability: Boolean): PetSitter
   }
  
