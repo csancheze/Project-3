@@ -63,14 +63,14 @@ const Catalog = () => {
   };
   return (
     <Container fluid id="search-bar">
-      <Form name="basic" className="form">
-        <Row className="align-items-center">
-          <Col xs="auto">
+      <Form name="basic" className="d-flex justify-content-around p-4 text-center">
+        <Row className="border border-3 rounded p-3">
+          <Col xxl={3} xl={3} lg={3} md={6} sm={12}>
             {loadingPetOwner ? (
               <div>Loading...</div>
             ) : (
               <>
-                <Row>Select your pet:</Row>
+                <Row className="d-flex justify-content-around">Select your pet:</Row>
                 <Row>
                   <DropDownOptions
                     title="Dog"
@@ -82,13 +82,13 @@ const Catalog = () => {
             )}
           </Col>
 
-          <Col xs="auto">
-            <Row>
+          <Col xxl={3} xl={3} lg={3} md={6} sm={12}>
+            <Row className="d-flex justify-content-center">
               {loadingServices ? (
                 <div>Loading...</div>
               ) : (
                 <CheckBoxOptions
-                  title="Services"
+                  title="Services:"
                   data={dataServices.services}
                   setServices={setServices}
                 />
@@ -96,14 +96,14 @@ const Catalog = () => {
             </Row>
           </Col>
 
-          <Col xs="auto">
-            <Row>Select your dates:</Row>
+          <Col xxl={3} xl={3} lg={3} md={6} sm={12}>
+            <Row className="d-flex justify-content-around">Select your dates:</Row>
             <Row>
               <DateRangePicker onOk={onChangeDaysOff} />
             </Row>
           </Col>
 
-          <Col xs="auto">
+          <Col xxl={3} xl={3} lg={3} md={6} sm={12}>
             <Button
               type="submit"
               id="submit-button"

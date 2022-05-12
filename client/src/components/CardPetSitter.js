@@ -80,7 +80,7 @@ const CardPetSitter = ({
                 {petSitter.services.map((services) => (
                   <ListGroupItem>{services.name}</ListGroupItem>
                 ))}
-                <ListGroupItem style={{ backgroundColor: "#2cccc4" }}>
+                <ListGroupItem style={{ backgroundColor: "#2cccc4" }} className="d-flex justify-content-center">
                   <NavLink to="/pet-sitter">
                     <Button
                       onClick={(e) => handleShow(e, petSitter)}
