@@ -269,7 +269,6 @@ const Profile = () => {
           },
         ]}
       >
-
       <InputNumber  placeholder= {petSitter.ratePerNight}     
     />
       </Form.Item>
@@ -329,18 +328,13 @@ const Profile = () => {
 
 
 
-      <Form.Item
+      {/* <Form.Item
         label="Image"
         name="image"
       >
         <Input />
-      </Form.Item>
-      <Form.Item
-        wrapperCol={{
-          offset: 8,
-          span: 16,
-        }}
-      >
+      </Form.Item> */}
+      <Form.Item>
         <Button id='submit-button' style={{display: "inline-block"}} type="primary" htmlType="submit">
           Submit
         </Button>
