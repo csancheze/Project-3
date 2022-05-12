@@ -64,7 +64,7 @@ const CardPetSitter = ({
           <>
             <Card
               key={petSitter._id}
-              style={{ width: "18rem", margin: "2rem" }}
+              style={{ width: "18rem", margin: "2rem", backgroundColor: "#2cccc4", borderRadius: "20px", border: "0px" }}
             >
               {/* <Card.Img variant="top" src="holder.js/100px180" /> */}
               <Card.Body>
@@ -75,12 +75,12 @@ const CardPetSitter = ({
                 </Card.Text>
               </Card.Body>
 
-              <Card.Subtitle>Services</Card.Subtitle>
+              <Card.Subtitle>Services:</Card.Subtitle>
               <ListGroup className="list-group-flush">
                 {petSitter.services.map((services) => (
                   <ListGroupItem>{services.name}</ListGroupItem>
                 ))}
-                <ListGroupItem>
+                <ListGroupItem style={{ backgroundColor: "#2cccc4" }}>
                   <NavLink to="/pet-sitter">
                     <Button
                       onClick={(e) => handleShow(e, petSitter)}

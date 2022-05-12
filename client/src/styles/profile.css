@@ -4,6 +4,7 @@
     max-width: 100vw;
     padding: 30px;
     border-radius: 30px;
+    color: #575757;
   }
 
 #availability {
@@ -25,4 +26,13 @@
     width: 223px;
     height: auto;
 
+}
+
+#pet-container {
+    height: 80vh;
+    overflow: scroll;
+}
+
+#search-bar {
+    min-height: 80vh;
 }

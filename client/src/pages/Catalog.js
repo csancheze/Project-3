@@ -7,6 +7,7 @@ import DropDownOptions from "../components/DropDownOptions";
 import { GET_SERVICES, QUERY_ME_PETOWNER } from "../utils/queries";
 import { SEARCH_PETSITTERS } from "../utils/mutations";
 import CardPetSitter from "../components/CardPetSitter";
+import '../styles/profile.css';
 
 const Catalog = () => {
   const [dog, setDog] = useState({});
@@ -61,7 +62,7 @@ const Catalog = () => {
     }
   };
   return (
-    <Container fluid>
+    <Container fluid id="search-bar">
       <Form name="basic" className="form">
         <Row className="align-items-center">
           <Col xs="auto">
@@ -123,6 +124,7 @@ const Catalog = () => {
             petOwnerId={petOwnerId}
             daysOfEvent={daysOfEvent}
             dogsId={dog._id}
+            id="search-card"
           />
         </Row>
       ) : (

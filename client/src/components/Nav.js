@@ -70,7 +70,7 @@ const Nav = () => {
                           }
                           to="/catalog"
                         >
-                          Catalog
+                          Search Petsitter
                         </NavLink>
                       ) : (
                         <br></br>
