@@ -117,23 +117,17 @@ const ProfilePetOwner = () => {
 
 
   return (
-    <Container>
+    <Container className='p-5 mr-0 ml-0'>
 
       {loadingPetOwner ? (<div>Loading</div>) : (
 
         <Row>
 
-          <Col>
-            Add Pet
+          <Col lg={6} md={12} sm={12} className="pb-3">
+          <h4 className="pb-3">Add a new pet</h4>
             <Form
               name="basic"
               className='profile-form'
-              labelCol={{
-                span: 8,
-              }}
-              wrapperCol={{
-                span: 16,
-              }}
               initialValues={{
                 remember: true,
               }}
@@ -195,12 +189,12 @@ const ProfilePetOwner = () => {
 
 
 
-              <Form.Item
+              {/* <Form.Item
                 label="Image"
                 name="image"
               >
                 <Input />
-              </Form.Item>
+              </Form.Item> */}
               <Form.Item
                 wrapperCol={{
                   offset: 8,
@@ -217,11 +211,12 @@ const ProfilePetOwner = () => {
             </Form>
 
           </Col>
-          <Col>
-            Pets
+          <Col lg={3} md={12} sm={12} className="pb-3">
+            <h4 className="pb-3">Your pets</h4>
+            <div id='pet-container'>
             {
               petOwner.petsOwned.map(pet => (
-                <div>
+                <div className="d-flex justify-content-center pb-3">
                   <Card style={{ width: '18rem' }}>
                     <Card.Header className="d-flex justify-content-center"><img className="cardImage" src={require("../images/puppy.jpeg")}></img></Card.Header>
                     <ListGroup>
@@ -237,10 +232,11 @@ const ProfilePetOwner = () => {
                 </div>
               ))
             }
+            </div>
           </Col>
 
-          <Col>
-            Events
+          <Col lg={3} md={12} sm={12} className="pb-3">
+          <h4 className="pb-3">Upcoming events</h4>
             {
               petOwner.eventsOwned.map(event => (
                 <div>
