@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Container, Form, Row, Col, Button } from "react-bootstrap";
 import { DateRangePicker } from "rsuite";
-import { useQuery, useLazyQuery, useMutation } from "@apollo/client";
+import { useQuery, useMutation } from "@apollo/client";
 import CheckBoxOptions from "../components/CheckboxOptions";
 import DropDownOptions from "../components/DropDownOptions";
 import { GET_SERVICES, QUERY_ME_PETOWNER } from "../utils/queries";
