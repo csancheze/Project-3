@@ -237,14 +237,15 @@ const ProfilePetOwner = () => {
 
           <Col lg={3} md={12} sm={12} className="pb-3">
           <h4 className="pb-3">Upcoming events</h4>
+          <div id='event-container'>
             {
               petOwner.eventsOwned.map(event => (
-                <div>
+                <div className='pb-3'>
                   <Card style={{ width: '18rem' }}>
-                    <Card.Header className="d-flex justify-content-center"></Card.Header>
+                    <Card.Header className="d-flex justify-content-center">Booking for {event.pets[0].name}</Card.Header>
                     <ListGroup>
                       <ListGroup.Item >Name: {event.petSitter.name}</ListGroup.Item>
-                      <ListGroup.Item>Name: {event.pets[0].name}</ListGroup.Item>
+                      <ListGroup.Item>Pet name: {event.pets[0].name}</ListGroup.Item>
                       <ListGroup.Item>Start Date: {dateFormat(event.daysOfEvent.start)}</ListGroup.Item>
                       <ListGroup.Item>End Date: {dateFormat(event.daysOfEvent.end)}</ListGroup.Item>
                       <ListGroup.Item>Price: {event.price}</ListGroup.Item>
@@ -256,6 +257,7 @@ const ProfilePetOwner = () => {
                 </div>
               ))
             }
+            </div>
 
           </Col>
         </Row>
