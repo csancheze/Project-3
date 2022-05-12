@@ -66,27 +66,26 @@ const ModalPetSitter = ({
   return (
     
     <Modal show={show} onHide={onHide}>
-      
+     <div style={{ backgroundColor: "#2cccc4" }}>
       <Modal.Header closeButton>
         <Modal.Title>{petSitter.name}</Modal.Title>
       </Modal.Header>
   
-      <Modal.Body>
+      <Modal.Body className="pb-3">
 
-
-        <h1>Rating: {ratings}</h1>
-        <h3>{petSitter.description}</h3>
-        <h2>Services offered:</h2>
-        {services}
-        <h2>Sizes allowed:</h2>
-        {sizes}
-        <h2>Prepared for:</h2>
+        <h3>Petsitter description:</h3>
+        <p className="pb-3">{petSitter.description}</p>
+        <h3>Services offered:</h3>
+        <p className="pb-3">{services}</p>
+        <h3>Sizes allowed:</h3>
+        <p className="pb-3">{sizes}</p>
+        <h3>Prepared for:</h3>
         {healths} 
-        {socials}
+        <p className="pb-3">{socials}</p>
+        <h3>Rating: {ratings}</h3>
 
      
-        <h4>Price for reservation: ${price} MXN</h4>
-
+        <h1>Price for reservation: ${price} MXN</h1>
 
 
       </Modal.Body>
@@ -99,6 +98,7 @@ const ModalPetSitter = ({
           Make a Reservation
         </Button>
       </Modal.Footer>
+      </div> 
     </Modal>
   );
 };
