@@ -134,6 +134,7 @@ const resolvers = {
 
             const filteredPetSitters = []
             let start = new Date(args.daysStart)
+            console.log(start)
             let end = new Date(args.daysEnd)
             
 
@@ -195,6 +196,52 @@ const resolvers = {
     },
 
     Mutation: {
+
+        petSitters: async (parent, args, context) => {
+            const petSitters = await PetSitter.
+                find({
+                    availability: true,
+                    services: { $in: args.services },
+                    sizes: { $in: args.size },
+                    healthReady: { $in: args.health },
+                    socialReady: { $in: args.sociability }
+                })
+                .populate('services')
+                .populate('sizes')
+                .populate('socialReady')
+                .populate('healthReady')
+                .populate('daysOff')
+                .sort({ ratePerNight: -1 })
+
+            console.log(petSitters)
+
+            const filteredPetSitters = []
+            let start = new Date(args.daysStart)
+            console.log(start)
+            let end = new Date(args.daysEnd)
+            
+
+            //check for each Petsitter, for each daysOff if it is between the event dates, if none of the daysoff are between, then push the petSitter to the filtered array
+
+            for (let i = 0; i < petSitters.length; i++) {
+                let includesDaysOff = false
+
+                for (let j = 0; j < petSitters[i].daysOff.length; j++) {
+                    console.log(start < petSitters[i].daysOff[j].start)
+                    let dayoffStart = new Date(parseInt(petSitters[i].daysOff[j].start))
+                    let dayoffEnd  = new Date(parseInt(petSitters[i].daysOff[j].end))
+                    if (start < dayoffStart < end || start < dayoffEnd < end) {
+                        includesDaysOff = true
+                    }
+                }
+                if (includesDaysOff === false) {
+                    console.log(petSitters[i])
+                    filteredPetSitters.push(petSitters[i])
+                }
+            }
+            return filteredPetSitters
+        },
+
 
         addPetSitterUser: async (parent, args) => {
             try {

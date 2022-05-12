@@ -141,6 +141,7 @@ const typeDefs = gql`
   }
 
   type Mutation {
+    petSitters(services: [ID!], size: ID!, health: ID!, sociability:ID!, daysStart:String!, daysEnd:String!): [PetSitters]
     login(email: String!, password: String!): Auth
     addUser(username: String!, email: String!, password: String!, role: String!): Auth
     addPetSitterUser(

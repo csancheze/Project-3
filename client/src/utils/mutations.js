@@ -184,3 +184,36 @@ mutation DeleteDaysOff($rangeId: ID!) {
   }
 }
 `
+export const SEARCH_PETSITTERS = gql`
+mutation Mutation($size: ID!, $health: ID!, $sociability: ID!, $daysStart: String!, $daysEnd: String!, $services: [ID!]) {
+  petSitters(size: $size, health: $health, sociability: $sociability, daysStart: $daysStart, daysEnd: $daysEnd, services: $services) {
+    _id
+    name
+    ratePerNight
+    services {
+      _id
+      name
+    }
+    image
+    sizes {
+      _id
+      name
+    }
+    healthReady {
+      _id
+      name
+    }
+    socialReady {
+      name
+      _id
+    }
+    ratings
+    availability
+    daysOff {
+      _id
+      start
+      end
+    }
+  }
+}
+`
