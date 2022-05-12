@@ -119,8 +119,8 @@ export const ADD_EVENT = gql`
 
 
 export const UPDATE_EVENT_STATUS = gql`
-  mutation UpdateEventStatus($id: ID!, $status: String, $contactInfo: String) {
-    updateEventStatus(_id: $id, status: $status, contactInfo: $contactInfo) {
+  mutation UpdateEventStatus($eventId: ID!, $status: String, $contactInfo: String) {
+    updateEventStatus(eventId: $eventId, status: $status, contactInfo: $contactInfo) {
       _id
       status
       daysOfEvent {
@@ -180,6 +180,15 @@ mutation DeletePet($dogId: ID!) {
 export const DELETE_DAYSOFF = gql`
 mutation DeleteDaysOff($rangeId: ID!) {
   deleteDaysOff(rangeId: $rangeId) {
+    _id
+  }
+}
+`
+
+
+export const DELETE_EVENT = gql`
+mutation DeleteEvent($eventId: ID!, $petOwnerId: ID!, $petSitterId: ID!) {
+  deleteEvent(eventId: $eventId, petOwnerId: $petOwnerId, petSitterId: $petSitterId) {
     _id
   }
 }

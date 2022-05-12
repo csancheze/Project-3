@@ -42,6 +42,13 @@ const resolvers = {
                         .populate([{
                             path: 'eventsOffered',
                             populate: {
+                                path: 'petSitter',
+                                model: 'PetSitter'
+                            }
+                        }])
+                        .populate([{
+                            path: 'eventsOffered',
+                            populate: {
                                 path: 'daysOfEvent',
                                 model: 'RangeOfDays'
                             }
@@ -89,6 +96,13 @@ const resolvers = {
                             populate: {
                                 path: 'petSitter',
                                 model: 'PetSitter'
+                            }
+                        }])
+                        .populate([{
+                            path: 'eventsOwned',
+                            populate: {
+                                path: 'petOwner',
+                                model: 'PetOwner'
                             }
                         }])
                         .populate([{
@@ -216,10 +230,9 @@ const resolvers = {
             console.log(petSitters)
 
             const filteredPetSitters = []
-            let start = new Date(args.daysStart)
-            console.log(start)
-            let end = new Date(args.daysEnd)
-            
+            let startSearch = new Date(args.daysStart)
+            let endSearch = new Date(args.daysEnd)
+          
 
             //check for each Petsitter, for each daysOff if it is between the event dates, if none of the daysoff are between, then push the petSitter to the filtered array
 
@@ -227,15 +240,19 @@ const resolvers = {
                 let includesDaysOff = false
 
                 for (let j = 0; j < petSitters[i].daysOff.length; j++) {
-                    console.log(start < petSitters[i].daysOff[j].start)
-                    let dayoffStart = new Date(parseInt(petSitters[i].daysOff[j].start))
-                    let dayoffEnd  = new Date(parseInt(petSitters[i].daysOff[j].end))
-                    if (start < dayoffStart < end || start < dayoffEnd < end) {
+                    
+
+                    let dayoffStart = new Date(petSitters[i].daysOff[j].start)
+                    let dayoffEnd  = new Date(petSitters[i].daysOff[j].end)
+                    console.log("compare", startSearch , dayoffStart, dayoffEnd)
+                    if (startSearch > dayoffStart && startSearch < dayoffEnd ) {
+                        includesDaysOff = true
+                    }
+                    if (endSearch > dayoffStart && endSearch < dayoffEnd) {
                         includesDaysOff = true
                     }
                 }
                 if (includesDaysOff === false) {
-                    console.log(petSitters[i])
                     filteredPetSitters.push(petSitters[i])
                 }
             }
@@ -372,11 +389,16 @@ const resolvers = {
 
         updateEventStatus: async (parent, args, context) => {
             const changeStatus = await Event.findByIdAndUpdate(
-                args._id, { status: args.status }
+                args.eventId, { status: args.status }, {
+                    new: true
+                  }
             )
+            console.log(args.eventId)
+            console.log(args.status)
+            console.log(changeStatus)
             if (changeStatus.status == "Paid") {
                 const addContactInfo = await Event.findByIdAndUpdate(
-                    args._id, { contactInfo: context.user.email}
+                    args.eventId, { contactInfo: context.user.email}
                 )
                 return addContactInfo
             }
@@ -452,6 +474,19 @@ const resolvers = {
                 $pull: { daysOff: args.rangeId }
             })
             return { ...PetSitter }
+        },
+
+        deleteEvent: async (parent, args, context) => {
+            const event = await Event.findByIdAndDelete({ _id: args.eventId })
+            const petSitterData = await PetSitter.findByIdAndUpdate({ _id: args.petSitterId }, {
+                $pull: { eventsOffered: args.eventId }
+            })
+            console.log(petSitterData)
+            const petOwnerData = await PetOwner.findByIdAndUpdate({ _id: args.petOwnerId}, {
+                $pull: { eventsOwned: args.eventId }
+            })
+            console.log(petOwnerData)
+            return { event }
         },
 
     },

@@ -9,7 +9,7 @@ import { Form, Input, Button, Radio } from 'antd';
 
 import { GET_HEALTHS, GET_SIZES, GET_SOCIABILITIES, QUERY_ME_PETOWNER } from '../utils/queries';
 
-import { ADD_PET } from '../utils/mutations';
+import { ADD_PET, DELETE_EVENT, UPDATE_EVENT_STATUS, DELETE_PET } from '../utils/mutations';
 
 
 const ProfilePetOwner = () => {
@@ -18,6 +18,25 @@ const ProfilePetOwner = () => {
     return stringDate
   }
   const [AddPet] = useMutation(ADD_PET)
+  const [UpdateEventStatus] = useMutation(UPDATE_EVENT_STATUS)
+  const [DeleteEvent] = useMutation(DELETE_EVENT)
+  const [DeletePet] = useMutation(DELETE_PET)
+
+  const deletePet = async (e, dogId) => {
+    try {
+      const mutationResponse = await DeletePet({
+        variables: {
+          dogId: dogId,
+        },
+      });
+      if (mutationResponse) {
+        alert("Pet deleted!");
+        window.location.assign("/profile-petowner");
+      }
+    } catch (e) {
+      console.error(e);
+    }
+  }
 
   const onFinish = async (values) => {
     console.log('Success:', values);
@@ -115,6 +134,61 @@ const ProfilePetOwner = () => {
     console.log(state)
   };
 
+  const changeToPaid =  async (e, id) => {
+    try {
+      const mutationResponse = await UpdateEventStatus({
+        variables: {
+          eventId: id,
+          status: "Paid"
+        },
+      });
+      console.log(mutationResponse);
+      if (mutationResponse) {
+        alert("Congratulations! Wait for the Pet Sitter to get in contact. If you don't have an answer in a couple of hours. Contact us for a refund");
+        window.location.assign("/profile-petowner");
+      }
+    } catch (e) {
+      console.error(e);
+    }
+  }
+  
+  const changeToRejected = async (e ,id) => {
+    try {
+      const mutationResponse = await UpdateEventStatus({
+        variables: {
+          eventId: id,
+          status: "Rejected"
+        },
+      });
+      console.log(id)
+      console.log(mutationResponse);
+      if (mutationResponse) {
+        alert("Status Updated");
+        window.location.assign("/profile-petowner");
+      }
+    } catch (e) {
+      console.error(e);
+    }
+  }
+  
+  const deleteEvent = async (e, eventId, petSitterId, petOwnerId) => {
+    console.log(eventId, petSitterId, petOwnerId)
+    try {
+      const mutationResponse = await DeleteEvent({
+        variables: {
+          eventId: eventId,
+          petSitterId: petSitterId,
+          petOwnerId: petOwnerId
+        },
+      });
+      if (mutationResponse) {
+        alert("Event deleted!");
+        window.location.assign("/profile-petowner");
+      }
+    } catch (e) {
+      console.error(e);
+    }
+  }
 
   return (
     <Container className='p-5 mr-0 ml-0'>
@@ -226,7 +300,8 @@ const ProfilePetOwner = () => {
                       <ListGroup.Item>Health: {pet.health.name}</ListGroup.Item>
                       <ListGroup.Item>Sociability: {pet.sociability.name}</ListGroup.Item>
                       <ListGroup.Item>Rating: {pet.ratings.name}</ListGroup.Item>
-
+                      <ListGroup.Item><Button onClick={(e) => deletePet(e, pet._id)}>Delete</Button>
+                      </ListGroup.Item>
                     </ListGroup>
                   </Card>
                 </div>
@@ -244,15 +319,29 @@ const ProfilePetOwner = () => {
                     <Card.Header className="d-flex justify-content-center"></Card.Header>
                     <ListGroup>
                       <ListGroup.Item >Name: {event.petSitter.name}</ListGroup.Item>
-                      <ListGroup.Item>Name: {event.pets[0].name}</ListGroup.Item>
+                      <ListGroup.Item>Name: {event.pets[0]? (<span>{event.pets[0].name}</span>): (<span>Pet Deleted</span>)}</ListGroup.Item>
                       <ListGroup.Item>Start Date: {dateFormat(event.daysOfEvent.start)}</ListGroup.Item>
                       <ListGroup.Item>End Date: {dateFormat(event.daysOfEvent.end)}</ListGroup.Item>
                       <ListGroup.Item>Price: {event.price}</ListGroup.Item>
                       <ListGroup.Item>Status: {event.status}</ListGroup.Item>
                       <ListGroup.Item>Rating:  {event.petsRating[0]}</ListGroup.Item>
                       <ListGroup.Item>Pet Sitter Rating: {event.petSitterRating}</ListGroup.Item>
+                      <ListGroup.Item>  
+                        { event.status === "Confirmed" ? (
+                    <div>
+                    <Button onClick={(e) => changeToPaid(e, event._id)}>Pay</Button>
+                    <Button onClick={(e) => changeToRejected(e, event._id)}>Reject</Button>
+                    </div>) : (<span></span>)}
+                  { event.status === "Paid" ? (<p>Wait for Pet Sitter Contact</p>) : (<span></span>)}
+                  { event.status === "Reserved" ? (<p>Wait for Pet Sitter Response</p>) : (<span></span>)}
+                  { event.status === "Rejected" ? (
+                  <div>
+                    <Button onClick={(e) => deleteEvent(e, event._id, event.petSitter._id, event.petOwner._id)}>Delete</Button><a href='/catalog'>Find someone else!</a>
+                    </div>) : (<span></span>)}
+                  </ListGroup.Item>
                     </ListGroup>
                   </Card>
+                 
                 </div>
               ))
             }
@@ -266,3 +355,4 @@ const ProfilePetOwner = () => {
 };
 
 export default ProfilePetOwner;
+
