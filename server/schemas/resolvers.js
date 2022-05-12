@@ -108,7 +108,7 @@ const resolvers = {
         },
 
         petSitter: async (parent, args, context) => {
-            return await PetSitter.findById(args.petSitter._id)
+            return await PetSitter.findById(args._id)
                 .populate('services')
                 .populate('sizes')
                 .populate('socialReady')
