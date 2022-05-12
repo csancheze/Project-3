@@ -8,7 +8,7 @@ import { NavLink } from "react-router-dom";
 const SignUpBlock = () => {
   return (
     <Row className="container-sign-up-block">
-      <Col sm={12} md={12} lg={6} className="container-sign-up-block__col">
+      <Col sm={12} md={12} lg={6} className="container-sign-up-block__col p-0">
         <Image
           src={SignUpImage}
           rounded
