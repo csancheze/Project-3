@@ -19,42 +19,45 @@ const CardPetSitter = ({
 }) => {
   const [show, setShow] = useState(false);
   const [petSitterSelect, setPetSitterSelect] = useState({});
-  const [average, setAverage] = useState({})
-  const [servicesOne, setServicesOne] = useState({})
-  const [sizesOne, setSizesOne] = useState({})
-  const [healthsOne, setHealthsOne] = useState({})
-  const [socialOne, setSocialsOne] = useState({})
+  const [average, setAverage] = useState({});
+  const [servicesOne, setServicesOne] = useState({});
+  const [sizesOne, setSizesOne] = useState({});
+  const [healthsOne, setHealthsOne] = useState({});
+  const [socialOne, setSocialsOne] = useState({});
 
   const getAverage = (array) => {
-    console.log(array)
+    console.log(array);
     let total = 0;
-    for(let i = 0; i < array.length; i++) {
-        total += array[i];
+    for (let i = 0; i < array.length; i++) {
+      total += array[i];
     }
     let avg = total / array.length;
-    console.log(avg)
-    return avg
-  }
+    console.log(avg);
+    return avg;
+  };
 
   const simpleMap = (array) => {
-    const newArray = array.map(element =>{
-      return <ListGroupItem className="list-group-item h4 ">{element.name}</ListGroupItem>
-    })
+    const newArray = array.map((element) => {
+      return (
+        <ListGroupItem className="list-group-item h4 ">
+          {element.name}
+        </ListGroupItem>
+      );
+    });
 
-    return <ListGroup className="list-group-flush">{newArray}</ListGroup>
-  }
-
+    return <ListGroup className="list-group-flush">{newArray}</ListGroup>;
+  };
 
   const handleClose = () => setShow(false);
   const handleShow = (e, petSitter) => {
-    console.log(petSitter)
+    console.log(petSitter);
     setPetSitterSelect(petSitter);
     setShow(true);
-    setAverage(getAverage(petSitter.ratings))
-    setHealthsOne(simpleMap(petSitter.healthReady))
-    setServicesOne(simpleMap(petSitter.services))
-    setSizesOne(simpleMap(petSitter.sizes))
-    setSocialsOne(simpleMap(petSitter.socialReady))
+    setAverage(getAverage(petSitter.ratings));
+    setHealthsOne(simpleMap(petSitter.healthReady));
+    setServicesOne(simpleMap(petSitter.services));
+    setSizesOne(simpleMap(petSitter.sizes));
+    setSocialsOne(simpleMap(petSitter.socialReady));
   };
 
   return (
@@ -64,13 +67,26 @@ const CardPetSitter = ({
           <>
             <Card
               key={petSitter._id}
-              style={{ width: "18rem", margin: "2rem", backgroundColor: "#2cccc4", borderRadius: "20px", border: "0px", display: "grid" }}
+              style={{
+                width: "18rem",
+                margin: "2rem",
+                backgroundColor: "#2cccc4",
+                borderRadius: "20px",
+                border: "0px",
+                display: "grid",
+              }}
             >
               {/* <Card.Img variant="top" src="holder.js/100px180" /> */}
-              <Card.Body style={{ margin: "auto"}}>
-                <Card.Title style={{ textAlign: "center"}}>{petSitter.name}</Card.Title>
-                <Card.Text style={{ textAlign: "center"}}>$ {petSitter.ratePerNight} MXN Per Night</Card.Text>
-                <Card.Text style={{ textAlign: "center", fontWeight: "bolder"}}>
+              <Card.Body style={{ margin: "auto" }}>
+                <Card.Title style={{ textAlign: "center" }}>
+                  {petSitter.name}
+                </Card.Title>
+                <Card.Text style={{ textAlign: "center" }}>
+                  $ {petSitter.ratePerNight} MXN Per Night
+                </Card.Text>
+                <Card.Text
+                  style={{ textAlign: "center", fontWeight: "bolder" }}
+                >
                   TOTAL $ {petSitter.ratePerNight * totalDays} MXN{" "}
                 </Card.Text>
               </Card.Body>
@@ -80,7 +96,10 @@ const CardPetSitter = ({
                 {petSitter.services.map((services) => (
                   <ListGroupItem>{services.name}</ListGroupItem>
                 ))}
-                <ListGroupItem style={{ backgroundColor: "#2cccc4" }} className="d-flex justify-content-center">
+                <ListGroupItem
+                  style={{ backgroundColor: "#2cccc4" }}
+                  className="d-flex justify-content-center"
+                >
                   <NavLink to="/pet-sitter">
                     <Button
                       onClick={(e) => handleShow(e, petSitter)}
@@ -99,13 +118,12 @@ const CardPetSitter = ({
               petOwnerId={petOwnerId}
               daysOfEvent={daysOfEvent}
               dogsId={dogsId}
-              price={petSitter.ratePerNight * totalDays}
-              ratings = {average}
-              services ={servicesOne}
-              sizes = {sizesOne}
-              healths = {healthsOne}
-              socials = {socialOne}
-
+              price={petSitterSelect.ratePerNight * totalDays}
+              ratings={average}
+              services={servicesOne}
+              sizes={sizesOne}
+              healths={healthsOne}
+              socials={socialOne}
             />
           </>
         ))}
