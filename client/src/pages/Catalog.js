@@ -50,14 +50,15 @@ const Catalog = () => {
           daysEnd: dates[1],
         },
       });
+ 
       setPetSitter(dataPetSitter);
       calculateDates(dates[0], dates[1]);
       setPetOwnerId(dataPetOwner.me.petOwner._id);
-      setDaysOfEvent(dates.toString());
+      setDaysOfEvent(dates.toString());    
     } catch (e) {
       alert("Failed to fetch petsitter!");
       console.error(e, error);
-    }
+    } 
   };
   return (
     <Container fluid id="search-bar">

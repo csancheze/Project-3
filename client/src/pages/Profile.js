@@ -1,9 +1,10 @@
 import { DateRangePicker } from "rsuite";
 // import { useState } from 'react';
 import { useMutation, useQuery } from "@apollo/client";
-import { Container, Row, Col, Card, ListGroup} from "react-bootstrap";
+import { Container, Row, Col, Card, ListGroup, ButtonGroup} from "react-bootstrap";
 import "../styles/profile.css";
 import { Form, Input, Button, Checkbox, InputNumber } from "antd";
+import React, { useState } from 'react';
 
 import {
   GET_SERVICES,
@@ -20,7 +21,8 @@ import {
   ADD_DAYSOFF,
   UPDATE_EVENT_STATUS,
   DELETE_EVENT,
-  DELETE_DAYSOFF
+  DELETE_DAYSOFF,
+  ADD_PET_RATING
 } from "../utils/mutations";
 
 
@@ -30,13 +32,14 @@ const Profile = () => {
     return stringDate;
   };
 
+
   const [updateAvailability] = useMutation(UPDATE_AVAILABILTY);
   const [UpdatePetSitter] = useMutation(UPDATE_PETSITTER);
   const [UpdateDaysOff] = useMutation(ADD_DAYSOFF);
   const [UpdateEventStatus] = useMutation(UPDATE_EVENT_STATUS)
   const [DeleteEvent] = useMutation(DELETE_EVENT)
   const [DeleteDaysOff] = useMutation(DELETE_DAYSOFF)
-
+  const [AddPetRating] = useMutation(ADD_PET_RATING)
 
   const { TextArea } = Input;
   const onFinish = async (values) => {
@@ -265,6 +268,26 @@ const deleteDaysOff = async (e, daysId) => {
   }
 }
 
+const addPetRating = async (e, eventId, dogId, dogName, rating) => {
+  try {
+    const mutationResponse = await AddPetRating({
+      variables: {
+        eventId: eventId,
+        dogId: dogId,
+        name: dogName,
+        rating: rating
+      }
+    });
+    if (mutationResponse) {
+  
+      alert("Rating added");
+      window.location.assign("/profile");
+    }
+  } catch (e) {
+    console.error(e);
+  }
+}
+
   //Function to upload image
   // const [baseImage, setBaseImage] = useState("")
 
@@ -448,7 +471,16 @@ const deleteDaysOff = async (e, daysId) => {
                       <ListGroup.Item>End Date: {dateFormat(event.daysOfEvent.end)}</ListGroup.Item>
                       <ListGroup.Item>Price: {event.price}</ListGroup.Item>
                       <ListGroup.Item>Status: {event.status}</ListGroup.Item>
-                      <ListGroup.Item>Rating:  {event.petsRating[0]}</ListGroup.Item>
+                      <ListGroup.Item>Rating: {event.petsRating[0]}</ListGroup.Item>
+
+                         
+                      {event.petsRating.length == 0? (<ButtonGroup>  <Button onClick={(e) => addPetRating(e, event._id, event.pets[0]._id, event.pets[0].name, 1)}>1</Button>
+                        <Button onClick={(e) => addPetRating(e, event._id, event.pets[0]._id, event.pets[0].name, 2)}>2</Button> 
+                        <Button onClick={(e) => addPetRating(e, event._id, event.pets[0]._id, event.pets[0].name, 3)}>3</Button> 
+                        <Button onClick={(e) => addPetRating(e, event._id, event.pets[0]._id, event.pets[0].name, 4)}>4</Button> 
+                        <Button onClick={(e) => addPetRating(e, event._id, event.pets[0]._id, event.pets[0].name, 5)}>5</Button>
+                        </ButtonGroup>) : (<span></span>)}
+                      
                       <ListGroup.Item>My Rating: {event.petSitterRating}</ListGroup.Item>
                       <ListGroup.Item> 
                   { event.status === "Reserved" ? (
