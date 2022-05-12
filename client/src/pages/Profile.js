@@ -4,7 +4,7 @@ import { Container, Row, Col } from 'react-bootstrap';
 import '../styles/loginUser.css';
 import { Form, Input, Button, Checkbox, InputNumber } from 'antd';
 
-import { GET_SERVICES, GET_HEALTHS, GET_SIZES, GET_SOCIABILITIES, QUERY_ME_PETSITTER, QUERY_ME_PETOWNER} from '../utils/queries';
+import { GET_SERVICES, GET_HEALTHS, GET_SIZES, GET_SOCIABILITIES, QUERY_ME_PETSITTER} from '../utils/queries';
 // import { GET_SIZES, GET_SERVICES, GET_HEALTHS, GET_SOCIABILITIES, QUERY_ME_PETSITTER } from '../utils/queries';
 import { UPDATE_AVAILABILTY, UPDATE_PETSITTER, ADD_DAYSOFF } from '../utils/mutations';
 
@@ -133,7 +133,6 @@ const Profile = () => {
   const petSitter = dataPetSitter?.me.petSitter|| []
   console.log(petSitter)
 
-
   const { loading: loadingServices, data: dataServices} = useQuery(GET_SERVICES);
   const servicesList = dataServices?.services || []
 
@@ -187,17 +186,9 @@ const Profile = () => {
 
     <div  >
       <label>Days Off: </label>
-     <DateRangePicker onOk={onChangeDaysOff} />
+     <DateRangePicker 
+     onOk={onChangeDaysOff} />
     </div>
-
-    {new Date(1652311915848)}
-    
-    {/* {petSitter.daysOff.map(days => (
-        <div>
-          <p>{new Date(1652311915848)}</p>
-          <p>{new Date(days.end)}</p>
-        </div>
-      ))} */}
 
     <Col sm={12} md={12} lg={12}>
     <Form
@@ -323,30 +314,8 @@ const Profile = () => {
     </Form>
     
     </Col>
-    <Col>
-   Events
-    {
-      petSitter.eventsOffered.map(event => (
-        <div>
-          {event.petOwner.name}
-          {event.pets[0].name}
-          {event.daysOfEvent.start}
-          {event.daysOfEvent.end}
-          {event.price}
-          {event.status}
-          {event.petsRating[0]}
-          {event.petsRating}
-        </div>
-      ))
-    }
-    
-    </Col>
     </Row>
-
-      
-      
       )}
-    
     </Container>
   );
 
