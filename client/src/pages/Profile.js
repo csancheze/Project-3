@@ -226,7 +226,8 @@ const Profile = () => {
 
     <div className='pt-2' >
       <label>Days Off: </label>
-     <DateRangePicker onOk={onChangeDaysOff} />
+     <DateRangePicker 
+     onOk={onChangeDaysOff} />
     </div>
 
     {petSitter.daysOff.map(days => (
