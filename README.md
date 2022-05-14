@@ -118,7 +118,7 @@
   ## Mock-Up
   The following images show the application appearance and functionality:
   - Landing page
-  ![The landing page](./client/src/images/Landing%20page.png/images/landing-page.png)
+  ![The landing page](./client/src/images/Landing%20page.png)
 
   - Log in page
   ![Login](./client/src/images/Login%20page.png)
@@ -135,16 +135,18 @@
   - User profile - Pet Sitter
   ![Profile - Pet Sitter](./client/src/images/Profile%20Pet%20Sitter.png)
 
-  - More Detail - EVent
-  ![More Detail - EVen](./client/src/images/View%20More.png)
-
   - Search Pet Sitter Page
   ![Search Pet Sitter Page](./client/src/images/Search%20Page.png)
+
+  - More Detail - EVent 
+
+  ![More Detail - Event](./client/src/images/View%20More.png)
+
 
   ## Questions
   If you have any question please feel free to reach the dev team:
   * [csancheze](https://github.com/csancheze)
-  * [ireyesleon](https://github.com/ireyesleon)
   * [marian94](https://github.com/Marian94)
+  * [ireyesleon](https://github.com/ireyesleon)
   * [rargotte](https://github.com/rargotte)
   
